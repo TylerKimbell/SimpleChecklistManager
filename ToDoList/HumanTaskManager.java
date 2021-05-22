@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
  * Things to do:
- * GitHub Repository
+ * Default Template And Delete Previous Saves Also Figure Out Why Template.txt isn't compiling and junk. 
  * The Ability To Create Categories. The Different categories will be categorized as either auto delete or manual delete 
  * Original Template That You Can Revert To If You Want to Reset (Literally Just a Text File) 
  *  	Such That There's A Reset Option That Just Reverts To The Default Template

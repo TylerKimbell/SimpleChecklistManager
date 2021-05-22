@@ -56,7 +56,7 @@ public class Weeklies extends JFrame implements KeyListener{
 		
 		this.setVisible(true);
 	}
-// Copy Paste This To The Other Classes	
+
 	public static void addTask(String task) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
@@ -79,6 +79,13 @@ public class Weeklies extends JFrame implements KeyListener{
 			}
 			else
 				rewrite.write(line + "\n");
+		}
+
+		//because weeklies is the last category the normal check in which line equals "" doesn't work. Relevant for when we expand to custom categories. 
+		if(category.equals(weeklies)) {
+				category = "";
+				rewrite.write("[]" + "\n");
+				rewrite.write(task + "\n");
 		}
 
 		rewrite.close();

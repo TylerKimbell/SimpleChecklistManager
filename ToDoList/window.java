@@ -198,7 +198,7 @@ public class window extends JFrame implements ItemListener, ActionListener{
 	window(String todayPath) throws IOException{
 		path = todayPath;
 
-		this.setTitle("ToDoList");
+		this.setTitle("Human Task Manager");
 		this.setSize(600, 900);
 		this.getContentPane().setBackground(Color.black);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
