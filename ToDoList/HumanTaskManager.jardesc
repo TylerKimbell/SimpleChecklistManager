@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Tyler/Desktop/HumanTaskManager/HTM.jar"/>
+    <jar path="C:/Users/Tyler/Desktop/HTMTest/HTM.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/HumanTaskManager/HumanTaskManager.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="true" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="true" mainClassHandleIdentifier="=HumanTaskManager/&lt;{HumanTaskManager.java[HumanTaskManager" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+    <manifest generateManifest="true" mainClassHandleIdentifier="=HumanTaskManager/HTM&lt;{HumanTaskManager.java[HumanTaskManager" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="true">
-        <folder path="/HumanTaskManager/.settings"/>
-        <file path="/HumanTaskManager/template.txt"/>
-        <javaElement handleIdentifier="=HumanTaskManager/&lt;"/>
-        <folder path="/HumanTaskManager/2021"/>
+        <file path="/HumanTaskManager/.gitignore"/>
+        <file path="/HumanTaskManager/.project"/>
+        <file path="/HumanTaskManager/.classpath"/>
+        <javaElement handleIdentifier="=HumanTaskManager/HTM"/>
     </selectedElements>
 </jardesc>
