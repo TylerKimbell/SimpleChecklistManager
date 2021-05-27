@@ -51,11 +51,7 @@ public class window extends JFrame implements ItemListener, ActionListener{
 	JMenuItem dailies;
 	JMenuItem weeklies;
 	
-	String userTask;
-	Dailies daily;
-	Once one;
-	Appointments appoint;
-	Weeklies week;
+	AddTask taskAdd; 
 	
 	
 	int gridRow = 0; 
@@ -320,16 +316,16 @@ public class window extends JFrame implements ItemListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == once) {
-			one = new Once(path, this);
+			taskAdd = new AddTask(path, this, "Once:");
 		}
 		if(e.getSource() == dailies) {
-			daily = new Dailies(path, this);
+			taskAdd = new AddTask(path, this, "Dailies:");
 		}
 		if(e.getSource() == appointments) {
-			appoint = new Appointments(path, this);
+			taskAdd = new AddTask(path, this, "Appointments:");
 		}
 		if(e.getSource() == weeklies) {
-			week = new Weeklies(path, this);
+			taskAdd = new AddTask(path, this, "Weeklies:");
 		}
 	}
 	

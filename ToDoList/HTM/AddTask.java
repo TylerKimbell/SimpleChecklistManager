@@ -17,14 +17,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class Once extends JFrame implements KeyListener{
-	/**
-	 * 
-	 */
+public class AddTask extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 
 	static String path;
-	static String once = "Once:";
+	static String taskCategory;
 	JTextField task;
 	window frame;
 	JButton enter; 
@@ -40,12 +37,13 @@ public class Once extends JFrame implements KeyListener{
 		task.addKeyListener(this);
 	}
 	
-	Once(String todayPath, window UI){
+	AddTask(String todayPath, window UI, String category){
 
 		path = todayPath;
+		taskCategory = category;
 		frame = UI;
 
-		this.setTitle("Once");
+		this.setTitle("Add Task");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
 		this.getContentPane().setBackground(Color.black);	
@@ -65,11 +63,10 @@ public class Once extends JFrame implements KeyListener{
 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
-			if(line.equals(once)) {
-
-				category = once;
+			if(line.equals(taskCategory)) {
+				category = taskCategory;
 			}
-			if(line.equals("") && category.equals(once)) {
+			if(line.equals("") && category.equals(taskCategory)) {
 				category = "";
 				rewrite.write("[]" + "\n");
 				rewrite.write(task + "\n");
@@ -80,7 +77,6 @@ public class Once extends JFrame implements KeyListener{
 			else
 				rewrite.write(line + "\n");
 		}
-
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
@@ -100,15 +96,13 @@ public class Once extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-				input = task.getText();
-				frame.displayUnselectedCheck(input, once);
-				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-				try {
-					addTask(input);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+			input = task.getText();
+			frame.displayUnselectedCheck(input, taskCategory);
+			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			try {
+				addTask(input);
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
