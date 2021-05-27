@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
 
 public class RightClickListener extends MouseAdapter {
-	static window frame; 
+	static Window frame; 
 	
-	RightClickListener(window UI){
+	RightClickListener(Window UI){
 		frame = UI;
 	}
 

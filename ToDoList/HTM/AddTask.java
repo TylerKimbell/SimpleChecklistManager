@@ -23,7 +23,7 @@ public class AddTask extends JFrame implements KeyListener{
 	static String path;
 	static String taskCategory;
 	JTextField task;
-	window frame;
+	Window frame;
 	JButton enter; 
 	String input; 
 	
@@ -39,13 +39,13 @@ public class AddTask extends JFrame implements KeyListener{
 		task.addKeyListener(this);
 	}
 	
-	AddTask(String todayPath, window UI, String category){
+	AddTask(String todayPath, Window UI, String category){
 
 		path = todayPath;
 		taskCategory = category;
 		frame = UI;
 
-		this.setTitle("Add Task");
+		this.setTitle(category);
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
 		this.getContentPane().setBackground(Color.black);	

@@ -12,13 +12,13 @@ import javax.swing.JPopupMenu;
 public class PopUpMenu extends JPopupMenu implements ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 
-	window frame;
+	Window frame;
 	
 	JMenuItem delete;
 	JMenuItem up;
 	JMenuItem down;
 	
-	public PopUpMenu(window UI) {
+	public PopUpMenu(Window UI) {
 		frame = UI;
 		
 		delete = new JMenuItem("Delete");

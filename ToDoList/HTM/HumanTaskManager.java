@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
  * Things to do:
- * The Ability To Create Categories. The Different categories will be categorized as either auto delete or manual delete 
+ * The Ability To Create and Delete Categories. The Different categories will be categorized as either auto delete or manual delete 
  * Original Template That You Can Revert To If You Want to Reset (Literally Just a Text File) 
  *  	Such That There's A Reset Option That Just Reverts To The Default Template
  *  	Just a menu item that overwrites the template with the function I already wrote
@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class HumanTaskManager{
-	static window mainWindow;
+	static Window mainWindow;
 	
 	public static void main(String[] args) throws IOException, ParseException {
 		DateTimeFormatter date = DateTimeFormatter.ofPattern("dd");
@@ -40,6 +40,6 @@ public class HumanTaskManager{
 		}
 
 		//UI 
-		mainWindow = new window(newPath, sMonth, d);
+		mainWindow = new Window(newPath, sMonth, d);
 	}
 }

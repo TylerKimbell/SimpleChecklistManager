@@ -26,7 +26,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class window extends JFrame implements ItemListener, ActionListener{
+public class Window extends JFrame implements ItemListener{
 	private static final long serialVersionUID = 1L;
 	static String path = ""; 
 	JCheckBox current;
@@ -295,7 +295,7 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		panelScroll.repaint();
 	}
 
-	window(String todayPath, String month, String day) throws IOException{
+	Window(String todayPath, String month, String day) throws IOException{
 		path = todayPath;
 
 		this.setTitle("Human Task Manager " + month + "/" + day);
@@ -303,27 +303,15 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		this.getContentPane().setBackground(Color.black);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		menuBar = new JMenuBar();
-		editMenu = new JMenu("Edit");
-		
-		taskMenu = new JMenu("Add Task");
-		taskMenu.addActionListener(this);
-		editMenu.add(taskMenu);
-		menuBar.add(editMenu);
-
-		this.setJMenuBar(menuBar);
 		panelScroll.setBackground(Color.black);
 		panelScroll.setLayout(new GridBagLayout());
 
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
 		this.add(scroller);
 		create();
-		for(JPanel cat : categories) {
-			JMenuItem item = new JMenuItem(cat.getName());
-			item.addActionListener(this);
-			items.add(item);
-			taskMenu.add(item);
-		}
+		MenuBar menuBar = new MenuBar(path, this, categories);
+
+		this.setJMenuBar(menuBar);
 	}
 
 	@Override
@@ -350,15 +338,6 @@ public class window extends JFrame implements ItemListener, ActionListener{
 					e1.printStackTrace();
 				}
 				return;
-			}
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		for(JMenuItem item : items) {
-			if(e.getSource() == item) {
-				newTask = new AddTask(path, this, item.getText());
 			}
 		}
 	}
