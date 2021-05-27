@@ -6,12 +6,11 @@ import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
  * Things to do:
- * Perhaps create a default template if none exists.
  * The Ability To Create Categories. The Different categories will be categorized as either auto delete or manual delete 
  * Original Template That You Can Revert To If You Want to Reset (Literally Just a Text File) 
  *  	Such That There's A Reset Option That Just Reverts To The Default Template
+ *  	Just a menu item that overwrites the template with the function I already wrote
  *  Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
- *  Del Button to Del Tasks?
  * 
  * There's a bug if you add two exact same tasks, because of the way rewrite finds the position... 
  * 		You can maybe check to make sure it doesn't exist when created. If exists don't let user add task.
@@ -44,6 +43,6 @@ public class HumanTaskManager{
 		}
 
 		//UI 
-		mainWindow = new window(newPath);
+		mainWindow = new window(newPath, sMonth, d);
 	}
 }

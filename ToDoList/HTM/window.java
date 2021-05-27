@@ -131,10 +131,22 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		}
 	}
 	
+	public void writeTemplate() throws IOException {
+		FileWriter template = new FileWriter("template.txt");
+		template.write("Appointments:" + "\n" + "\n");
+		template.write("Once:" + "\n" + "\n");
+		template.write("Dailies:" + "\n" + "\n");
+		template.write("Weeklies:" + "\n" + "\n");
+		template.close();
+	}
 	public void create() throws IOException {
 		this.setVisible(false);
 		String tempPath = "temp.txt";
 		FileWriter tempWrite = new FileWriter(tempPath);
+		File template = new File("template.txt");
+		if(!template.exists()) {
+			writeTemplate();
+		}
 		Scanner reader = new Scanner(new File("template.txt"));
 		String line;
 		String category = "none";
@@ -195,10 +207,10 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		this.setVisible(true);
 	}
 
-	window(String todayPath) throws IOException{
+	window(String todayPath, String month, String day) throws IOException{
 		path = todayPath;
 
-		this.setTitle("Human Task Manager");
+		this.setTitle("Human Task Manager " + month + "/" + day);
 		this.setSize(600, 900);
 		this.getContentPane().setBackground(Color.black);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
