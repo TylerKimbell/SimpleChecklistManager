@@ -12,9 +12,6 @@ import java.time.format.DateTimeFormatter;
  *  	Just a menu item that overwrites the template with the function I already wrote
  *  Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
  * 
- * There's a bug if you add two exact same tasks, because of the way rewrite finds the position... 
- * 		You can maybe check to make sure it doesn't exist when created. If exists don't let user add task.
- * 
  * Port to Mobile 
  * Last Thing To Do? Addons so users can create what they want such as stats options. 
  */

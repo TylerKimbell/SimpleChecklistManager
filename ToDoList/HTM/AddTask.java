@@ -26,6 +26,8 @@ public class AddTask extends JFrame implements KeyListener{
 	window frame;
 	JButton enter; 
 	String input; 
+	
+	static boolean duplicate;
 
 	public String getInput(){
 		return input;
@@ -60,13 +62,17 @@ public class AddTask extends JFrame implements KeyListener{
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
 		String category = "";
+		duplicate = false;
 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(taskCategory)) {
 				category = taskCategory;
 			}
-			if(line.equals("") && category.equals(taskCategory)) {
+			if(line.equals(task) && category.equals(taskCategory)){
+				duplicate = true;
+			}
+			if(line.equals("") && category.equals(taskCategory) && duplicate == false) {
 				category = "";
 				rewrite.write("[]" + "\n");
 				rewrite.write(task + "\n");
@@ -97,13 +103,14 @@ public class AddTask extends JFrame implements KeyListener{
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			input = task.getText();
-			frame.displayUnselectedCheck(input, taskCategory);
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			try {
 				addTask(input);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			if(duplicate == false)
+				frame.displayUnselectedCheck(input, taskCategory);
 		}
 	}
 

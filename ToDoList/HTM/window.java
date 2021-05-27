@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,8 +30,6 @@ public class window extends JFrame implements ItemListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 	static String path = ""; 
 	JCheckBox current;
-	JButton newTask;
-	JButton deleteTask;
 
 	JPanel panelScroll = new JPanel();
 	JScrollPane scroller = new JScrollPane(panelScroll);
@@ -42,16 +39,17 @@ public class window extends JFrame implements ItemListener, ActionListener{
 	List<JCheckBox> selecteds = new ArrayList<>();
 	List<JCheckBox> unSelecteds = new ArrayList<>();
 	List<JPanel> categories = new ArrayList<JPanel>();
+	List<JMenuItem> items = new ArrayList<JMenuItem>();
 	
 	JMenuBar menuBar;
 	JMenu editMenu;
-	JMenu addTask;
+	JMenu taskMenu;
 	JMenuItem once;
 	JMenuItem appointments;
 	JMenuItem dailies;
 	JMenuItem weeklies;
 	
-	AddTask taskAdd; 
+	AddTask newTask; 
 	
 	
 	int gridRow = 0; 
@@ -203,44 +201,6 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		this.setVisible(true);
 	}
 
-	window(String todayPath, String month, String day) throws IOException{
-		path = todayPath;
-
-		this.setTitle("Human Task Manager " + month + "/" + day);
-		this.setSize(600, 900);
-		this.getContentPane().setBackground(Color.black);	
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		menuBar = new JMenuBar();
-		editMenu = new JMenu("Edit");
-		
-		addTask = new JMenu("Add Task");
-		addTask.addActionListener(this);
-		once = new JMenuItem("Once");
-		once.addActionListener(this);
-		appointments = new JMenuItem("Appointments");
-		appointments.addActionListener(this);
-		dailies = new JMenuItem("Dailies");
-		dailies.addActionListener(this);
-		weeklies = new JMenuItem("Weeklies");
-		weeklies.addActionListener(this);
-		
-		editMenu.add(addTask);
-		addTask.add(appointments);
-		addTask.add(once);
-		addTask.add(dailies);
-		addTask.add(weeklies);
-		menuBar.add(editMenu);
-
-		this.setJMenuBar(menuBar);
-		panelScroll.setBackground(Color.black);
-		panelScroll.setLayout(new GridBagLayout());
-
-		scroller.getVerticalScrollBar().setUnitIncrement(16);
-		this.add(scroller);
-		create();
-	}
-
 	public static void saveCheck(String position) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
@@ -283,50 +243,6 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		Object source = e.getItemSelectable();
-		String position = ""; 
-		for (Object check : selecteds) { 
-			if (source == check) {
-				position = ((JCheckBox) check).getText();
-				try {
-					saveCheck(position);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				return;
-			}
-		}
-		for (Object unCheck : unSelecteds) { 
-			if (source == unCheck) {
-				position = ((JCheckBox) unCheck).getText();
-				try {
-					saveCheck(position);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				return;
-			}
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == once) {
-			taskAdd = new AddTask(path, this, "Once:");
-		}
-		if(e.getSource() == dailies) {
-			taskAdd = new AddTask(path, this, "Dailies:");
-		}
-		if(e.getSource() == appointments) {
-			taskAdd = new AddTask(path, this, "Appointments:");
-		}
-		if(e.getSource() == weeklies) {
-			taskAdd = new AddTask(path, this, "Weeklies:");
-		}
 	}
 	
 	public void deleteSave() throws IOException {
@@ -377,5 +293,73 @@ public class window extends JFrame implements ItemListener, ActionListener{
 		current.getParent().remove(current);
 		panelScroll.revalidate();
 		panelScroll.repaint();
+	}
+
+	window(String todayPath, String month, String day) throws IOException{
+		path = todayPath;
+
+		this.setTitle("Human Task Manager " + month + "/" + day);
+		this.setSize(600, 900);
+		this.getContentPane().setBackground(Color.black);	
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		menuBar = new JMenuBar();
+		editMenu = new JMenu("Edit");
+		
+		taskMenu = new JMenu("Add Task");
+		taskMenu.addActionListener(this);
+		editMenu.add(taskMenu);
+		menuBar.add(editMenu);
+
+		this.setJMenuBar(menuBar);
+		panelScroll.setBackground(Color.black);
+		panelScroll.setLayout(new GridBagLayout());
+
+		scroller.getVerticalScrollBar().setUnitIncrement(16);
+		this.add(scroller);
+		create();
+		for(JPanel cat : categories) {
+			JMenuItem item = new JMenuItem(cat.getName());
+			item.addActionListener(this);
+			items.add(item);
+			taskMenu.add(item);
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		Object source = e.getItemSelectable();
+		String position = ""; 
+		for (Object check : selecteds) { 
+			if (source == check) {
+				position = ((JCheckBox) check).getText();
+				try {
+					saveCheck(position);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				return;
+			}
+		}
+		for (Object unCheck : unSelecteds) { 
+			if (source == unCheck) {
+				position = ((JCheckBox) unCheck).getText();
+				try {
+					saveCheck(position);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				return;
+			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(JMenuItem item : items) {
+			if(e.getSource() == item) {
+				newTask = new AddTask(path, this, item.getText());
+			}
+		}
 	}
 }
