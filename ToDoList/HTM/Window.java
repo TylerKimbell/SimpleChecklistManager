@@ -2,8 +2,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
@@ -65,11 +63,13 @@ public class Window extends JFrame implements ItemListener{
 		c.gridy = gridRow;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
-		c.ipady = 10;
 		c.anchor = GridBagConstraints.NORTH;
 		gridRow++;
-		gridRow++;
 		panelScroll.add(catPanel, c);
+
+		displayText(category, category);
+		panelScroll.revalidate();
+		panelScroll.repaint();
 	}
 
 	public void displaySelectedCheck(String text, String category){
@@ -127,10 +127,10 @@ public class Window extends JFrame implements ItemListener{
 	
 	public void writeTemplate() throws IOException {
 		FileWriter template = new FileWriter("template.txt");
-		template.write("Appointments:" + "\n" + "\n");
-		template.write("Once:" + "\n" + "\n");
-		template.write("Dailies:" + "\n" + "\n");
-		template.write("Weeklies:" + "\n" + "\n");
+		template.write(".\nAppointments:" + "\n" + "\n");
+		template.write(".\nOnce:" + "\n" + "\n");
+		template.write("*\nDailies:" + "\n" + "\n");
+		template.write("*\nWeeklies:" + "\n" + "\n");
 		template.close();
 	}
 	public void create() throws IOException {
@@ -144,19 +144,30 @@ public class Window extends JFrame implements ItemListener{
 		Scanner reader = new Scanner(new File("template.txt"));
 		String line;
 		String category = "none";
+		Boolean delete = false; 
 		File todayFile = new File(path);
+		
+		
 
 		//Create and Display New File
+		// This is the bug. I need to cycle through and create the categories. I Will Have to have some way of indicating if a line is a category or not. 
+		// maybe a . for autodelete and a * for persistent? 
 		while (reader.hasNextLine()){
 			line = reader.nextLine();
-			if(line.equals("Once:") || line.equals("Appointments:") || line.equals("Dailies:") || line.equals("Weeklies:")){
+			if(line.equals(".") || line.equals("*")){ 
+				if(line.equals("."))
+					delete = true; 
+				else 
+					delete = false; 
+				tempWrite.write(line + "\n");
+				line = reader.nextLine();
 				category = line;
 				categoryPanel(category);
-				displayText(line, category);
 				tempWrite.write(line + "\n");
 				continue;
 			}
-			if((category.equals("Once:") || category.equals("Appointments:")) && !todayFile.exists()) { 
+			//The differentiation between auto and manual delete categories. 
+			if(delete == true && !todayFile.exists()) { 
 				if(line.equals("[]")) {
 					tempWrite.write(line + "\n");
 					line = reader.nextLine();

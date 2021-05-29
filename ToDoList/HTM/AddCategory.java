@@ -11,83 +11,75 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AddTask extends JFrame implements KeyListener{
+public class AddCategory extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 
 	static String path;
 	static String taskCategory;
-	JTextField task;
+	JTextField cat;
 	Window frame;
 	JButton enter; 
 	String input; 
+	MenuBar menu; 
+	static boolean aD = false; //AutoDelete 
 	
-	static boolean duplicate;
+	//Don't Know If I Need to Check For Duplicates Or Not
+	//static boolean duplicate;
 
 	public String getInput(){
 		return input;
 	}
 
-	public void addOnce(){
-		task = new JTextField();
-		task.setPreferredSize(new Dimension(250, 40));
-		task.addKeyListener(this);
+	public void addCat(){
+		cat = new JTextField();
+		cat.setPreferredSize(new Dimension(250, 40));
+		cat.addKeyListener(this);
 	}
 	
-	AddTask(String todayPath, Window UI, String category){
+	AddCategory(String todayPath, Window UI, List<JPanel> categories, boolean autoDelete, MenuBar men){
 		path = todayPath;
-		taskCategory = category;
+		aD = autoDelete;
+		menu = men;
 		frame = UI;
 
-		this.setTitle(category);
+		this.setTitle("New Category");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
 		this.getContentPane().setBackground(Color.black);	
 		
-		addOnce();
-		this.add(task);
+		addCat();
+		this.add(cat);
 		
 		this.setVisible(true);
 	}
 	
-	public static void addTask(String task) throws IOException {
+	public static void addNewCat(String newCat) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
-		String category = "";
-		boolean written = false; 
-		duplicate = false;
+//		duplicate = false;
 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
-			if(line.equals(taskCategory)) {
-				category = taskCategory;
-			}
-			if(line.equals(task) && category.equals(taskCategory)){
-				duplicate = true;
-			}
-			if(line.equals("") && category.equals(taskCategory) && duplicate == false) {
-				category = "";
-				rewrite.write("[]" + "\n");
-				rewrite.write(task + "\n");
-				rewrite.write(line + "\n");
-				line = reader.nextLine();
-				rewrite.write(line + "\n");
-				written = true; 
-			}
-			else
-				rewrite.write(line + "\n");
+			rewrite.write(line + "\n");
 		}
-		if(written == false){
-				rewrite.write("[]" + "\n");
-				rewrite.write(task + "\n");
-		}
+
+		rewrite.write("\n");
+		if(aD == true)
+			rewrite.write(".\n");
+		else
+			rewrite.write("*\n");
+		rewrite.write(newCat + "\n");
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
@@ -107,15 +99,20 @@ public class AddTask extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			input = task.getText();
+			input = cat.getText();
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			try {
-				addTask(input);
+				addNewCat(input);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			if(duplicate == false)
-				frame.displayUnselectedCheck(input, taskCategory);
+			frame.categoryPanel(input);
+			JMenuItem taskType = new JMenuItem(cat.getText());
+			taskType.addActionListener(menu);
+			menu.taskTypes.add(taskType);
+			menu.taskMenu.add(taskType);
+			menu.taskMenu.revalidate();
+			menu.taskMenu.repaint();
 		}
 	}
 

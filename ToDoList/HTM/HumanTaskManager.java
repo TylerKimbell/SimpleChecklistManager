@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * Things to do:
  * The Ability To Create and Delete Categories. The Different categories will be categorized as either auto delete or manual delete 
+ * i	
  * Original Template That You Can Revert To If You Want to Reset (Literally Just a Text File) 
  *  	Such That There's A Reset Option That Just Reverts To The Default Template
  *  	Just a menu item that overwrites the template with the function I already wrote
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  * Port to Mobile 
  * Last Thing To Do? Addons so users can create what they want such as stats options. 
  */
-
+// For Some Reason My Menu Doesn't Load Always
 public class HumanTaskManager{
 	static Window mainWindow;
 	

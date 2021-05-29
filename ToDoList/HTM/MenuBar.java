@@ -3,7 +3,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -11,37 +10,62 @@ import javax.swing.JPanel;
 
 public class MenuBar extends JMenuBar implements ActionListener{ 
 	private static final long serialVersionUID = 1L;
-	static JMenu taskMenu;
+	JMenu taskMenu;
 	static String path = "";
 	static Window UI; 
-	static List<JMenuItem> items = new ArrayList<JMenuItem>();
-	static AddTask newTask;
+	List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
+	static List<JPanel> categories;
 	
-	MenuBar(String todayPath, Window frame, List<JPanel> categories){
+	static JMenuItem autoDelete;
+	static JMenuItem manualDelete;
+
+	static AddTask newTask;
+	static AddCategory newCat;
+	
+	MenuBar(String todayPath, Window frame, List<JPanel> cats){
 		path = todayPath;
 		UI = frame;
+		categories = cats;
+		
 		JMenu editMenu = new JMenu("Edit");
-		JMenu categoryMenu = new JMenu("Categories");
+		JMenu categoryMenu = new JMenu("Add Categories");
+
+		autoDelete = new JMenuItem ("Auto Delete Tasks");
+		manualDelete = new JMenuItem ("Manual Delete Tasks");
+		autoDelete.addActionListener(this);
+		manualDelete.addActionListener(this);
+		categoryMenu.add(autoDelete);
+		categoryMenu.add(manualDelete);
 
 		taskMenu = new JMenu("Add Task");
 		taskMenu.addActionListener(this);
+
 		categoryMenu.addActionListener(this);
+
 		editMenu.add(taskMenu);
 		editMenu.add(categoryMenu);
 		this.add(editMenu);
 		for(JPanel cat : categories) {
-			JMenuItem item = new JMenuItem(cat.getName());
-			item.addActionListener(this);
-			items.add(item);
-			taskMenu.add(item);
+			JMenuItem taskType = new JMenuItem(cat.getName());
+			taskType.addActionListener(this);
+			taskTypes.add(taskType);
+			taskMenu.add(taskType);
 		}
+		this.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(JMenuItem item : items) {
-			if(e.getSource() == item) {
-				newTask = new AddTask(path, UI, item.getText());
+		if (e.getSource() == autoDelete) {
+			newCat = new AddCategory(path, UI, categories, true, this);
+		}
+		if (e.getSource() == manualDelete) {
+			newCat = new AddCategory(path, UI, categories, false, this);
+		}
+
+		for(JMenuItem taskType : taskTypes) {
+			if(e.getSource() == taskType) {
+				newTask = new AddTask(path, UI, taskType.getText());
 			}
 		}
 		
