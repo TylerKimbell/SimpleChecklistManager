@@ -1,7 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import javax.swing.JMenuItem;
@@ -9,7 +7,7 @@ import javax.swing.JPopupMenu;
 
 //Implement Menu Functionality 
 //Move Up/Down Bottom/Top /Priority system like torrents?
-public class PopUpMenu extends JPopupMenu implements ActionListener, MouseListener{
+public class PopUpMenu extends JPopupMenu implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	Window frame;
@@ -18,7 +16,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener, MouseListen
 	JMenuItem up;
 	JMenuItem down;
 	
-	public PopUpMenu(Window UI) {
+	PopUpMenu(Window UI) {
 		frame = UI;
 		
 		delete = new JMenuItem("Delete");
@@ -32,7 +30,10 @@ public class PopUpMenu extends JPopupMenu implements ActionListener, MouseListen
 		Object source = e.getSource();
 		if(source == delete) {
 			try {
-				frame.deleteCheckBox();
+				if (frame.currentCheckbox != null)
+					frame.deleteCheckBox();
+				else if (frame.currentCategory != null)
+					frame.deleteCategory();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -42,31 +43,4 @@ public class PopUpMenu extends JPopupMenu implements ActionListener, MouseListen
 		}
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }

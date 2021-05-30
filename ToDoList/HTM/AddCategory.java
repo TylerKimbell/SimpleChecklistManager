@@ -62,7 +62,7 @@ public class AddCategory extends JFrame implements KeyListener{
 		this.setVisible(true);
 	}
 	
-	public static void addNewCat(String newCat) throws IOException {
+	public void addNewCat(String newCat) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);

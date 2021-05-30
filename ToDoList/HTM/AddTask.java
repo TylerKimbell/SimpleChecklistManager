@@ -55,7 +55,7 @@ public class AddTask extends JFrame implements KeyListener{
 		this.setVisible(true);
 	}
 	
-	public static void addTask(String task) throws IOException {
+	public void addTask(String task) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);

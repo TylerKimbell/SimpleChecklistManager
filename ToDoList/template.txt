@@ -1,27 +1,22 @@
 .
 Appointments:
+[]
+1/1 New Years
+[]
+1/2 Day After New Years
 
 .
 Once:
-
-*
-Dailies:
-[x]
-Workout
-[x]
-Penis
+[]
+Groceries
+[]
+Dishes
+[]
+Laundry
 
 *
 Weeklies:
-[x]
-Clean
-[x]
+[]
 Laundry
-
-.
-Once Tasks:
-
-*
-The Forever Tasks:
-[x]
-Peepee
+[]
+Clean

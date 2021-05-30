@@ -22,13 +22,26 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static AddTask newTask;
 	static AddCategory newCat;
 	
+	public void deleteTaskType(String deletedCategory) {
+		JMenuItem delete = null;
+		for(JMenuItem taskType: taskTypes) {
+			if(taskType.getText().equals(deletedCategory)) {
+				delete = taskType;
+			}
+		}
+		taskTypes.remove(delete);
+		taskMenu.remove(delete);
+		taskMenu.revalidate();
+		taskMenu.repaint();
+	}
+	
 	MenuBar(String todayPath, Window frame, List<JPanel> cats){
 		path = todayPath;
 		UI = frame;
 		categories = cats;
 		
 		JMenu editMenu = new JMenu("Edit");
-		JMenu categoryMenu = new JMenu("Add Categories");
+		JMenu categoryMenu = new JMenu("Add Category");
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
 		manualDelete = new JMenuItem ("Manual Delete Tasks");

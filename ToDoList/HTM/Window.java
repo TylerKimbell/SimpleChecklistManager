@@ -19,7 +19,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +26,8 @@ import javax.swing.JScrollPane;
 public class Window extends JFrame implements ItemListener{
 	private static final long serialVersionUID = 1L;
 	static String path = ""; 
-	JCheckBox current;
+	JCheckBox currentCheckbox;
+	JPanel currentCategory; 
 
 	JPanel panelScroll = new JPanel();
 	JScrollPane scroller = new JScrollPane(panelScroll);
@@ -39,7 +39,7 @@ public class Window extends JFrame implements ItemListener{
 	List<JPanel> categories = new ArrayList<JPanel>();
 	List<JMenuItem> items = new ArrayList<JMenuItem>();
 	
-	JMenuBar menuBar;
+	MenuBar menuBar;
 	JMenu editMenu;
 	JMenu taskMenu;
 	JMenuItem once;
@@ -56,6 +56,7 @@ public class Window extends JFrame implements ItemListener{
 		catPanel.setBackground(Color.black);
 		catPanel.setLayout(new GridLayout(0,1));
 		catPanel.setName(category);
+		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -150,8 +151,6 @@ public class Window extends JFrame implements ItemListener{
 		
 
 		//Create and Display New File
-		// This is the bug. I need to cycle through and create the categories. I Will Have to have some way of indicating if a line is a category or not. 
-		// maybe a . for autodelete and a * for persistent? 
 		while (reader.hasNextLine()){
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")){ 
@@ -166,6 +165,7 @@ public class Window extends JFrame implements ItemListener{
 				tempWrite.write(line + "\n");
 				continue;
 			}
+
 			//The differentiation between auto and manual delete categories. 
 			if(delete == true && !todayFile.exists()) { 
 				if(line.equals("[]")) {
@@ -209,10 +209,9 @@ public class Window extends JFrame implements ItemListener{
 		Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
 		File tempFile = new File (tempPath);
 		tempFile.delete();
-		this.setVisible(true);
 	}
 
-	public static void saveCheck(String position) throws IOException {
+	public void saveCheck(String position) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -263,27 +262,46 @@ public class Window extends JFrame implements ItemListener{
 		String line;
 		String check = "[x]";
 		String unCheck = "[]";
-		String position = current.getText();
+		String checkStatus = "";
+		String autoDelete = "";
+		String position = "";
+		boolean category = false; 
+
+		if (currentCheckbox != null)
+			position = currentCheckbox.getText();
+		else if (currentCategory != null) {
+			position = currentCategory.getName();
+			category = true; 
+		}
+		
+		System.out.println(position + "\n");
+
 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
-			if(line.equals(check)) {
+			if(line.equals(check) || line.equals(unCheck)) {
+				checkStatus = line;
 				line = reader.nextLine();
 				if(line.equals(position)) {
 					//do nothing
 				}
 				else {
-					rewrite.write(check + "\n");
+					rewrite.write(checkStatus + "\n");
 					rewrite.write(line + "\n");
 				}
 			}
-			else if(line.equals(unCheck)) {
+			else if((line.equals(".") || line.equals("*")) && category == true) {
+				autoDelete = line;
 				line = reader.nextLine();
 				if(line.equals(position)) {
-					//do nothing
+					while(!line.equals(".") && !line.equals("*") && reader.hasNext()) {
+						line = reader.nextLine();
+					}
+					if(reader.hasNext())
+						rewrite.write(line + "\n");
 				}
 				else {
-					rewrite.write(unCheck + "\n");
+					rewrite.write(autoDelete + "\n");
 					rewrite.write(line + "\n");
 				}
 			}
@@ -301,9 +319,20 @@ public class Window extends JFrame implements ItemListener{
 	
 	public void deleteCheckBox() throws IOException {
 		deleteSave();
-		current.getParent().remove(current);
+		currentCheckbox.getParent().remove(currentCheckbox);
 		panelScroll.revalidate();
 		panelScroll.repaint();
+		currentCheckbox = null;
+	}
+
+	//Need to delete task type right? 
+	public void deleteCategory() throws IOException {
+		deleteSave();
+		currentCategory.getParent().remove(currentCategory);
+		panelScroll.revalidate();
+		panelScroll.repaint();
+		menuBar.deleteTaskType(currentCategory.getName());
+		currentCategory = null;
 	}
 
 	Window(String todayPath, String month, String day) throws IOException{
@@ -320,9 +349,10 @@ public class Window extends JFrame implements ItemListener{
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
 		this.add(scroller);
 		create();
-		MenuBar menuBar = new MenuBar(path, this, categories);
+		menuBar = new MenuBar(path, this, categories);
 
 		this.setJMenuBar(menuBar);
+		this.setVisible(true);
 	}
 
 	@Override
