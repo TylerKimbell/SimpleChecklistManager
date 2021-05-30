@@ -49,23 +49,40 @@ public class Window extends JFrame implements ItemListener{
 	
 	AddTask newTask; 
 	
+	GridBagConstraints c = new GridBagConstraints();
 	
 	int gridRow = 0; 
+	
+	public void cInitialize() {
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridy = gridRow;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.anchor = GridBagConstraints.NORTHWEST;
+	}
 	public void categoryPanel(String category) {
 		JPanel catPanel = new JPanel();
+		JPanel previous;
 		catPanel.setBackground(Color.black);
 		catPanel.setLayout(new GridLayout(0,1));
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
-
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = gridRow;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.anchor = GridBagConstraints.NORTH;
+
+		//pop last category, change weight to 0 add it back and set weight to 1 to add next category 
+		if(categories.get(0)!= null) {
+			if(categories.size()>1)
+				previous = categories.get(categories.size()-2);
+			else 
+				previous = categories.get(categories.size()-1);
+			panelScroll.remove(previous);
+			c.weighty = 0;
+			panelScroll.add(previous, c);
+			c.weighty = 1; 
+		}
 		gridRow++;
+		c.gridy = gridRow;
 		panelScroll.add(catPanel, c);
 
 		displayText(category, category);
@@ -116,11 +133,9 @@ public class Window extends JFrame implements ItemListener{
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
 		textDisplay.setText(text);
-		textDisplay.setHorizontalAlignment(JLabel.LEFT);
-		textDisplay.setVerticalAlignment(JLabel.TOP);
 		textDisplay.setForeground(Color.white);
 		for (JPanel cat : categories) {
-			if(cat.getName().equals(category)&& !text.equals("")) {
+			if(cat.getName().equals(category) && !text.equals("")) {
 				cat.add(textDisplay);
 			}
 		}
@@ -134,6 +149,7 @@ public class Window extends JFrame implements ItemListener{
 		template.write("*\nWeeklies:" + "\n" + "\n");
 		template.close();
 	}
+
 	public void create() throws IOException {
 		this.setVisible(false);
 		String tempPath = "temp.txt";
@@ -148,8 +164,6 @@ public class Window extends JFrame implements ItemListener{
 		Boolean delete = false; 
 		File todayFile = new File(path);
 		
-		
-
 		//Create and Display New File
 		while (reader.hasNextLine()){
 			line = reader.nextLine();
@@ -274,9 +288,6 @@ public class Window extends JFrame implements ItemListener{
 			category = true; 
 		}
 		
-		System.out.println(position + "\n");
-
-
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(check) || line.equals(unCheck)) {
@@ -325,14 +336,33 @@ public class Window extends JFrame implements ItemListener{
 		currentCheckbox = null;
 	}
 
-	//Need to delete task type right? 
 	public void deleteCategory() throws IOException {
 		deleteSave();
 		currentCategory.getParent().remove(currentCategory);
 		panelScroll.revalidate();
 		panelScroll.repaint();
 		menuBar.deleteTaskType(currentCategory.getName());
+		int counter = 0; 
+		for (JPanel category : categories) {
+			if (category.getName().equals(currentCategory.getName()))
+				break;
+			counter ++; 
+		}
+		categories.remove(counter);
+
 		currentCategory = null;
+		
+		//Set last category to weight 1
+		JPanel last;
+		if(categories.size()>0) {
+			last = categories.get(categories.size()-1);
+			panelScroll.remove(last);
+			c.weighty = 1;
+			panelScroll.add(last, c);
+			panelScroll.revalidate();
+			panelScroll.repaint();
+		}
+
 	}
 
 	Window(String todayPath, String month, String day) throws IOException{
@@ -348,6 +378,7 @@ public class Window extends JFrame implements ItemListener{
 
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
 		this.add(scroller);
+		cInitialize();
 		create();
 		menuBar = new MenuBar(path, this, categories);
 

@@ -38,8 +38,6 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			//Find the current button and remove it.
-			//Also need to rewrite file to save.
 		}
 	}
 

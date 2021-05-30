@@ -11,8 +11,13 @@ Once:
 Groceries
 []
 Dishes
+
+*
+Dailies:
 []
-Laundry
+Workout
+[]
+Wake Up At 9am
 
 *
 Weeklies:
