@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -38,7 +39,9 @@ public class Window extends JFrame implements ItemListener{
 	List<JCheckBox> unSelecteds = new ArrayList<>();
 	List<JPanel> categories = new ArrayList<JPanel>();
 	List<JMenuItem> items = new ArrayList<JMenuItem>();
-	
+	List<Component> updatedCheckboxes = new ArrayList<Component>();
+	List<String> updatedNames = new ArrayList<String>();
+
 	MenuBar menuBar;
 	JMenu editMenu;
 	JMenu taskMenu;
@@ -132,7 +135,7 @@ public class Window extends JFrame implements ItemListener{
 
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
-		textDisplay.setText(text);
+		textDisplay.setText("<HTML><U>" + text + "</U></HTML>");
 		textDisplay.setForeground(Color.white);
 		for (JPanel cat : categories) {
 			if(cat.getName().equals(category) && !text.equals("")) {
@@ -362,7 +365,212 @@ public class Window extends JFrame implements ItemListener{
 			panelScroll.revalidate();
 			panelScroll.repaint();
 		}
+	}
+	
+	public void saveMoveUp(String moved, String categoryPanel) throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String check = "[x]";
+		String unCheck = "[]";
+		String checkStatus = "";
+		String prevCheckStatus = "";
+		String autoDelete = "";
+		String position = "";
+		boolean category = false; 
 
+		if (currentCheckbox != null)
+			position = currentCheckbox.getText();
+		else if (currentCategory != null) {
+			position = currentCategory.getName();
+			category = true; 
+		}
+		
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals(".") || line.equals("*")) {
+				autoDelete = line;
+				line = reader.nextLine();
+				if(line.equals(categoryPanel)) {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(line + "\n");
+					line = reader.nextLine();
+					for(String updated : updatedNames) {
+						rewrite.write(updated + "\n");
+						if(reader.hasNext())
+							line = reader.nextLine();
+					}
+					rewrite.write("\n");
+				}
+				else {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(line + "\n");
+				}
+			}
+			else if(line.equals(check) || line.equals(unCheck)) {
+				checkStatus = line;
+				line = reader.nextLine();
+				rewrite.write(checkStatus + "\n");
+				rewrite.write(line + "\n");
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	public void moveUp() throws IOException{
+		int counter = 0; 
+		int position = 0;
+		updatedCheckboxes.clear();
+		updatedNames.clear();
+		updatedNames = new ArrayList<String>();
+		updatedCheckboxes = new ArrayList<Component>();
+		for(JPanel category : categories) {
+			if(currentCheckbox != null) {
+				if(currentCheckbox.getParent() == category) {
+					Component[] checkboxes = category.getComponents();
+					for(Component checkbox : checkboxes) {
+						if(checkbox instanceof JCheckBox && checkbox == currentCheckbox) {
+							position = counter -1;
+						}
+						else
+							updatedCheckboxes.add(checkbox);
+						category.remove(checkbox);
+						counter++; 
+					}
+					counter = 0; 
+					for(Component updatedCB : updatedCheckboxes) {
+						if(counter == position && counter != 0) {
+							category.add(currentCheckbox);
+							category.add(updatedCB);
+							if(updatedCB instanceof JCheckBox) {
+								if(currentCheckbox.isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(currentCheckbox.getText());
+								if(((JCheckBox) updatedCB).isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(((JCheckBox)updatedCB).getText());
+							}
+						}
+						else if (counter == 0 && counter == position) {
+							category.add(updatedCB);
+							category.add(currentCheckbox);
+							if(currentCheckbox.isSelected())
+								updatedNames.add("[x]");
+							else
+								updatedNames.add("[]");
+							updatedNames.add(currentCheckbox.getText());
+						}
+						else {
+							category.add(updatedCB);
+							if(updatedCB instanceof JCheckBox) {
+								if(((JCheckBox) updatedCB).isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(((JCheckBox)updatedCB).getText());
+							}
+						}
+						counter++;
+					}
+					category.revalidate();
+					category.repaint();
+					saveMoveUp(currentCheckbox.getText(), category.getName());
+					currentCheckbox = null; 
+				}
+			}
+			else if (currentCategory != null) {
+				//move category :)
+			}
+		}
+	}
+	
+	public void moveDown() throws IOException{
+		int counter = 0; 
+		int position = 0;
+		updatedCheckboxes.clear();
+		updatedNames.clear();
+		updatedNames = new ArrayList<String>();
+		updatedCheckboxes = new ArrayList<Component>();
+		for(JPanel category : categories) {
+			if(currentCheckbox != null) {
+				if(currentCheckbox.getParent() == category) {
+					Component[] checkboxes = category.getComponents();
+					for(Component checkbox : checkboxes) {
+						if(checkbox instanceof JCheckBox && checkbox == currentCheckbox) {
+							position = counter;
+						}
+						else
+							updatedCheckboxes.add(checkbox);
+						category.remove(checkbox);
+						counter++; 
+					}
+					counter = 0; 
+					for(Component updatedCB : updatedCheckboxes) {
+						if(counter != 0 && counter != updatedCheckboxes.size() && counter == position){
+							category.add(updatedCB);
+							category.add(currentCheckbox);
+							if(updatedCB instanceof JCheckBox) {
+								if(((JCheckBox) updatedCB).isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(((JCheckBox)updatedCB).getText());
+								if(currentCheckbox.isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(currentCheckbox.getText());
+							}
+						}
+						else if (counter == updatedCheckboxes.size()-1 && position == updatedCheckboxes.size()) {
+							category.add(updatedCB);
+							category.add(currentCheckbox);
+							if(((JCheckBox) updatedCB).isSelected())
+								updatedNames.add("[x]");
+							else
+								updatedNames.add("[]");
+							updatedNames.add(((JCheckBox)updatedCB).getText());
+							if(currentCheckbox.isSelected())
+								updatedNames.add("[x]");
+							else
+								updatedNames.add("[]");
+							updatedNames.add(currentCheckbox.getText());
+						}
+						else {
+							category.add(updatedCB);
+							if(updatedCB instanceof JCheckBox) {
+								if(((JCheckBox) updatedCB).isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(((JCheckBox)updatedCB).getText());
+							}
+						}
+						counter++;
+					}
+					category.revalidate();
+					category.repaint();
+					saveMoveUp(currentCheckbox.getText(), category.getName());
+					currentCheckbox = null; 
+				}
+			}
+			else if (currentCategory != null) {
+				//move category :)
+			}
+		}
 	}
 
 	Window(String todayPath, String month, String day) throws IOException{

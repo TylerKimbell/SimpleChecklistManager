@@ -8,22 +8,20 @@ Appointments:
 .
 Once:
 []
-Dishes
-[]
 Groceries
+[]
+Dishes
 
 *
 Dailies:
-[x]
-I Poop Skadoop The Poop A loop
 []
-Tensai :)
-[x]
+Workout
+[]
 Wake Up At 9am
 
 *
 Weeklies:
 []
-Clean
-[]
 Laundry
+[]
+Clean

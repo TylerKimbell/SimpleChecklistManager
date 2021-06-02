@@ -13,6 +13,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	Window frame;
 	
 	JMenuItem delete;
+	JMenuItem moveUp;
+	JMenuItem moveDown;
+
 	JMenuItem up;
 	JMenuItem down;
 	
@@ -21,6 +24,12 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
+		moveUp = new JMenuItem("Move Up");
+		moveUp.addActionListener(this);
+		moveDown = new JMenuItem("Move Down");
+		moveDown.addActionListener(this);
+		add(moveUp);
+		add(moveDown);
 		add(delete);
 	}
 
@@ -34,6 +43,22 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 					frame.deleteCheckBox();
 				else if (frame.currentCategory != null)
 					frame.deleteCategory();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(source == moveUp) {
+			try {
+				frame.moveUp();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(source == moveDown) {
+			try {
+				frame.moveDown();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,8 +33,9 @@ public class AddCategory extends JFrame implements KeyListener{
 	MenuBar menu; 
 	static boolean aD = false; //AutoDelete 
 	
-	//Don't Know If I Need to Check For Duplicates Or Not
-	//static boolean duplicate;
+	static boolean duplicate = false;
+	
+	List<JPanel> categories = new ArrayList<JPanel>();
 
 	public String getInput(){
 		return input;
@@ -45,11 +47,12 @@ public class AddCategory extends JFrame implements KeyListener{
 		cat.addKeyListener(this);
 	}
 	
-	AddCategory(String todayPath, Window UI, List<JPanel> categories, boolean autoDelete, MenuBar men){
+	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDelete, MenuBar men){
 		path = todayPath;
 		aD = autoDelete;
 		menu = men;
 		frame = UI;
+		categories = cats;
 
 		this.setTitle("New Category");
 		this.setLayout(new FlowLayout());
@@ -101,19 +104,30 @@ public class AddCategory extends JFrame implements KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			input = cat.getText();
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			try {
-				addNewCat(input);
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			System.out.println(input);
+			for(JPanel category : categories) {
+				System.out.println(category.getName());
+				if(input.equals(category.getName())) {
+					System.out.println("DUPLICATE BITCH");
+					duplicate = true; 
+				}
 			}
-			frame.categoryPanel(input);
-			JMenuItem taskType = new JMenuItem(cat.getText());
-			taskType.addActionListener(menu);
-			menu.taskTypes.add(taskType);
-			menu.taskMenu.add(taskType);
-			menu.taskMenu.revalidate();
-			menu.taskMenu.repaint();
+			if(duplicate == false) {
+				try {
+					addNewCat(input);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				frame.categoryPanel(input);
+				JMenuItem taskType = new JMenuItem(cat.getText());
+				taskType.addActionListener(menu);
+				menu.taskTypes.add(taskType);
+				menu.taskMenu.add(taskType);
+				menu.taskMenu.revalidate();
+				menu.taskMenu.repaint();
+			}
 		}
+		duplicate = false; 
 	}
 
 	@Override
