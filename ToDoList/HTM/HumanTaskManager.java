@@ -8,10 +8,8 @@ import java.time.format.DateTimeFormatter;
  * Things to do:
  * Arrange categories and tasks. Right click -> move up/move down buttons. 
  * 			pop/push style with the panels will have to be the way I think. 
- * Original Template That You Can Revert To If You Want to Reset (Literally Just a Text File) 
- *  	Such That There's A Reset Option That Just Reverts To The Default Template
- *  	Just a menu item that overwrites the template with the function I already wrote
- *  Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
+ * Edit Entries/Categories
+ * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
  * 
  * Things to do in the far future: 
  * Stats

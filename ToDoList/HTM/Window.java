@@ -145,12 +145,51 @@ public class Window extends JFrame implements ItemListener{
 	}
 	
 	public void writeTemplate() throws IOException {
-		FileWriter template = new FileWriter("template.txt");
+		String tempPath = "template.txt";
+		FileWriter template = new FileWriter(tempPath);
+		List<JPanel> tempCategories = new ArrayList<JPanel>(categories);
+		for(JPanel category : tempCategories) {
+			currentCategory = category;
+			deleteCategory();
+		}
+
+		currentCategory = null;
+
 		template.write(".\nAppointments:" + "\n" + "\n");
+		categoryPanel("Appointments:");
+		JMenuItem taskAppt = new JMenuItem("Appointments:");
+		taskAppt.addActionListener(menuBar);
+		menuBar.taskTypes.add(taskAppt);
+		menuBar.taskMenu.add(taskAppt);
+
 		template.write(".\nOnce:" + "\n" + "\n");
+		categoryPanel("Once:");
+		JMenuItem taskOnce = new JMenuItem("Once:");
+		taskOnce.addActionListener(menuBar);
+		menuBar.taskTypes.add(taskOnce);
+		menuBar.taskMenu.add(taskOnce);
+
 		template.write("*\nDailies:" + "\n" + "\n");
+		categoryPanel("Dailies:");
+		JMenuItem taskDailies = new JMenuItem("Dailies:");
+		taskDailies.addActionListener(menuBar);
+		menuBar.taskTypes.add(taskDailies);
+		menuBar.taskMenu.add(taskDailies);
+
 		template.write("*\nWeeklies:" + "\n" + "\n");
+		categoryPanel("Weeklies:");
+		JMenuItem taskWeek = new JMenuItem("Weeklies:");
+		taskWeek.addActionListener(menuBar);
+		menuBar.taskTypes.add(taskWeek);
+		menuBar.taskMenu.add(taskWeek);
+		menuBar.taskMenu.revalidate();
+		menuBar.taskMenu.repaint();
+		
 		template.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
 	}
 
 	public void create() throws IOException {

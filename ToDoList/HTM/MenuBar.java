@@ -14,7 +14,10 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static String path = "";
 	static Window UI; 
 	List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
+
 	static List<JPanel> categories;
+
+	static JMenuItem newTaskManager;
 	
 	static JMenuItem autoDelete;
 	static JMenuItem manualDelete;
@@ -40,8 +43,13 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		UI = frame;
 		categories = cats;
 		
+		JMenu fileMenu = new JMenu("File");
 		JMenu editMenu = new JMenu("Edit");
 		JMenu categoryMenu = new JMenu("Add Category");
+
+		newTaskManager = new JMenuItem ("New Task Manager");
+		newTaskManager.addActionListener(this);
+		fileMenu.add(newTaskManager);
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
 		manualDelete = new JMenuItem ("Manual Delete Tasks");
@@ -53,10 +61,12 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		taskMenu = new JMenu("Add Task");
 		taskMenu.addActionListener(this);
 
+		fileMenu.addActionListener(this);
 		categoryMenu.addActionListener(this);
 
 		editMenu.add(taskMenu);
 		editMenu.add(categoryMenu);
+		this.add(fileMenu);
 		this.add(editMenu);
 		for(JPanel cat : categories) {
 			JMenuItem taskType = new JMenuItem(cat.getName());
@@ -69,6 +79,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == newTaskManager) {
+			areYouSureCheck sure = new areYouSureCheck(UI);
+		}
 		if (e.getSource() == autoDelete) {
 			newCat = new AddCategory(path, UI, categories, true, this);
 		}

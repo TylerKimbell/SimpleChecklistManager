@@ -1,0 +1,29 @@
+.
+Appointments:
+[]
+1/1 New Years
+[]
+1/2 Day After New Years
+
+.
+Once:
+[]
+Dishes
+[]
+Groceries
+
+*
+Dailies:
+[]
+Tensai :)
+[x]
+Wake Up At 9am
+[x]
+I Poop Skadoop The Poop A loop
+
+*
+Weeklies:
+[]
+Clean
+[]
+Laundry

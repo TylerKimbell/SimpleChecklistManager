@@ -31,7 +31,7 @@ public class AddCategory extends JFrame implements KeyListener{
 	JButton enter; 
 	String input; 
 	MenuBar menu; 
-	static boolean aD = false; //AutoDelete 
+	static boolean autoDelete = false; //AutoDelete 
 	
 	static boolean duplicate = false;
 	
@@ -47,9 +47,9 @@ public class AddCategory extends JFrame implements KeyListener{
 		cat.addKeyListener(this);
 	}
 	
-	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDelete, MenuBar men){
+	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDel, MenuBar men){
 		path = todayPath;
-		aD = autoDelete;
+		autoDelete = autoDel;
 		menu = men;
 		frame = UI;
 		categories = cats;
@@ -65,7 +65,7 @@ public class AddCategory extends JFrame implements KeyListener{
 		this.setVisible(true);
 	}
 	
-	public void addNewCat(String newCat) throws IOException {
+	public void addNewCat(String newCat, Boolean aD) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -104,17 +104,14 @@ public class AddCategory extends JFrame implements KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			input = cat.getText();
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			System.out.println(input);
 			for(JPanel category : categories) {
-				System.out.println(category.getName());
 				if(input.equals(category.getName())) {
-					System.out.println("DUPLICATE BITCH");
 					duplicate = true; 
 				}
 			}
 			if(duplicate == false) {
 				try {
-					addNewCat(input);
+					addNewCat(input, autoDelete);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
