@@ -63,6 +63,7 @@ public class Window extends JFrame implements ItemListener{
 		c.weighty = 1;
 		c.anchor = GridBagConstraints.NORTHWEST;
 	}
+
 	public void categoryPanel(String category) {
 		JPanel catPanel = new JPanel();
 		JPanel previous;
@@ -89,6 +90,31 @@ public class Window extends JFrame implements ItemListener{
 		panelScroll.add(catPanel, c);
 
 		displayText(category, category);
+		panelScroll.revalidate();
+		panelScroll.repaint();
+	}
+
+	public void categoryMove(JPanel category) {
+		JPanel previous;
+
+		categories.add(category);
+		c.gridy = gridRow;
+
+		//pop last category, change weight to 0 add it back and set weight to 1 to add next category 
+		if(categories.get(0)!= null) {
+			if(categories.size()>1)
+				previous = categories.get(categories.size()-2);
+			else 
+				previous = categories.get(categories.size()-1);
+			panelScroll.remove(previous);
+			c.weighty = 0;
+			panelScroll.add(previous, c);
+			c.weighty = 1; 
+		}
+		gridRow++;
+		c.gridy = gridRow;
+		panelScroll.add(category, c);
+
 		panelScroll.revalidate();
 		panelScroll.repaint();
 	}
@@ -472,7 +498,8 @@ public class Window extends JFrame implements ItemListener{
 		updatedNames.clear();
 		updatedNames = new ArrayList<String>();
 		updatedCheckboxes = new ArrayList<Component>();
-		for(JPanel category : categories) {
+		List<JPanel> categoryIterator = new ArrayList<JPanel>(categories);
+		for(JPanel category : categoryIterator) {
 			if(currentCheckbox != null) {
 				if(currentCheckbox.getParent() == category) {
 					Component[] checkboxes = category.getComponents();
@@ -531,7 +558,69 @@ public class Window extends JFrame implements ItemListener{
 				}
 			}
 			else if (currentCategory != null) {
-				//move category :)
+				if(currentCategory == category) {
+					//What we need to do is delete all categories
+					//and reorder them
+					List<JPanel> cats = new ArrayList<JPanel>(categories);
+					List<JPanel> newCats = new ArrayList<JPanel>();
+					//Creates new list of categories that doesn't have the current category and gets the position to put the current category
+					for(JPanel cat : cats) {
+						System.out.println(cat.getName());
+						if(cat == currentCategory) {
+							position = counter -1;
+							System.out.println(cat.getName());
+						}
+						else
+							newCats.add(cat);
+						categories.remove(cat);
+						panelScroll.remove(cat);
+						counter++; 
+					}
+					counter = 0; 
+					gridRow = 0; 
+					//for saving the right category I think I need to add a category type variable. Autodelte or whatever. 
+					//What if I just create a list of strings that hold the *'s and .'s that reorder similar to the panels 
+					//Then when I'm rewriting I will just have to substitute current * or . with the right one in the list. 
+					//Add reader so I can save them 
+					for(JPanel updatedCat : newCats) {
+						if(counter == position && !(position < 0)) {
+							categoryMove(currentCategory);
+							categoryMove(updatedCat);
+							//Checking for x's and .'s when you update save
+							//updatedNames.add(currentCheckbox.getText());
+							//updatedNames.add(((JCheckBox)updatedCB).getText());
+						}
+						else if (counter == 0 && position < 0) {
+							categoryMove(currentCategory);
+							categoryMove(updatedCat);
+							/*
+							if(currentCheckbox.isSelected())
+								updatedNames.add("[x]");
+							else
+								updatedNames.add("[]");
+							updatedNames.add(currentCheckbox.getText());
+							*/
+						}
+						else {
+							categoryMove(updatedCat);
+							/*
+							if(updatedCB instanceof JCheckBox) {
+								if(((JCheckBox) updatedCB).isSelected())
+									updatedNames.add("[x]");
+								else
+									updatedNames.add("[]");
+								updatedNames.add(((JCheckBox)updatedCB).getText());
+							}
+							*/
+						}
+						counter++;
+					}
+					for(JPanel stuff : categories) {
+						System.out.println(stuff.getName());
+					}
+					//saveMoveUp(currentCheckbox.getText(), category.getName());
+					currentCategory = null; 
+				}
 			}
 		}
 	}
@@ -608,6 +697,7 @@ public class Window extends JFrame implements ItemListener{
 			}
 			else if (currentCategory != null) {
 				//move category :)
+				
 			}
 		}
 	}

@@ -10,12 +10,14 @@ import java.time.format.DateTimeFormatter;
  * 			pop/push style with the panels will have to be the way I think. 
  * Edit Entries/Categories
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
+ * Create ReadME for Github and make it Public
  * 
  * Things to do in the far future: 
  * Stats
  * Port to Mobile 
  * Last Thing To Do? Addons so users can create what they want such as stats options. 
  */
+
 public class HumanTaskManager{
 	static Window mainWindow;
 	
