@@ -102,6 +102,9 @@ public class AddCategory extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			String autoDel = ".";
+			if(autoDelete != true)
+				autoDel = "*";
 			input = cat.getText();
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			for(JPanel category : categories) {
@@ -115,7 +118,7 @@ public class AddCategory extends JFrame implements KeyListener{
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				frame.categoryPanel(input);
+				frame.categoryPanel(input, autoDel);
 				JMenuItem taskType = new JMenuItem(cat.getText());
 				taskType.addActionListener(menu);
 				menu.taskTypes.add(taskType);

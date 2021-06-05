@@ -41,6 +41,7 @@ public class Window extends JFrame implements ItemListener{
 	List<JMenuItem> items = new ArrayList<JMenuItem>();
 	List<Component> updatedCheckboxes = new ArrayList<Component>();
 	List<String> updatedNames = new ArrayList<String>();
+	List<String> categoryTypes = new ArrayList<String>();
 
 	MenuBar menuBar;
 	JMenu editMenu;
@@ -64,7 +65,7 @@ public class Window extends JFrame implements ItemListener{
 		c.anchor = GridBagConstraints.NORTHWEST;
 	}
 
-	public void categoryPanel(String category) {
+	public void categoryPanel(String category, String autoDelete) {
 		JPanel catPanel = new JPanel();
 		JPanel previous;
 		catPanel.setBackground(Color.black);
@@ -72,6 +73,8 @@ public class Window extends JFrame implements ItemListener{
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
+		categoryTypes.add(autoDelete);
+		
 		c.gridy = gridRow;
 
 		//pop last category, change weight to 0 add it back and set weight to 1 to add next category 
@@ -94,10 +97,12 @@ public class Window extends JFrame implements ItemListener{
 		panelScroll.repaint();
 	}
 
-	public void categoryMove(JPanel category) {
+	public void categoryMove(JPanel category, String autoDelete) {
 		JPanel previous;
 
 		categories.add(category);
+		categoryTypes.add(autoDelete);
+
 		c.gridy = gridRow;
 
 		//pop last category, change weight to 0 add it back and set weight to 1 to add next category 
@@ -173,6 +178,8 @@ public class Window extends JFrame implements ItemListener{
 	public void writeTemplate() throws IOException {
 		String tempPath = "template.txt";
 		FileWriter template = new FileWriter(tempPath);
+		String autoDelete = ".";
+		String manualDelete = "*";
 		List<JPanel> tempCategories = new ArrayList<JPanel>(categories);
 		for(JPanel category : tempCategories) {
 			currentCategory = category;
@@ -182,28 +189,28 @@ public class Window extends JFrame implements ItemListener{
 		currentCategory = null;
 
 		template.write(".\nAppointments:" + "\n" + "\n");
-		categoryPanel("Appointments:");
+		categoryPanel("Appointments:", autoDelete);
 		JMenuItem taskAppt = new JMenuItem("Appointments:");
 		taskAppt.addActionListener(menuBar);
 		menuBar.taskTypes.add(taskAppt);
 		menuBar.taskMenu.add(taskAppt);
 
 		template.write(".\nOnce:" + "\n" + "\n");
-		categoryPanel("Once:");
+		categoryPanel("Once:", autoDelete);
 		JMenuItem taskOnce = new JMenuItem("Once:");
 		taskOnce.addActionListener(menuBar);
 		menuBar.taskTypes.add(taskOnce);
 		menuBar.taskMenu.add(taskOnce);
 
 		template.write("*\nDailies:" + "\n" + "\n");
-		categoryPanel("Dailies:");
+		categoryPanel("Dailies:", manualDelete);
 		JMenuItem taskDailies = new JMenuItem("Dailies:");
 		taskDailies.addActionListener(menuBar);
 		menuBar.taskTypes.add(taskDailies);
 		menuBar.taskMenu.add(taskDailies);
 
 		template.write("*\nWeeklies:" + "\n" + "\n");
-		categoryPanel("Weeklies:");
+		categoryPanel("Weeklies:", manualDelete);
 		JMenuItem taskWeek = new JMenuItem("Weeklies:");
 		taskWeek.addActionListener(menuBar);
 		menuBar.taskTypes.add(taskWeek);
@@ -229,6 +236,7 @@ public class Window extends JFrame implements ItemListener{
 		Scanner reader = new Scanner(new File("template.txt"));
 		String line;
 		String category = "none";
+		String autoDelete = ".";
 		Boolean delete = false; 
 		File todayFile = new File(path);
 		
@@ -236,6 +244,7 @@ public class Window extends JFrame implements ItemListener{
 		while (reader.hasNextLine()){
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")){ 
+				autoDelete = line; 
 				if(line.equals("."))
 					delete = true; 
 				else 
@@ -243,7 +252,7 @@ public class Window extends JFrame implements ItemListener{
 				tempWrite.write(line + "\n");
 				line = reader.nextLine();
 				category = line;
-				categoryPanel(category);
+				categoryPanel(category, autoDelete);
 				tempWrite.write(line + "\n");
 				continue;
 			}
@@ -558,65 +567,40 @@ public class Window extends JFrame implements ItemListener{
 				}
 			}
 			else if (currentCategory != null) {
+				String savedCatType = "."; 
 				if(currentCategory == category) {
-					//What we need to do is delete all categories
-					//and reorder them
 					List<JPanel> cats = new ArrayList<JPanel>(categories);
 					List<JPanel> newCats = new ArrayList<JPanel>();
-					//Creates new list of categories that doesn't have the current category and gets the position to put the current category
+					List<String> updatedCatTypes = new ArrayList<String>();
 					for(JPanel cat : cats) {
-						System.out.println(cat.getName());
 						if(cat == currentCategory) {
 							position = counter -1;
-							System.out.println(cat.getName());
+							savedCatType = categoryTypes.get(counter);
 						}
-						else
+						else {
 							newCats.add(cat);
+							updatedCatTypes.add(categoryTypes.get(counter));
+						}
 						categories.remove(cat);
 						panelScroll.remove(cat);
 						counter++; 
 					}
+					categoryTypes.clear();
 					counter = 0; 
 					gridRow = 0; 
-					//for saving the right category I think I need to add a category type variable. Autodelte or whatever. 
-					//What if I just create a list of strings that hold the *'s and .'s that reorder similar to the panels 
-					//Then when I'm rewriting I will just have to substitute current * or . with the right one in the list. 
-					//Add reader so I can save them 
 					for(JPanel updatedCat : newCats) {
 						if(counter == position && !(position < 0)) {
-							categoryMove(currentCategory);
-							categoryMove(updatedCat);
-							//Checking for x's and .'s when you update save
-							//updatedNames.add(currentCheckbox.getText());
-							//updatedNames.add(((JCheckBox)updatedCB).getText());
+							categoryMove(currentCategory, savedCatType);
+							categoryMove(updatedCat, updatedCatTypes.get(counter));
 						}
 						else if (counter == 0 && position < 0) {
-							categoryMove(currentCategory);
-							categoryMove(updatedCat);
-							/*
-							if(currentCheckbox.isSelected())
-								updatedNames.add("[x]");
-							else
-								updatedNames.add("[]");
-							updatedNames.add(currentCheckbox.getText());
-							*/
+							categoryMove(currentCategory, savedCatType);
+							categoryMove(updatedCat, updatedCatTypes.get(counter));
 						}
 						else {
-							categoryMove(updatedCat);
-							/*
-							if(updatedCB instanceof JCheckBox) {
-								if(((JCheckBox) updatedCB).isSelected())
-									updatedNames.add("[x]");
-								else
-									updatedNames.add("[]");
-								updatedNames.add(((JCheckBox)updatedCB).getText());
-							}
-							*/
+							categoryMove(updatedCat, updatedCatTypes.get(counter));
 						}
 						counter++;
-					}
-					for(JPanel stuff : categories) {
-						System.out.println(stuff.getName());
 					}
 					//saveMoveUp(currentCheckbox.getText(), category.getName());
 					currentCategory = null; 
