@@ -42,6 +42,7 @@ public class Window extends JFrame implements ItemListener{
 	List<Component> updatedCheckboxes = new ArrayList<Component>();
 	List<String> updatedNames = new ArrayList<String>();
 	List<String> categoryTypes = new ArrayList<String>();
+	List<String> savedCategory= new ArrayList<String>();
 
 	MenuBar menuBar;
 	JMenu editMenu;
@@ -441,7 +442,7 @@ public class Window extends JFrame implements ItemListener{
 		}
 	}
 	
-	public void saveMoveUp(String moved, String categoryPanel) throws IOException {
+	public void saveMove(String categoryPanel) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -449,22 +450,13 @@ public class Window extends JFrame implements ItemListener{
 		String check = "[x]";
 		String unCheck = "[]";
 		String checkStatus = "";
-		String prevCheckStatus = "";
 		String autoDelete = "";
-		String position = "";
-		boolean category = false; 
-
-		if (currentCheckbox != null)
-			position = currentCheckbox.getText();
-		else if (currentCategory != null) {
-			position = currentCategory.getName();
-			category = true; 
-		}
 		
+		int counter = 0;
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")) {
-				autoDelete = line;
+				autoDelete = categoryTypes.get(counter);
 				line = reader.nextLine();
 				if(line.equals(categoryPanel)) {
 					rewrite.write(autoDelete + "\n");
@@ -481,6 +473,7 @@ public class Window extends JFrame implements ItemListener{
 					rewrite.write(autoDelete + "\n");
 					rewrite.write(line + "\n");
 				}
+				counter++;
 			}
 			else if(line.equals(check) || line.equals(unCheck)) {
 				checkStatus = line;
@@ -492,6 +485,71 @@ public class Window extends JFrame implements ItemListener{
 				rewrite.write(line + "\n");
 		}
 
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
+	}
+	public void saveMoveCategory(String categoryPanel) throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String check = "[x]";
+		String unCheck = "[]";
+		String checkStatus = "";
+		String autoDelete = "";
+		boolean written = false; 
+		
+		int counter = 0;
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals(".") || line.equals("*")){
+				String reorderedCats = categories.get(counter).getName();
+				autoDelete = categoryTypes.get(counter);
+				line = reader.nextLine();
+				if(!(line.equals(reorderedCats)) && written == false) {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(reorderedCats + "\n");
+					for(String updated : updatedNames) {
+						rewrite.write(updated + "\n");
+						if(reader.hasNext()) {
+							line = reader.nextLine();
+							savedCategory.add(line);
+						}
+					}
+					written = true; 
+				}
+				else if(!(line.equals(reorderedCats)) && written == true) {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(reorderedCats + "\n");
+					for(String saved : savedCategory) {
+						System.out.println(saved);
+						rewrite.write(saved + "\n");
+						if(reader.hasNext())
+							line = reader.nextLine();
+					}
+					written = false;
+				}
+				else {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(line + "\n");
+				}
+				counter++;
+			}
+			else if(line.equals(check) || line.equals(unCheck)) {
+				checkStatus = line;
+				line = reader.nextLine();
+				rewrite.write(checkStatus + "\n");
+				rewrite.write(line + "\n");
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		savedCategory.clear();
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
@@ -562,16 +620,32 @@ public class Window extends JFrame implements ItemListener{
 					}
 					category.revalidate();
 					category.repaint();
-					saveMoveUp(currentCheckbox.getText(), category.getName());
+					saveMove(category.getName());
 					currentCheckbox = null; 
 				}
 			}
 			else if (currentCategory != null) {
 				String savedCatType = "."; 
+				Component[] categoryContents = currentCategory.getComponents();
 				if(currentCategory == category) {
 					List<JPanel> cats = new ArrayList<JPanel>(categories);
 					List<JPanel> newCats = new ArrayList<JPanel>();
 					List<String> updatedCatTypes = new ArrayList<String>();
+					for(Component names : categoryContents) {
+						if (names instanceof JPanel) {
+							updatedNames.add(((JPanel)names).getName());
+						}
+						else if (names instanceof JCheckBox) {
+							if(((JCheckBox)names).isSelected()) {
+								updatedNames.add("[x]");
+							}
+							else{
+								updatedNames.add("[]");
+							}
+							updatedNames.add(((JCheckBox)names).getText());
+						}
+					}
+
 					for(JPanel cat : cats) {
 						if(cat == currentCategory) {
 							position = counter -1;
@@ -602,7 +676,7 @@ public class Window extends JFrame implements ItemListener{
 						}
 						counter++;
 					}
-					//saveMoveUp(currentCheckbox.getText(), category.getName());
+					saveMoveCategory(currentCategory.getName());
 					currentCategory = null; 
 				}
 			}
@@ -675,7 +749,7 @@ public class Window extends JFrame implements ItemListener{
 					}
 					category.revalidate();
 					category.repaint();
-					saveMoveUp(currentCheckbox.getText(), category.getName());
+					saveMove(category.getName());
 					currentCheckbox = null; 
 				}
 			}
