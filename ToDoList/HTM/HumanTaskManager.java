@@ -8,8 +8,13 @@ import java.time.format.DateTimeFormatter;
  * Things to do:
  * Arrange categories and tasks. Right click -> move up/move down buttons. 
  * 			pop/push style with the panels will have to be the way I think. 
+ * 			I have to update the categories in the edit menu as well after categories are moved. 
+ * Bug: If you add tasks and then move the categories, it breaks everything. 
+ *			I think it has to do with having different sized categories. Looks like it's just move up save. 
+ *			It may be the case that I need to rearrage the edit categories first, but it doesn't seem to be a problem with move down for some reaosn
  * Edit Entries/Categories
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
+ * Change Style (Dark Mode Light Mode)
  * Create ReadME for Github and make it Public
  * 
  * Things to do in the far future: 
