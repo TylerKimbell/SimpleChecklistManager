@@ -193,28 +193,28 @@ public class Window extends JFrame implements ItemListener{
 		categoryPanel("Appointments:", autoDelete);
 		JMenuItem taskAppt = new JMenuItem("Appointments:");
 		taskAppt.addActionListener(menuBar);
-		menuBar.taskTypes.add(taskAppt);
+		MenuBar.taskTypes.add(taskAppt);
 		menuBar.taskMenu.add(taskAppt);
 
 		template.write(".\nOnce:" + "\n" + "\n");
 		categoryPanel("Once:", autoDelete);
 		JMenuItem taskOnce = new JMenuItem("Once:");
 		taskOnce.addActionListener(menuBar);
-		menuBar.taskTypes.add(taskOnce);
+		MenuBar.taskTypes.add(taskOnce);
 		menuBar.taskMenu.add(taskOnce);
 
 		template.write("*\nDailies:" + "\n" + "\n");
 		categoryPanel("Dailies:", manualDelete);
 		JMenuItem taskDailies = new JMenuItem("Dailies:");
 		taskDailies.addActionListener(menuBar);
-		menuBar.taskTypes.add(taskDailies);
+		MenuBar.taskTypes.add(taskDailies);
 		menuBar.taskMenu.add(taskDailies);
 
 		template.write("*\nWeeklies:" + "\n" + "\n");
 		categoryPanel("Weeklies:", manualDelete);
 		JMenuItem taskWeek = new JMenuItem("Weeklies:");
 		taskWeek.addActionListener(menuBar);
-		menuBar.taskTypes.add(taskWeek);
+		MenuBar.taskTypes.add(taskWeek);
 		menuBar.taskMenu.add(taskWeek);
 		menuBar.taskMenu.revalidate();
 		menuBar.taskMenu.repaint();
@@ -609,7 +609,7 @@ public class Window extends JFrame implements ItemListener{
 				//System.out.println(reorderedCats);
 				autoDelete = categoryTypes.get(counter);
 				line = reader.nextLine();
-				if(!(line.equals(reorderedCats)) && written == false) {
+				if(!(line.equals(reorderedCats)) && written == false){
 					line = reader.nextLine();
 					for(String updated : updatedNames) {
 						if(reader.hasNext()) {
@@ -672,6 +672,49 @@ public class Window extends JFrame implements ItemListener{
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
 	}
 	
+	public void moveMenuItem() {
+		int counter = 0; 
+		List<JMenuItem> updatedMenuItems = new ArrayList<JMenuItem>();
+		List<JMenuItem> menuIterator = new ArrayList<JMenuItem>();
+		JMenuItem savedItem = null;
+		boolean firstItem = false;
+		boolean findFirstItem = false;
+		boolean fixedOrder = false;
+		for(JMenuItem item: MenuBar.taskTypes) {
+			menuIterator.add(item);
+		}
+		for(JMenuItem item: menuIterator) {
+			menuBar.deleteTaskType(item.getText());
+			if(item.getText().equals(categories.get(counter).getName()) && findFirstItem == false) {
+				updatedMenuItems.add(item);
+			}
+			else if (fixedOrder == false){
+				findFirstItem = true; 
+				if (firstItem == false) {
+					savedItem = item;
+					firstItem = true;
+				}
+				else{
+					updatedMenuItems.add(item);
+					updatedMenuItems.add(savedItem);
+					fixedOrder = true; 
+				}
+			}
+			else {
+				updatedMenuItems.add(item);
+			}
+			counter++;
+		}
+
+		for(JMenuItem updated : updatedMenuItems) {
+			JMenuItem taskType = new JMenuItem(updated.getText());
+			taskType.addActionListener(menuBar);
+			MenuBar.taskTypes.add(taskType);
+			menuBar.taskMenu.add(taskType);
+			menuBar.taskMenu.revalidate();
+			menuBar.taskMenu.repaint();
+		}
+	}
 	public void moveUp() throws IOException{
 		int counter = 0; 
 		int position = 0;
@@ -791,6 +834,7 @@ public class Window extends JFrame implements ItemListener{
 						counter++;
 					}
 					saveMoveCategoryUp(currentCategory.getName());
+					moveMenuItem();
 					currentCategory = null; 
 				}
 			}
@@ -920,6 +964,7 @@ public class Window extends JFrame implements ItemListener{
 						counter++;
 					}
 					saveMoveCategoryDown(currentCategory.getName());
+					moveMenuItem();
 					currentCategory = null; 	
 				}
 			}

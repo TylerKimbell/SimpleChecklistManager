@@ -1,3 +1,12 @@
+*
+Dailies:
+[x]
+Workout
+[x]
+Wake Up At 9am
+[]
+Poop
+
 .
 Appointments:
 []
@@ -11,8 +20,6 @@ Once:
 Groceries
 []
 Dishes
-[]
-Poop
 
 *
 Weeklies:
@@ -20,14 +27,3 @@ Weeklies:
 Laundry
 []
 Clean
-[]
-Peepee
-
-*
-Dailies:
-[x]
-Workout
-[x]
-Wake Up At 9am
-[x]
-Poop
