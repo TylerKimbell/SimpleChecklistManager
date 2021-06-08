@@ -33,6 +33,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
 		add(edit);
+		addSeparator();
 		add(moveUp);
 		add(moveDown);
 		addSeparator();
