@@ -12,9 +12,10 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 
 	Window frame;
 	
-	JMenuItem delete;
+	JMenuItem edit;
 	JMenuItem moveUp;
 	JMenuItem moveDown;
+	JMenuItem delete;
 
 	JMenuItem up;
 	JMenuItem down;
@@ -22,14 +23,19 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	PopUpMenu(Window UI) {
 		frame = UI;
 		
-		delete = new JMenuItem("Delete");
-		delete.addActionListener(this);
+
+		edit = new JMenuItem("Edit");
+		edit.addActionListener(this);
 		moveUp = new JMenuItem("Move Up");
 		moveUp.addActionListener(this);
 		moveDown = new JMenuItem("Move Down");
 		moveDown.addActionListener(this);
+		delete = new JMenuItem("Delete");
+		delete.addActionListener(this);
+		add(edit);
 		add(moveUp);
 		add(moveDown);
+		addSeparator();
 		add(delete);
 	}
 
@@ -37,16 +43,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
-		if(source == delete) {
-			try {
-				if (frame.currentCheckbox != null)
-					frame.deleteCheckBox();
-				else if (frame.currentCategory != null)
-					frame.deleteCategory();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		
+		if (source == edit) {
+			frame.createEdit();
 		}
 		else if(source == moveUp) {
 			try {
@@ -59,6 +58,17 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		else if(source == moveDown) {
 			try {
 				frame.moveDown();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(source == delete) {
+			try {
+				if (frame.currentCheckbox != null)
+					frame.deleteCheckBox();
+				else if (frame.currentCategory != null)
+					frame.deleteCategory();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

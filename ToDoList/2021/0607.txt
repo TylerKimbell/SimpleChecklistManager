@@ -1,33 +1,35 @@
-.
-Appointments:
-[]
-1/1 New Years
-[]
-1/2 Day After New Years
-
-.
-Once:
-[]
-Groceries
-[]
-Dishes
-[]
-Poop
-
-*
-Weeklies:
-[]
-Laundry
-[]
-Clean
-[]
-Peepee
-
 *
 Dailies:
 [x]
 Workout
 [x]
 Wake Up At 9am
+[]
+Poop
+
+*
+Weeklies:
+[x]
+Laundry
+[]
+Clean
+[x]
+Peepee
+
+.
+Once:
+[x]
+Groceries
+[]
+Dishes
 [x]
 Poop
+[]
+djksaljgdflk;ass
+
+.
+Appointments:
+[x]
+1/1 New Years
+[]
+1/2 Day After New Years

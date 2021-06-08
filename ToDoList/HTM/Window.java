@@ -675,14 +675,11 @@ public class Window extends JFrame implements ItemListener{
 	public void moveMenuItem() {
 		int counter = 0; 
 		List<JMenuItem> updatedMenuItems = new ArrayList<JMenuItem>();
-		List<JMenuItem> menuIterator = new ArrayList<JMenuItem>();
+		List<JMenuItem> menuIterator = new ArrayList<JMenuItem>(MenuBar.taskTypes);
 		JMenuItem savedItem = null;
 		boolean firstItem = false;
 		boolean findFirstItem = false;
 		boolean fixedOrder = false;
-		for(JMenuItem item: MenuBar.taskTypes) {
-			menuIterator.add(item);
-		}
 		for(JMenuItem item: menuIterator) {
 			menuBar.deleteTaskType(item.getText());
 			if(item.getText().equals(categories.get(counter).getName()) && findFirstItem == false) {
@@ -969,6 +966,61 @@ public class Window extends JFrame implements ItemListener{
 				}
 			}
 		}
+	}
+
+	public void displayEdit(String updatedElement, String updatedText) {
+		if(currentCategory != null) {
+			Component[] iterator = currentCategory.getComponents(); 
+			List<JCheckBox> saved = new ArrayList<JCheckBox>();
+			updatedElement = currentCategory.getName();
+
+			currentCategory.setName(updatedText);
+
+			//Update Components
+			for(Component del : iterator) { 
+				currentCategory.remove(del);
+				if (del instanceof JCheckBox)
+					saved.add((JCheckBox) del);
+			}
+
+			JLabel textDisplay= new JLabel();
+			textDisplay.setText("<HTML><U>" + updatedText + "</U></HTML>");
+			textDisplay.setForeground(Color.white);
+			currentCategory.add(textDisplay);
+			for(JCheckBox readd : saved)
+				currentCategory.add(readd);
+
+			//Update Menu Items
+			List<JMenuItem> menuIterator = new ArrayList<JMenuItem>(MenuBar.taskTypes);
+			int counter = 0; 
+			for(JMenuItem item: menuIterator) {
+				menuBar.deleteTaskType(item.getText());
+			}
+
+			for(JPanel cat : categories) {
+				JMenuItem taskType = new JMenuItem(cat.getName());
+				taskType.addActionListener(menuBar);
+				MenuBar.taskTypes.add(taskType);
+				menuBar.taskMenu.add(taskType);
+				menuBar.taskMenu.revalidate();
+				menuBar.taskMenu.repaint();
+			}
+
+			currentCategory = null; 
+
+		}
+		else{
+			updatedElement = currentCheckbox.getText();
+			currentCheckbox.setText(updatedText);
+			currentCheckbox = null; 
+		}
+		panelScroll.revalidate();
+		panelScroll.repaint();
+		this.revalidate();
+		this.repaint();
+	}
+	public void createEdit() {
+		Edit changeText = new Edit(path, this, currentCategory, currentCheckbox);
 	}
 
 	Window(String todayPath, String month, String day) throws IOException{

@@ -5,13 +5,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
+ * Human Quest Tracker? 
+ * RL Quest Tracker?
  * Things to do:
- * Edit Entries/Categories
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
+ * 	Is there a way to iterate through the text and check for ','s? If so then just have to make add them into an array and iterate through the array to add m
  * Change Style (Dark Mode Light Mode)
  * Create ReadME for Github and make it Public
+ * 		Or just take screenshots and put them on a website
  * 
  * Things to do in the far future: 
+ * Periodic checks for if the date has changed so it updates automatically rather than having to restart it. 
  * Stats
  * Port to Mobile 
  * Last Thing To Do? Addons so users can create what they want such as stats options. 

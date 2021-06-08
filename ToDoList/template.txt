@@ -1,33 +1,29 @@
 .
-Appointments:
-[]
-1/1 New Years
-[]
-1/2 Day After New Years
-
-.
-Once:
+The Actual One
 []
 Groceries
 []
-Dishes
+No Dishes
+
+.
+Stuff
 []
-Poop
+Fixed the Menu BVat
+[]
+Christmas
 
 *
-Weeklies:
+Fixed the Menu BVat
 []
-Laundry
+No bug?
 []
-Clean
-[]
-Peepee
+Is there bug?
 
 *
-Dailies:
-[x]
-Workout
-[x]
-Wake Up At 9am
-[x]
-Poop
+I think I'm good now
+[]
+I win
+[]
+Bugh bottom?
+[]
+Hello
