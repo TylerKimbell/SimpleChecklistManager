@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static List<JPanel> categories;
 
 	static JMenuItem newTaskManager;
+	static JMenuItem newDay;
 	
 	static JMenuItem autoDelete;
 	static JMenuItem manualDelete;
@@ -25,6 +27,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static AddTask newTask;
 	static AddCategory newCat;
 	
+	String month;
+	String day;
+
 	public void deleteTaskType(String deletedCategory) {
 		JMenuItem delete = null;
 		for(JMenuItem taskType: taskTypes) {
@@ -38,7 +43,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		taskMenu.repaint();
 	}
 	
-	MenuBar(String todayPath, Window frame, List<JPanel> cats){
+	MenuBar(String todayPath, Window frame, List<JPanel> cats, String mon, String date){
+		month = mon;
+		day = date; 
 		path = todayPath;
 		UI = frame;
 		categories = cats;
@@ -50,6 +57,10 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		newTaskManager = new JMenuItem ("New Task Manager");
 		newTaskManager.addActionListener(this);
 		fileMenu.add(newTaskManager);
+
+		newDay = new JMenuItem ("New Day");
+		newDay.addActionListener(this);
+		fileMenu.add(newDay);
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
 		manualDelete = new JMenuItem ("Manual Delete Tasks");
@@ -79,6 +90,14 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == newDay) {
+			try {
+				UI.create(month, day);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		if(e.getSource() == newTaskManager) {
 			areYouSureCheck sure = new areYouSureCheck(UI);
 		}

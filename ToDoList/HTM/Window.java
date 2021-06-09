@@ -30,19 +30,19 @@ public class Window extends JFrame implements ItemListener{
 	JCheckBox currentCheckbox;
 	JPanel currentCategory; 
 
-	JPanel panelScroll = new JPanel();
-	JScrollPane scroller = new JScrollPane(panelScroll);
+	JPanel panelScroll;
+	JScrollPane scroller;
 
 	JCheckBox selected;
 	JCheckBox unSelected;
-	List<JCheckBox> selecteds = new ArrayList<>();
-	List<JCheckBox> unSelecteds = new ArrayList<>();
-	List<JPanel> categories = new ArrayList<JPanel>();
-	List<JMenuItem> items = new ArrayList<JMenuItem>();
-	List<Component> updatedCheckboxes = new ArrayList<Component>();
-	List<String> updatedNames = new ArrayList<String>();
-	List<String> categoryTypes = new ArrayList<String>();
-	List<String> savedCategory= new ArrayList<String>();
+	List<JCheckBox> selecteds;
+	List<JCheckBox> unSelecteds;
+	List<JPanel> categories;
+	List<JMenuItem> items;
+	List<Component> updatedCheckboxes;
+	List<String> updatedNames;
+	List<String> categoryTypes;
+	List<String> savedCategory;
 
 	MenuBar menuBar;
 	JMenu editMenu;
@@ -51,7 +51,8 @@ public class Window extends JFrame implements ItemListener{
 	JMenuItem appointments;
 	JMenuItem dailies;
 	JMenuItem weeklies;
-	
+
+	Edit changeText;	
 	AddTask newTask; 
 	
 	GridBagConstraints c = new GridBagConstraints();
@@ -224,83 +225,6 @@ public class Window extends JFrame implements ItemListener{
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
-	}
-
-	public void create() throws IOException {
-		this.setVisible(false);
-		String tempPath = "temp.txt";
-		FileWriter tempWrite = new FileWriter(tempPath);
-		File template = new File("template.txt");
-		if(!template.exists()) {
-			writeTemplate();
-		}
-		Scanner reader = new Scanner(new File("template.txt"));
-		String line;
-		String category = "none";
-		String autoDelete = ".";
-		Boolean delete = false; 
-		File todayFile = new File(path);
-		
-		//Create and Display New File
-		while (reader.hasNextLine()){
-			line = reader.nextLine();
-			if(line.equals(".") || line.equals("*")){ 
-				autoDelete = line; 
-				if(line.equals("."))
-					delete = true; 
-				else 
-					delete = false; 
-				tempWrite.write(line + "\n");
-				line = reader.nextLine();
-				category = line;
-				categoryPanel(category, autoDelete);
-				tempWrite.write(line + "\n");
-				continue;
-			}
-
-			//The differentiation between auto and manual delete categories. 
-			if(delete == true && !todayFile.exists()) { 
-				if(line.equals("[]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displayUnselectedCheck(line, category);
-					tempWrite.write(line + "\n");
-				}
-				else if(line.equals("[x]")) { 
-					line = reader.nextLine();
-				}
-				else {
-					this.displayText(line, category);
-					tempWrite.write(line + "\n");
-				}
-			}
-			else {
-				if(line.equals("[]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displayUnselectedCheck(line, category);
-				}
-				else if(line.equals("[x]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displaySelectedCheck(line, category);
-				}
-				else {
-					this.displayText(line, category);
-				}
-			tempWrite.write(line + "\n");
-			}
-		}
-		tempWrite.close();
-		reader.close();	
-		Path saveDay = Paths.get(path);
-		Path saveTemplate = Paths.get("template.txt");
-		Path temporary = Paths.get(tempPath);
-		
-		Files.copy(temporary, saveDay, StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
-		File tempFile = new File (tempPath);
-		tempFile.delete();
 	}
 
 	public void saveCheck(String position) throws IOException {
@@ -611,7 +535,7 @@ public class Window extends JFrame implements ItemListener{
 				line = reader.nextLine();
 				if(!(line.equals(reorderedCats)) && written == false){
 					line = reader.nextLine();
-					for(String updated : updatedNames) {
+					for(@SuppressWarnings("unused") String updated : updatedNames) {
 						if(reader.hasNext()) {
 							line = reader.nextLine();
 						}
@@ -992,7 +916,6 @@ public class Window extends JFrame implements ItemListener{
 
 			//Update Menu Items
 			List<JMenuItem> menuIterator = new ArrayList<JMenuItem>(MenuBar.taskTypes);
-			int counter = 0; 
 			for(JMenuItem item: menuIterator) {
 				menuBar.deleteTaskType(item.getText());
 			}
@@ -1019,10 +942,113 @@ public class Window extends JFrame implements ItemListener{
 		this.revalidate();
 		this.repaint();
 	}
+
 	public void createEdit() {
-		Edit changeText = new Edit(path, this, currentCategory, currentCheckbox);
+		changeText = new Edit(path, this, currentCategory, currentCheckbox);
 	}
 
+	public void create(String month, String day) throws IOException {
+		panelScroll = new JPanel();
+		scroller = new JScrollPane(panelScroll);
+		selecteds = new ArrayList<>();
+		unSelecteds = new ArrayList<>();
+		categories = new ArrayList<JPanel>();
+		items = new ArrayList<JMenuItem>();
+		updatedCheckboxes = new ArrayList<Component>();
+		updatedNames = new ArrayList<String>();
+		categoryTypes = new ArrayList<String>();
+		savedCategory= new ArrayList<String>();	
+		this.getContentPane().removeAll();
+		
+		panelScroll.setBackground(Color.black);
+		panelScroll.setLayout(new GridBagLayout());
+
+		scroller.getVerticalScrollBar().setUnitIncrement(16);
+		cInitialize();	
+		this.setVisible(false);
+		this.add(scroller);
+		this.setTitle("Human Task Manager " + month + "/" + day);
+		String tempPath = "temp.txt";
+		FileWriter tempWrite = new FileWriter(tempPath);
+		File template = new File("template.txt");
+		if(!template.exists()) {
+			writeTemplate();
+		}
+		Scanner reader = new Scanner(new File("template.txt"));
+		String line;
+		String category = "none";
+		String autoDelete = ".";
+		Boolean delete = false; 
+		File todayFile = new File(path);
+		
+		//Create and Display New File
+		while (reader.hasNextLine()){
+			line = reader.nextLine();
+			if(line.equals(".") || line.equals("*")){ 
+				autoDelete = line; 
+				if(line.equals("."))
+					delete = true; 
+				else 
+					delete = false; 
+				tempWrite.write(line + "\n");
+				line = reader.nextLine();
+				category = line;
+				categoryPanel(category, autoDelete);
+				tempWrite.write(line + "\n");
+				continue;
+			}
+
+			//The differentiation between auto and manual delete categories. 
+			if(delete == true && !todayFile.exists()) { 
+				if(line.equals("[]")) {
+					tempWrite.write(line + "\n");
+					line = reader.nextLine();
+					this.displayUnselectedCheck(line, category);
+					tempWrite.write(line + "\n");
+				}
+				else if(line.equals("[x]")) { 
+					line = reader.nextLine();
+				}
+				else {
+					this.displayText(line, category);
+					tempWrite.write(line + "\n");
+				}
+			}
+			else {
+				if(line.equals("[]")) {
+					tempWrite.write(line + "\n");
+					line = reader.nextLine();
+					this.displayUnselectedCheck(line, category);
+				}
+				else if(line.equals("[x]")) {
+					tempWrite.write(line + "\n");
+					line = reader.nextLine();
+					this.displaySelectedCheck(line, category);
+				}
+				else {
+					this.displayText(line, category);
+				}
+			tempWrite.write(line + "\n");
+			}
+		}
+		tempWrite.close();
+		reader.close();	
+		Path saveDay = Paths.get(path);
+		Path saveTemplate = Paths.get("template.txt");
+		Path temporary = Paths.get(tempPath);
+		
+		Files.copy(temporary, saveDay, StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
+		File tempFile = new File (tempPath);
+		tempFile.delete();
+		menuBar = new MenuBar(path, this, categories, month, day);
+
+		this.setJMenuBar(menuBar);
+		this.revalidate();
+		this.repaint();
+		this.setVisible(true);
+	}
+	
 	Window(String todayPath, String month, String day) throws IOException{
 		path = todayPath;
 
@@ -1031,17 +1057,7 @@ public class Window extends JFrame implements ItemListener{
 		this.getContentPane().setBackground(Color.black);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		panelScroll.setBackground(Color.black);
-		panelScroll.setLayout(new GridBagLayout());
-
-		scroller.getVerticalScrollBar().setUnitIncrement(16);
-		this.add(scroller);
-		cInitialize();
-		create();
-		menuBar = new MenuBar(path, this, categories);
-
-		this.setJMenuBar(menuBar);
-		this.setVisible(true);
+		create(month, day);
 	}
 
 	@Override

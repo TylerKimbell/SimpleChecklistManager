@@ -1,29 +1,23 @@
 .
-The Actual One
-[]
-Groceries
-[]
-No Dishes
+Appointments:
+[x]
+Stuff
 
 .
-Stuff
+Once:
+[x]
+Birbs
 []
-Fixed the Menu BVat
-[]
-Christmas
+Poop
 
 *
-Fixed the Menu BVat
+Dailies:
+[x]
+Stuff and things
 []
-No bug?
-[]
-Is there bug?
+Pee
 
 *
-I think I'm good now
+Weeklies:
 []
-I win
-[]
-Bugh bottom?
-[]
-Hello
+Whatsitsjkl;sldaf
