@@ -47,7 +47,7 @@ public class Window extends JFrame implements ItemListener{
 	MenuBar menuBar;
 	JMenu editMenu;
 	JMenu taskMenu;
-	JMenuItem once;
+	JMenuItem Tasks;
 	JMenuItem appointments;
 	JMenuItem dailies;
 	JMenuItem weeklies;
@@ -197,12 +197,12 @@ public class Window extends JFrame implements ItemListener{
 		MenuBar.taskTypes.add(taskAppt);
 		menuBar.taskMenu.add(taskAppt);
 
-		template.write(".\nOnce:" + "\n" + "\n");
-		categoryPanel("Once:", autoDelete);
-		JMenuItem taskOnce = new JMenuItem("Once:");
-		taskOnce.addActionListener(menuBar);
-		MenuBar.taskTypes.add(taskOnce);
-		menuBar.taskMenu.add(taskOnce);
+		template.write(".\nTasks:" + "\n" + "\n");
+		categoryPanel("Tasks:", autoDelete);
+		JMenuItem taskTasks = new JMenuItem("Tasks:");
+		taskTasks.addActionListener(menuBar);
+		MenuBar.taskTypes.add(taskTasks);
+		menuBar.taskMenu.add(taskTasks);
 
 		template.write("*\nDailies:" + "\n" + "\n");
 		categoryPanel("Dailies:", manualDelete);

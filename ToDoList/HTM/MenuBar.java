@@ -19,7 +19,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static List<JPanel> categories;
 
 	static JMenuItem newTaskManager;
-	static JMenuItem newDay;
+	static JMenuItem refresh;
 	
 	static JMenuItem autoDelete;
 	static JMenuItem manualDelete;
@@ -58,9 +58,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		newTaskManager.addActionListener(this);
 		fileMenu.add(newTaskManager);
 
-		newDay = new JMenuItem ("New Day");
-		newDay.addActionListener(this);
-		fileMenu.add(newDay);
+		refresh = new JMenuItem ("Refresh");
+		refresh.addActionListener(this);
+		fileMenu.add(refresh);
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
 		manualDelete = new JMenuItem ("Manual Delete Tasks");
@@ -90,7 +90,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == newDay) {
+		if(e.getSource() == refresh) {
 			try {
 				UI.create(month, day);
 			} catch (IOException e1) {

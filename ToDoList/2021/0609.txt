@@ -1,0 +1,12 @@
+.
+Appointments:
+
+.
+Tasks:
+
+*
+Dailies:
+
+*
+Weeklies:
+
