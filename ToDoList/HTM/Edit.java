@@ -38,7 +38,12 @@ public class Edit extends JFrame implements KeyListener{
 	}
 
 	public void editField(){
-		inputField = new JTextField();
+		String currentText = "";
+		if(currentCheckbox != null)
+			currentText = currentCheckbox.getText();
+		if(currentCategory != null)
+			currentText = currentCategory.getName();
+		inputField = new JTextField(currentText);
 		inputField.setPreferredSize(new Dimension(250, 40));
 		inputField.addKeyListener(this);
 	}
