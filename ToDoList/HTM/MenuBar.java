@@ -122,7 +122,12 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			}
 		}
 		if (e.getSource() == darkMode) {
-			UI.darkMode();
+			try {
+				UI.darkMode();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 

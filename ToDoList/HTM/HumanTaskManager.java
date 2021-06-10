@@ -7,9 +7,10 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Things to do:
+ * Change Style (Dark Mode Light Mode)
+ * 			Just need to add a save feature and a revert function. (Just an if else in which not darkmode reverts to default
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
  * 	Is there a way to iterate through the text and check for ','s? If so then just have to make add them into an array and iterate through the array to add m
- * Change Style (Dark Mode Light Mode)
  * Create ReadME for Github and make it Public
  * 		Or just take screenshots and put them on a website
  * 

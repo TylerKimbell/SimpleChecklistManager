@@ -75,6 +75,8 @@ public class Window extends JFrame implements ItemListener{
 		catPanel.setLayout(new GridLayout(0,1));
 		if(darkMode == true)
 			catPanel.setBackground(Color.black);
+		else
+			catPanel.setBackground(Color.white);
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
@@ -137,6 +139,10 @@ public class Window extends JFrame implements ItemListener{
 			selected.setBackground(Color.black);
 			selected.setForeground(Color.white);
 		}
+		else {
+			selected.setBackground(Color.white);
+			selected.setForeground(Color.black);
+		}
 		selected.setSelected(true);
 		selected.addItemListener(this);
 		selected.addMouseListener(new RightClickListener(this));
@@ -160,6 +166,10 @@ public class Window extends JFrame implements ItemListener{
 		if(darkMode == true) {
 			unSelected.setBackground(Color.black);
 			unSelected.setForeground(Color.white);
+		}
+		else {
+			unSelected.setBackground(Color.white);
+			unSelected.setForeground(Color.black);
 		}
 		unSelected.addItemListener(this);
 		unSelected.addMouseListener(new RightClickListener(this));
@@ -969,15 +979,18 @@ public class Window extends JFrame implements ItemListener{
 		this.getContentPane().removeAll();
 		
 		panelScroll.setLayout(new GridBagLayout());
+		panelScroll.setBackground(Color.white);
 
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
 		cInitialize();	
 		this.setVisible(false);
 		this.add(scroller);
 		this.setTitle("Human Task Manager " + month + "/" + day);
+
 		String tempPath = "temp.txt";
 		FileWriter tempWrite = new FileWriter(tempPath);
 		File template = new File("template.txt");
+
 		if(!template.exists()) {
 			writeTemplate();
 		}
@@ -991,6 +1004,8 @@ public class Window extends JFrame implements ItemListener{
 		//Create and Display New File
 		while (reader.hasNextLine()){
 			line = reader.nextLine();
+			if(line.equals("[Dark Mode]"))
+				darkMode = true; 
 			if(line.equals(".") || line.equals("*")){ 
 				autoDelete = line; 
 				if(line.equals("."))
@@ -1049,35 +1064,88 @@ public class Window extends JFrame implements ItemListener{
 		File tempFile = new File (tempPath);
 		tempFile.delete();
 		menuBar = new MenuBar(path, this, categories, month, day);
-
+		darkMode();
 		this.setJMenuBar(menuBar);
 		this.revalidate();
 		this.repaint();
 		this.setVisible(true);
 	}
 	
-	public void darkMode() {
-		darkMode = true; 
-		panelScroll.setBackground(Color.black);
-		this.getContentPane().setBackground(Color.black);	
+	public void darkMode() throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+
+		if(reader.hasNext() && darkMode == true) {
+			line = reader.nextLine();
+			if(!line.equals("[Dark Mode]")) {
+				rewrite.write("[Dark Mode]\n");
+				rewrite.write(line + "\n");
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		else if(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals("[Dark Mode]")) {
+				if(reader.hasNext()) {
+					line = reader.nextLine();
+					rewrite.write(line + "\n");
+				}
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			rewrite.write(line + "\n");
+		}
+		
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
+		Color style; 
+		Color style2;
+		if(darkMode == true) {
+			style = Color.black;
+			style2 = Color.white;
+		}
+		else {
+			style = Color.white;
+			style2 = Color.black;
+		}
+		
+		panelScroll.setBackground(style);
+		this.getContentPane().setBackground(style);	
 		for(JPanel catPanel : categories) {
 			Component label = catPanel.getComponent(0);
-			catPanel.setBackground(Color.black);
+			catPanel.setBackground(style);
 			if (label instanceof JLabel)
-				label.setForeground(Color.white);
+				label.setForeground(style2);
 		}
 		for(JCheckBox selected: selecteds) {
-			selected.setBackground(Color.black);
-			selected.setForeground(Color.white);
+			selected.setBackground(style);
+			selected.setForeground(style2);
 		}
 		for(JCheckBox unSelected: unSelecteds) {
-			unSelected.setBackground(Color.black);
-			unSelected.setForeground(Color.white);
+			unSelected.setBackground(style);
+			unSelected.setForeground(style2);
 		}
 		panelScroll.revalidate();
 		panelScroll.repaint();
 		this.revalidate();
 		this.repaint();
+
+		if(darkMode == true)
+			darkMode = false;
+		else 
+			darkMode = true;
 	}
 
 	Window(String todayPath, String month, String day) throws IOException{
@@ -1086,6 +1154,7 @@ public class Window extends JFrame implements ItemListener{
 		this.setTitle("Human Task Manager " + month + "/" + day);
 		this.setSize(600, 900);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setBackground(Color.white);	
 
 		create(month, day);
 	}

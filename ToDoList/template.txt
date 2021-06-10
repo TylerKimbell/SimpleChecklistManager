@@ -1,7 +1,10 @@
+[Dark Mode]
 .
 Appointments:
 []
 Iunno
+[]
+Dark Mode Yey
 
 .
 Tasks:
@@ -9,6 +12,8 @@ Tasks:
 Stuff
 []
 Hello
+[]
+Poopy Doopy
 
 *
 Dailies:
@@ -20,4 +25,10 @@ Poop Skadoop
 *
 Weeklies:
 []
+Things
+
+.
+Stuff
+
+*
 Things

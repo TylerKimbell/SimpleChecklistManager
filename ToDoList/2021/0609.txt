@@ -1,12 +1,34 @@
+[Dark Mode]
 .
 Appointments:
+[]
+Iunno
+[]
+Dark Mode Yey
 
 .
 Tasks:
+[]
+Stuff
+[]
+Hello
+[]
+Poopy Doopy
 
 *
 Dailies:
+[]
+Weird Cult Shit
+[]
+Poop Skadoop
 
 *
 Weeklies:
+[]
+Things
 
+.
+Stuff
+
+*
+Things
