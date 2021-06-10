@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	static JMenuItem newTaskManager;
 	static JMenuItem refresh;
+	static JMenuItem exit;
 	
 	static JMenuItem autoDelete;
 	static JMenuItem manualDelete;
@@ -65,8 +67,11 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		newTaskManager.addActionListener(this);
 		refresh = new JMenuItem ("Refresh");
 		refresh.addActionListener(this);
+		exit = new JMenuItem("Exit");
+		exit.addActionListener(this);
 		fileMenu.add(newTaskManager);
 		fileMenu.add(refresh);
+		fileMenu.add(exit);
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
 		manualDelete = new JMenuItem ("Manual Delete Tasks");
@@ -101,6 +106,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == newTaskManager) {
+			areYouSureCheck sure = new areYouSureCheck(UI, style);
+		}
 		if(e.getSource() == refresh) {
 			try {
 				UI.create();
@@ -109,8 +117,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		if(e.getSource() == newTaskManager) {
-			areYouSureCheck sure = new areYouSureCheck(UI, style);
+		if(e.getSource() == exit) {
+			UI.dispatchEvent(new WindowEvent(UI, WindowEvent.WINDOW_CLOSING));
 		}
 		if (e.getSource() == autoDelete) {
 			newCat = new AddCategory(path, UI, categories, true, this, style);
