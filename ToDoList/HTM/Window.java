@@ -59,6 +59,8 @@ public class Window extends JFrame implements ItemListener{
 	
 	int gridRow = 0; 
 	
+	boolean darkMode = false;
+	
 	public void cInitialize() {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = gridRow;
@@ -70,8 +72,9 @@ public class Window extends JFrame implements ItemListener{
 	public void categoryPanel(String category, String autoDelete) {
 		JPanel catPanel = new JPanel();
 		JPanel previous;
-		catPanel.setBackground(Color.black);
 		catPanel.setLayout(new GridLayout(0,1));
+		if(darkMode == true)
+			catPanel.setBackground(Color.black);
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
@@ -130,8 +133,10 @@ public class Window extends JFrame implements ItemListener{
 		selected = new JCheckBox();
 		selected.setText(text);
 		selected.setFocusable(false);
-		selected.setBackground(Color.black);
-		selected.setForeground(Color.white);
+		if(darkMode == true) {
+			selected.setBackground(Color.black);
+			selected.setForeground(Color.white);
+		}
 		selected.setSelected(true);
 		selected.addItemListener(this);
 		selected.addMouseListener(new RightClickListener(this));
@@ -152,8 +157,10 @@ public class Window extends JFrame implements ItemListener{
 		unSelected = new JCheckBox();
 		unSelected.setText(text);
 		unSelected.setFocusable(false);
-		unSelected.setBackground(Color.black);
-		unSelected.setForeground(Color.white);
+		if(darkMode == true) {
+			unSelected.setBackground(Color.black);
+			unSelected.setForeground(Color.white);
+		}
 		unSelected.addItemListener(this);
 		unSelected.addMouseListener(new RightClickListener(this));
 		unSelecteds.add(unSelected);
@@ -169,7 +176,8 @@ public class Window extends JFrame implements ItemListener{
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
 		textDisplay.setText("<HTML><U>" + text + "</U></HTML>");
-		textDisplay.setForeground(Color.white);
+		if(darkMode == true)
+			textDisplay.setForeground(Color.white);
 		for (JPanel cat : categories) {
 			if(cat.getName().equals(category) && !text.equals("")) {
 				cat.add(textDisplay);
@@ -960,7 +968,6 @@ public class Window extends JFrame implements ItemListener{
 		savedCategory= new ArrayList<String>();	
 		this.getContentPane().removeAll();
 		
-		panelScroll.setBackground(Color.black);
 		panelScroll.setLayout(new GridBagLayout());
 
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
@@ -1049,12 +1056,35 @@ public class Window extends JFrame implements ItemListener{
 		this.setVisible(true);
 	}
 	
+	public void darkMode() {
+		darkMode = true; 
+		panelScroll.setBackground(Color.black);
+		this.getContentPane().setBackground(Color.black);	
+		for(JPanel catPanel : categories) {
+			Component label = catPanel.getComponent(0);
+			catPanel.setBackground(Color.black);
+			if (label instanceof JLabel)
+				label.setForeground(Color.white);
+		}
+		for(JCheckBox selected: selecteds) {
+			selected.setBackground(Color.black);
+			selected.setForeground(Color.white);
+		}
+		for(JCheckBox unSelected: unSelecteds) {
+			unSelected.setBackground(Color.black);
+			unSelected.setForeground(Color.white);
+		}
+		panelScroll.revalidate();
+		panelScroll.repaint();
+		this.revalidate();
+		this.repaint();
+	}
+
 	Window(String todayPath, String month, String day) throws IOException{
 		path = todayPath;
 
 		this.setTitle("Human Task Manager " + month + "/" + day);
 		this.setSize(600, 900);
-		this.getContentPane().setBackground(Color.black);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		create(month, day);

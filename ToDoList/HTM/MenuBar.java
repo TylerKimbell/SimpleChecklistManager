@@ -24,6 +24,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static JMenuItem autoDelete;
 	static JMenuItem manualDelete;
 
+	static JMenuItem darkMode;
+
 	static AddTask newTask;
 	static AddCategory newCat;
 	
@@ -52,14 +54,14 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		
 		JMenu fileMenu = new JMenu("File");
 		JMenu editMenu = new JMenu("Edit");
+		JMenu toolsMenu = new JMenu("Tools");
 		JMenu categoryMenu = new JMenu("Add Category");
 
 		newTaskManager = new JMenuItem ("New Task Manager");
 		newTaskManager.addActionListener(this);
-		fileMenu.add(newTaskManager);
-
 		refresh = new JMenuItem ("Refresh");
 		refresh.addActionListener(this);
+		fileMenu.add(newTaskManager);
 		fileMenu.add(refresh);
 
 		autoDelete = new JMenuItem ("Auto Delete Tasks");
@@ -72,6 +74,10 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		taskMenu = new JMenu("Add Task");
 		taskMenu.addActionListener(this);
 
+		darkMode = new JMenuItem("Dark Mode");
+		darkMode.addActionListener(this);
+		toolsMenu.add(darkMode);
+
 		fileMenu.addActionListener(this);
 		categoryMenu.addActionListener(this);
 
@@ -79,6 +85,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		editMenu.add(categoryMenu);
 		this.add(fileMenu);
 		this.add(editMenu);
+		this.add(toolsMenu);
 		for(JPanel cat : categories) {
 			JMenuItem taskType = new JMenuItem(cat.getName());
 			taskType.addActionListener(this);
@@ -108,12 +115,15 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			newCat = new AddCategory(path, UI, categories, false, this);
 		}
 
-		for(JMenuItem taskType : taskTypes) {
+		for(JMenuItem taskType : taskTypes) 
+		{
 			if(e.getSource() == taskType) {
 				newTask = new AddTask(path, UI, taskType.getText());
 			}
 		}
-		
+		if (e.getSource() == darkMode) {
+			UI.darkMode();
+		}
 	}
 
 }

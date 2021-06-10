@@ -1,23 +1,23 @@
 .
 Appointments:
-[x]
-Stuff
+[]
+Iunno
 
 .
-Once:
-[x]
-Birbs
+Tasks:
 []
-Poop
+Stuff
+[]
+Hello
 
 *
 Dailies:
-[x]
-Stuff and things
 []
-Pee
+Weird Cult Shit
+[]
+Poop Skadoop
 
 *
 Weeklies:
 []
-Whatsitsjkl;sldaf
+Things

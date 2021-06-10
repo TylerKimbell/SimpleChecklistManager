@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
- * Human Quest Tracker? 
- * RL Quest Tracker?
+ * 
  * Things to do:
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
  * 	Is there a way to iterate through the text and check for ','s? If so then just have to make add them into an array and iterate through the array to add m
