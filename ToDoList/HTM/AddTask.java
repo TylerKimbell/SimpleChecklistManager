@@ -28,6 +28,7 @@ public class AddTask extends JFrame implements KeyListener{
 	String input; 
 	
 	static boolean duplicate;
+	boolean style = false;
 
 	public String getInput(){
 		return input;
@@ -39,15 +40,19 @@ public class AddTask extends JFrame implements KeyListener{
 		task.addKeyListener(this);
 	}
 	
-	AddTask(String todayPath, Window UI, String category){
+	AddTask(String todayPath, Window UI, String category, boolean mode){
 		path = todayPath;
 		taskCategory = category;
 		frame = UI;
+		style =  mode;
 
 		this.setTitle(category);
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		this.getContentPane().setBackground(Color.black);	
+		if(style == true)
+			this.getContentPane().setBackground(Color.black);	
+		else
+			this.getContentPane().setBackground(Color.white);	
 		
 		addOnce();
 		this.add(task);

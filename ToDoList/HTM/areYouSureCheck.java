@@ -10,34 +10,51 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class areYouSureCheck extends JFrame implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JLabel question = new JLabel();
 	JButton yes = new JButton();
 	JButton no = new JButton();
 	
 	Window UI;
+	boolean style = false;
 
-	areYouSureCheck(Window frame){
+	areYouSureCheck(Window frame, boolean mode){
+		Color style1;
+		Color style2;
+
+		style = mode;
 		UI = frame;
 		this.setTitle("Are You Sure?");
 		this.setLayout(new FlowLayout());
 		this.setResizable(false);
 		this.setSize(350, 100);
-		this.getContentPane().setBackground(Color.black);	
+		if(style == true) {
+			style1 = Color.black;
+			style2 = Color.white;
+		}
+		else {
+			style1 = Color.white;
+			style2 = Color.black;
+		}
 		
+		this.getContentPane().setBackground(style1);	
 		//set buttons. add action listener?selected.setText(text)JLabel textDisplay= new JLabel();
 		question.setText("Are You Sure? (This Will Overwrite You Current Tasks)");
-		question.setForeground(Color.white);;
+		question.setForeground(style2);;
 
 		yes.setText("Yes");
 		yes.setFocusable(false);
-		yes.setBackground(Color.black);
-		yes.setForeground(Color.white); 
+		yes.setBackground(style1);
+		yes.setForeground(style2); 
 		yes.addActionListener(this);
 
 		no.setText("No");
 		no.setFocusable(false);
-		no.setBackground(Color.black);
-		no.setForeground(Color.white); 
+		no.setBackground(style1);
+		no.setForeground(style2); 
 		no.addActionListener(this);
 
 		this.add(question);

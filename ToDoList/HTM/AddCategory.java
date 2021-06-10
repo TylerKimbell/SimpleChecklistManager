@@ -34,6 +34,7 @@ public class AddCategory extends JFrame implements KeyListener{
 	static boolean autoDelete = false; //AutoDelete 
 	
 	static boolean duplicate = false;
+	boolean style = false; 
 	
 	List<JPanel> categories = new ArrayList<JPanel>();
 
@@ -47,17 +48,21 @@ public class AddCategory extends JFrame implements KeyListener{
 		cat.addKeyListener(this);
 	}
 	
-	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDel, MenuBar men){
+	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDel, MenuBar men, boolean mode){
 		path = todayPath;
 		autoDelete = autoDel;
 		menu = men;
 		frame = UI;
 		categories = cats;
+		style = mode;
 
 		this.setTitle("New Category");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		this.getContentPane().setBackground(Color.black);	
+		if(style == true)
+			this.getContentPane().setBackground(Color.black);	
+		else
+			this.getContentPane().setBackground(Color.white);	
 		
 		addCat();
 		this.add(cat);

@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Things to do:
- * Edit should have the text of the thing you are editing. 
  * Dark Mode should change the color of the pop ups as well. 
  * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
  * 	Is there a way to iterate through the text and check for ','s? If so then just have to make add them into an array and iterate through the array to add m

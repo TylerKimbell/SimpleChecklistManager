@@ -32,6 +32,7 @@ public class Edit extends JFrame implements KeyListener{
 	String updatedText;
 	
 	static boolean duplicate;
+	boolean style = false;
 
 	public String getInput(){
 		return input;
@@ -48,16 +49,20 @@ public class Edit extends JFrame implements KeyListener{
 		inputField.addKeyListener(this);
 	}
 	
-	Edit(String todayPath, Window UI, JPanel category, JCheckBox checkbox){
+	Edit(String todayPath, Window UI, JPanel category, JCheckBox checkbox, boolean mode){
 		path = todayPath;
 		frame = UI;
 		currentCategory = category; 
 		currentCheckbox = checkbox; 
+		style = mode;
 
 		this.setTitle("Edit");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		this.getContentPane().setBackground(Color.black);	
+		if (style == true)
+			this.getContentPane().setBackground(Color.black);	
+		else
+			this.getContentPane().setBackground(Color.white);	
 		
 		editField();
 		this.add(inputField);

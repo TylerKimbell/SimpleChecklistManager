@@ -31,6 +31,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	
 	String month;
 	String day;
+	
+	//true = dark false = light 
+	boolean style = false;
 
 	public void deleteTaskType(String deletedCategory) {
 		JMenuItem delete = null;
@@ -45,9 +48,10 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		taskMenu.repaint();
 	}
 	
-	MenuBar(String todayPath, Window frame, List<JPanel> cats, String mon, String date){
+	MenuBar(String todayPath, Window frame, List<JPanel> cats, String mon, String date, boolean mode){
 		month = mon;
 		day = date; 
+		style = mode;
 		path = todayPath;
 		UI = frame;
 		categories = cats;
@@ -99,31 +103,31 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == refresh) {
 			try {
-				UI.create(month, day);
+				UI.create();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		if(e.getSource() == newTaskManager) {
-			areYouSureCheck sure = new areYouSureCheck(UI);
+			areYouSureCheck sure = new areYouSureCheck(UI, style);
 		}
 		if (e.getSource() == autoDelete) {
-			newCat = new AddCategory(path, UI, categories, true, this);
+			newCat = new AddCategory(path, UI, categories, true, this, style);
 		}
 		if (e.getSource() == manualDelete) {
-			newCat = new AddCategory(path, UI, categories, false, this);
+			newCat = new AddCategory(path, UI, categories, false, this, style);
 		}
 
 		for(JMenuItem taskType : taskTypes) 
 		{
 			if(e.getSource() == taskType) {
-				newTask = new AddTask(path, UI, taskType.getText());
+				newTask = new AddTask(path, UI, taskType.getText(), style);
 			}
 		}
 		if (e.getSource() == darkMode) {
 			try {
-				UI.darkMode();
+				UI.styleToggle();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

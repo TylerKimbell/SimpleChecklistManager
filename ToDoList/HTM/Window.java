@@ -27,6 +27,8 @@ import javax.swing.JScrollPane;
 public class Window extends JFrame implements ItemListener{
 	private static final long serialVersionUID = 1L;
 	static String path = ""; 
+	String month; 
+	String day;
 	JCheckBox currentCheckbox;
 	JPanel currentCategory; 
 
@@ -927,7 +929,10 @@ public class Window extends JFrame implements ItemListener{
 
 			JLabel textDisplay= new JLabel();
 			textDisplay.setText("<HTML><U>" + updatedText + "</U></HTML>");
-			textDisplay.setForeground(Color.white);
+			if (darkMode == true)
+				textDisplay.setForeground(Color.white);
+			else
+				textDisplay.setForeground(Color.black);
 			currentCategory.add(textDisplay);
 			for(JCheckBox readd : saved)
 				currentCategory.add(readd);
@@ -962,10 +967,10 @@ public class Window extends JFrame implements ItemListener{
 	}
 
 	public void createEdit() {
-		changeText = new Edit(path, this, currentCategory, currentCheckbox);
+		changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
 	}
 
-	public void create(String month, String day) throws IOException {
+	public void create() throws IOException {
 		panelScroll = new JPanel();
 		scroller = new JScrollPane(panelScroll);
 		selecteds = new ArrayList<>();
@@ -1063,19 +1068,28 @@ public class Window extends JFrame implements ItemListener{
 		Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
 		File tempFile = new File (tempPath);
 		tempFile.delete();
-		menuBar = new MenuBar(path, this, categories, month, day);
-		darkMode();
-		this.setJMenuBar(menuBar);
+		styleInit();
 		this.revalidate();
 		this.repaint();
 		this.setVisible(true);
 	}
 	
-	public void darkMode() throws IOException {
+	public void styleToggle() throws IOException {
+		if(darkMode == true)
+			darkMode = false;
+		else 
+			darkMode = true;
+		styleInit();
+	}
+	
+	public void styleInit() throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
+
+		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		this.setJMenuBar(menuBar);
 
 		if(reader.hasNext() && darkMode == true) {
 			line = reader.nextLine();
@@ -1142,13 +1156,11 @@ public class Window extends JFrame implements ItemListener{
 		this.revalidate();
 		this.repaint();
 
-		if(darkMode == true)
-			darkMode = false;
-		else 
-			darkMode = true;
 	}
 
-	Window(String todayPath, String month, String day) throws IOException{
+	Window(String todayPath, String mon, String da) throws IOException{
+		month = mon; 
+		day = da; 
 		path = todayPath;
 
 		this.setTitle("Human Task Manager " + month + "/" + day);
@@ -1156,7 +1168,7 @@ public class Window extends JFrame implements ItemListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setBackground(Color.white);	
 
-		create(month, day);
+		create();
 	}
 
 	@Override
