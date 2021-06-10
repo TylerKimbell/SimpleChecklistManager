@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.List;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -11,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -26,6 +28,7 @@ public class AddTask extends JFrame implements KeyListener{
 	Window frame;
 	JButton enter; 
 	String input; 
+	ArrayList<String> multipleTasks = new ArrayList<String>();
 	
 	static boolean duplicate;
 	boolean style = false;
@@ -113,14 +116,36 @@ public class AddTask extends JFrame implements KeyListener{
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			input = task.getText();
+			String newTask = "";
+			boolean comma = false;
+			for(int i = 0; i < input.length(); i++) {
+				char c = input.charAt(i);
+				if (c == ' ' && comma == true){
+					comma = false;
+				}
+				else if (c != ','){
+					newTask += c; 
+				}
+				else {
+					multipleTasks.add(newTask);
+					newTask = "";
+					comma = true; 
+				}
+			}
+			multipleTasks.add(newTask);
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			try {
-				addTask(input);
+				for(int i = 0; i < multipleTasks.size(); i++) {
+					addTask(multipleTasks.get(i));
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			if(duplicate == false)
-				frame.displayUnselectedCheck(input, taskCategory);
+			if(duplicate == false) {
+				for(int i = 0; i < multipleTasks.size(); i++) {
+					frame.displayUnselectedCheck(multipleTasks.get(i), taskCategory);
+				}
+			}
 		}
 	}
 

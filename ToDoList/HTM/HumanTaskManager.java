@@ -7,12 +7,7 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Things to do:
- * Dark Mode should change the color of the pop ups as well. 
- * Adding More Than One Task At A Time. Perhaps if you separate by a , it will separate each one.
- * 	Is there a way to iterate through the text and check for ','s? If so then just have to make add them into an array and iterate through the array to add m
  * Create ReadME
- * Start KickStarter mobile version and future updates
- * 	if KS doesn't work out I'll put it on a website so people can look at and play with it. By people, I mean employers. 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to restart it. 

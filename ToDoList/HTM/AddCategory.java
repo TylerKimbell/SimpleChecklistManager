@@ -37,6 +37,7 @@ public class AddCategory extends JFrame implements KeyListener{
 	boolean style = false; 
 	
 	List<JPanel> categories = new ArrayList<JPanel>();
+	ArrayList<String> multipleCats = new ArrayList<String>();
 
 	public String getInput(){
 		return input;
@@ -110,7 +111,26 @@ public class AddCategory extends JFrame implements KeyListener{
 			String autoDel = ".";
 			if(autoDelete != true)
 				autoDel = "*";
+
 			input = cat.getText();
+			String newCat = "";
+			boolean comma = false;
+			for(int i = 0; i < input.length(); i++) {
+				char c = input.charAt(i);
+				if (c == ' ' && comma == true){
+					comma = false;
+				}
+				else if (c != ','){
+					newCat += c; 
+				}
+				else {
+					multipleCats.add(newCat);
+					newCat = "";
+					comma = true; 
+				}
+			}
+			multipleCats.add(newCat);
+
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			for(JPanel category : categories) {
 				if(input.equals(category.getName())) {
@@ -119,17 +139,20 @@ public class AddCategory extends JFrame implements KeyListener{
 			}
 			if(duplicate == false) {
 				try {
-					addNewCat(input, autoDelete);
+					for(int i = 0; i < multipleCats.size(); i ++)
+						addNewCat(multipleCats.get(i), autoDelete);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				frame.categoryPanel(input, autoDel);
-				JMenuItem taskType = new JMenuItem(cat.getText());
-				taskType.addActionListener(menu);
-				menu.taskTypes.add(taskType);
-				menu.taskMenu.add(taskType);
-				menu.taskMenu.revalidate();
-				menu.taskMenu.repaint();
+				for(int i = 0; i < multipleCats.size(); i ++) {
+					frame.categoryPanel(multipleCats.get(i), autoDel);
+					JMenuItem taskType = new JMenuItem(multipleCats.get(i));
+					taskType.addActionListener(menu);
+					menu.taskTypes.add(taskType);
+					menu.taskMenu.add(taskType);
+					menu.taskMenu.revalidate();
+					menu.taskMenu.repaint();
+				}
 			}
 		}
 		duplicate = false; 

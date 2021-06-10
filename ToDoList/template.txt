@@ -1,57 +1,59 @@
 .
 Appointments:
 []
-Iunno
-[x]
-Dark Mode Yey
-[x]
-Stuff
+Poop
+[]
+Pee
+[]
+Eat
+[]
+Sleep
+[]
+Far
+[]
+Stuff and Things
 
 .
 Tasks:
 []
-Slwa
+Did
 []
-Poopy Doopy
+I
 []
-Hello
+Figure it all
 []
-things
+Out
 []
-Things
+Now???
 
 *
-Dailie?
-[]
-Weird Cult
-[]
-Poop Skadoop
+Dailies:
 
 *
-Beekl
-[]
-Things
-[x]
-Stuff
+Weeklies:
 
 .
-Slwa
-[]
-things
+Tasks, Task, Pooopjklsj, Thje long Task Test
 
 *
-Things
-
-.
-PoIdk
-
-.
-Oops
-[x]
-Stuff
-
-.
-What
+Man, I actually am, Pretty Sad about Coco, That Sucks
 
 *
-Lol I Tried to a
+Is it done
+[]
+Am I actually done with the program???
+[]
+Ummmm.... 
+
+*
+Now that I
+[]
+DJKLS:FJKDSL:F
+[]
+lkdsjafdklsa;
+
+*
+Fixed it maybe
+
+*
+poodksajlfdjskl
