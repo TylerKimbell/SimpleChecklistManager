@@ -1,30 +1,10 @@
 .
 Appointments:
 []
-Poop
-[]
-Pee
-[]
-Eat
-[]
-Sleep
-[]
-Far
-[]
-Stuff and Things
+Secret Stuff
 
 .
 Tasks:
-[]
-Did
-[]
-I
-[]
-Figure it all
-[]
-Out
-[]
-Now???
 
 *
 Dailies:
@@ -33,27 +13,30 @@ Dailies:
 Weeklies:
 
 .
-Tasks, Task, Pooopjklsj, Thje long Task Test
+What's Going On
+
+.
+Popopopopop
 
 *
-Man, I actually am, Pretty Sad about Coco, That Sucks
+I don't
 
 *
-Is it done
+Know
+
+*
+But
+
+*
+I love
 []
-Am I actually done with the program???
+There's
 []
-Ummmm.... 
+asdkfjlsjdfkls
+[]
+a;sslelelfkjwslkjfae
+[]
+ls;adkfl
 
 *
-Now that I
-[]
-DJKLS:FJKDSL:F
-[]
-lkdsjafdklsa;
-
-*
-Fixed it maybe
-
-*
-poodksajlfdjskl
+stuff

@@ -39,6 +39,7 @@ public class AddTask extends JFrame implements KeyListener{
 
 	public void addOnce(){
 		task = new JTextField();
+		task.setToolTipText("Use commas to separate different tasks.");
 		task.setPreferredSize(new Dimension(250, 40));
 		task.addKeyListener(this);
 	}

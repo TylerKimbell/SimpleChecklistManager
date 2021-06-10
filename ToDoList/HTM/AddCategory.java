@@ -45,6 +45,7 @@ public class AddCategory extends JFrame implements KeyListener{
 
 	public void addCat(){
 		cat = new JTextField();
+		cat.setToolTipText("Use commas for multiple categories.");
 		cat.setPreferredSize(new Dimension(250, 40));
 		cat.addKeyListener(this);
 	}

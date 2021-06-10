@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
  * 
  * Things to do:
  * Create ReadME
+ * Should I give Hint Text For Commas? (I looked into it a bit, but it seems complicated as hell.)
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to restart it. 

@@ -1,57 +1,42 @@
 .
 Appointments:
 []
-Iunno
-[x]
-Dark Mode Yey
-[x]
-Stuff
+Secret Stuff
 
 .
 Tasks:
-[]
-Slwa
-[]
-Poopy Doopy
-[]
-Hello
-[]
-things
-[]
-Things
 
 *
-Dailie?
-[]
-Weird Cult
-[]
-Poop Skadoop
+Dailies:
 
 *
-Beekl
-[]
-Things
-[x]
-Stuff
+Weeklies:
 
 .
-Slwa
-[]
-things
+What's Going On
+
+.
+Popopopopop
 
 *
-Things
-
-.
-PoIdk
-
-.
-Oops
-[x]
-Stuff
-
-.
-What
+I don't
 
 *
-Lol I Tried to a
+Know
+
+*
+But
+
+*
+I love
+[]
+There's
+[]
+asdkfjlsjdfkls
+[]
+a;sslelelfkjwslkjfae
+[]
+ls;adkfl
+
+*
+stuff
