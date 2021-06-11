@@ -4,7 +4,7 @@ term goals. The customizability means that if you think of a use for it outside 
 
 ## Features
 - Create/Edit/Delete/Move Categories
-  - Use the edit menu to create tasks.
+  - Use the edit menu to create categories.
   - Categories have 2 types
     - Once
       - The tasks added to this category will be deleted the next day if they are checked. 
