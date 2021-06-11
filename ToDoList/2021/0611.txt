@@ -3,7 +3,13 @@ Appointments:
 []
 Secret Stuff
 [x]
-Leave This Open To Check The Refresh Button
+Need To Test Refresh Function
+[]
+Does
+[]
+Everything
+[]
+Still Work?
 
 .
 Tasks:
