@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * Things to do:
  * 
  * Things to do in the far future: 
- * Periodic checks for if the date has changed so it updates automatically rather than having to restart it. 
+ * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 
  * Stats
  * Port to Mobile 
  * Last Thing To Do? Addons so users can create what they want such as stats options. 
