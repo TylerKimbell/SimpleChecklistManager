@@ -4,6 +4,7 @@ term goals. The customizability means that if you think of a use for it outside 
 
 ## Features
 - Create/Edit/Delete/Move Categories
+  - Use the edit menu to create tasks.
   - Categories have 2 types
     - Once
       - The tasks added to this category will be deleted the next day if they are checked. 
@@ -11,6 +12,7 @@ term goals. The customizability means that if you think of a use for it outside 
       - The tasks added to this category won't be deleted regardless if checked or not. 
   - You can create multiple categories by separating categories with commas.
 - Create/Edit/Delete/Move Tasks
+  - Use the edit menu to create tasks.
   - As mentioned above tasks will behave relative to the category they are placed in. Once tasks will be deleted the next day automatically when checked. 
   - You can create multiple tasks within one category by separating tasks with commas.
 - Right Click Menu
