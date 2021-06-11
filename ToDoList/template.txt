@@ -2,6 +2,14 @@
 Appointments:
 []
 Secret Stuff
+[x]
+Need To Test Refresh Function
+[]
+Does
+[]
+Everything
+[]
+Still Work?
 
 .
 Tasks:

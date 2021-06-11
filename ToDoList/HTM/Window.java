@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -1158,10 +1160,32 @@ public class Window extends JFrame implements ItemListener{
 
 	}
 
-	Window(String todayPath, String mon, String da) throws IOException{
-		month = mon; 
-		day = da; 
-		path = todayPath;
+	public void updateDate(){
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd");
+		DateTimeFormatter monthFormat= DateTimeFormatter.ofPattern("MM");
+		DateTimeFormatter yearFormat = DateTimeFormatter.ofPattern("yyyy");
+		LocalDateTime now = LocalDateTime.now();  
+		String d = dateFormat.format(now);
+		String m = monthFormat.format(now);
+		String y = yearFormat.format(now);
+		int intM = Integer.parseInt(m); 
+
+		String sMonth = String.format("%02d", intM);
+
+		String newPath = y + "/" + sMonth + d + ".txt";
+		
+		File currentYear = new File(y);
+		month = sMonth;
+		day = d;
+		path = newPath;	
+		this.setTitle("Human Task Manager " + month + "/" + day);
+
+		if(currentYear.mkdir()) {
+			//New Year
+		}
+	}
+	Window() throws IOException{
+		updateDate();
 
 		this.setTitle("Human Task Manager " + month + "/" + day);
 		this.setSize(600, 900);
