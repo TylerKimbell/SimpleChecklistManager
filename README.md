@@ -1,5 +1,5 @@
 # HumanTaskManager
-Human Task Manager is a minimal, yet highly customizable, task manager. Human Task Manager is designed to be a tool that you can use for simple to do lists, habits, and/or long 
+Human Task Manager is a minimal, yet highly customizable, task manager. HTM is designed to be a tool that you can use for simple to do lists, habits, and/or long 
 term goals. The customizability means that if you think of a use for it outside of task management you can use it for that as well. 
 
 ## Features
