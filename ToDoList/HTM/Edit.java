@@ -126,7 +126,7 @@ public class Edit extends JFrame implements KeyListener{
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			try {
 				rewriteEdit(input);
-				frame.displayEdit(updatedText, input);
+				frame.displayEdit(updatedText, input, currentCategory, currentCheckbox);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

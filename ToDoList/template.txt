@@ -1,18 +1,16 @@
 .
-Appointments:
+Appointmen
 []
 Secret Stuff
-[x]
-Need To Test Refresh Function
 []
 Does
 []
-Everything
+Everyth
 []
 Still Work?
 
 .
-Tasks:
+Tasks
 
 *
 Dailies:
@@ -38,9 +36,9 @@ But
 *
 I love
 []
-There's
+Ther
 []
-asdkfjlsjdfkls
+asdkf
 []
 a;sslelelfkjwslkjfae
 []

@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Things to do:
+ * Bug in which editting tasks doesn't work? 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 

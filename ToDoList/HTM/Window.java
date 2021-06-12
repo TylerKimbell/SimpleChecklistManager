@@ -914,7 +914,9 @@ public class Window extends JFrame implements ItemListener{
 		}
 	}
 
-	public void displayEdit(String updatedElement, String updatedText) {
+	public void displayEdit(String updatedElement, String updatedText, JPanel category, JCheckBox checkbox) {
+		currentCategory = category;
+		currentCheckbox = checkbox;
 		if(currentCategory != null) {
 			Component[] iterator = currentCategory.getComponents(); 
 			List<JCheckBox> saved = new ArrayList<JCheckBox>();
@@ -953,15 +955,14 @@ public class Window extends JFrame implements ItemListener{
 				menuBar.taskMenu.revalidate();
 				menuBar.taskMenu.repaint();
 			}
-
 			currentCategory = null; 
-
 		}
 		else{
 			updatedElement = currentCheckbox.getText();
 			currentCheckbox.setText(updatedText);
 			currentCheckbox = null; 
 		}
+
 		panelScroll.revalidate();
 		panelScroll.repaint();
 		this.revalidate();
@@ -970,6 +971,8 @@ public class Window extends JFrame implements ItemListener{
 
 	public void createEdit() {
 		changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
+		currentCategory = null; 
+		currentCheckbox = null; 
 	}
 
 	public void create() throws IOException {
