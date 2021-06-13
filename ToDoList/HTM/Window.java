@@ -189,7 +189,7 @@ public class Window extends JFrame implements ItemListener{
 
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
-		textDisplay.setText("<HTML><U>" + text + "</U></HTML>");
+		textDisplay.setText("<HTML><U><span style='font-size:12px'>" + text + "</span></U></HTML>");
 		if(darkMode == true)
 			textDisplay.setForeground(Color.white);
 		for (JPanel cat : categories) {

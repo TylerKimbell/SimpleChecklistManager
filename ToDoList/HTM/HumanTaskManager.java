@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Things to do:
- * After refresh and add category add task is bugged? 
+ * Ability to change task type. 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 
