@@ -997,84 +997,87 @@ public class Window extends JFrame implements ItemListener{
 		cInitialize();	
 		this.setVisible(false);
 		this.add(scroller);
-		this.setTitle("Human Task Manager " + month + "/" + day);
+		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		this.setJMenuBar(menuBar);
 
-		String tempPath = "temp.txt";
-		FileWriter tempWrite = new FileWriter(tempPath);
 		File template = new File("template.txt");
 
 		if(!template.exists()) {
 			writeTemplate();
 		}
-		Scanner reader = new Scanner(new File("template.txt"));
-		String line;
-		String category = "none";
-		String autoDelete = ".";
-		Boolean delete = false; 
-		File todayFile = new File(path);
+		else {
+			String tempPath = "temp.txt";
+			FileWriter tempWrite = new FileWriter(tempPath);
+			Scanner reader = new Scanner(new File("template.txt"));
+			String line;
+			String category = "none";
+			String autoDelete = ".";
+			Boolean delete = false; 
+			File todayFile = new File(path);
 		
-		//Create and Display New File
-		while (reader.hasNextLine()){
-			line = reader.nextLine();
-			if(line.equals("[Dark Mode]"))
-				darkMode = true; 
-			if(line.equals(".") || line.equals("*")){ 
-				autoDelete = line; 
-				if(line.equals("."))
-					delete = true; 
-				else 
-					delete = false; 
-				tempWrite.write(line + "\n");
+			//Create and Display New File
+			while (reader.hasNextLine()){
 				line = reader.nextLine();
-				category = line;
-				categoryPanel(category, autoDelete);
-				tempWrite.write(line + "\n");
-				continue;
-			}
+				if(line.equals("[Dark Mode]"))
+					darkMode = true; 
+				if(line.equals(".") || line.equals("*")){ 
+					autoDelete = line; 
+					if(line.equals("."))
+						delete = true; 
+					else 
+						delete = false; 
+					tempWrite.write(line + "\n");
+					line = reader.nextLine();
+					category = line;
+					categoryPanel(category, autoDelete);
+					tempWrite.write(line + "\n");
+					continue;
+				}
 
-			//The differentiation between auto and manual delete categories. 
-			if(delete == true && !todayFile.exists()) { 
-				if(line.equals("[]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displayUnselectedCheck(line, category);
-					tempWrite.write(line + "\n");
-				}
-				else if(line.equals("[x]")) { 
-					line = reader.nextLine();
-				}
-				else {
-					this.displayText(line, category);
-					tempWrite.write(line + "\n");
-				}
-			}
-			else {
-				if(line.equals("[]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displayUnselectedCheck(line, category);
-				}
-				else if(line.equals("[x]")) {
-					tempWrite.write(line + "\n");
-					line = reader.nextLine();
-					this.displaySelectedCheck(line, category);
+				//The differentiation between auto and manual delete categories. 
+				if(delete == true && !todayFile.exists()) { 
+					if(line.equals("[]")) {
+						tempWrite.write(line + "\n");
+						line = reader.nextLine();
+						this.displayUnselectedCheck(line, category);
+						tempWrite.write(line + "\n");
+					}
+					else if(line.equals("[x]")) { 
+						line = reader.nextLine();
+					}
+					else {
+						this.displayText(line, category);
+						tempWrite.write(line + "\n");
+					}
 				}
 				else {
-					this.displayText(line, category);
+					if(line.equals("[]")) {
+						tempWrite.write(line + "\n");
+						line = reader.nextLine();
+						this.displayUnselectedCheck(line, category);
+					}
+					else if(line.equals("[x]")) {
+						tempWrite.write(line + "\n");
+						line = reader.nextLine();
+						this.displaySelectedCheck(line, category);
+					}
+					else {
+						this.displayText(line, category);
+					}
+				tempWrite.write(line + "\n");
 				}
-			tempWrite.write(line + "\n");
 			}
+			reader.close();	
+			tempWrite.close();
+			Path saveDay = Paths.get(path);
+			Path saveTemplate = Paths.get("template.txt");
+			Path temporary = Paths.get(tempPath);
+			
+			Files.copy(temporary, saveDay, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
+			File tempFile = new File (tempPath);
+			tempFile.delete();
 		}
-		tempWrite.close();
-		reader.close();	
-		Path saveDay = Paths.get(path);
-		Path saveTemplate = Paths.get("template.txt");
-		Path temporary = Paths.get(tempPath);
-		
-		Files.copy(temporary, saveDay, StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(temporary, saveTemplate, StandardCopyOption.REPLACE_EXISTING);
-		File tempFile = new File (tempPath);
-		tempFile.delete();
 		styleInit();
 		this.revalidate();
 		this.repaint();
@@ -1095,8 +1098,6 @@ public class Window extends JFrame implements ItemListener{
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
 
-		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
-		this.setJMenuBar(menuBar);
 
 		if(reader.hasNext() && darkMode == true) {
 			line = reader.nextLine();
@@ -1174,16 +1175,14 @@ public class Window extends JFrame implements ItemListener{
 		String m = monthFormat.format(now);
 		String y = yearFormat.format(now);
 		int intM = Integer.parseInt(m); 
-
 		String sMonth = String.format("%02d", intM);
-
 		String newPath = y + "/" + sMonth + d + ".txt";
 		
 		File currentYear = new File(y);
 		month = sMonth;
 		day = d;
 		path = newPath;	
-		this.setTitle("Human Task Manager " + month + "/" + day);
+		this.setTitle("Simple Checklist Manager " + month + "/" + day);
 		this.setSize(600, 900);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

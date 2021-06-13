@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="C:/Users/Tyler/Desktop/SimpleChecklistManager/SCM.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/SimpleChecklistManager/SCM.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="true" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=SimpleChecklistManager/SCM&lt;{SimpleCheclistManager.java[SimpleCheclistManager" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="true">
+        <javaElement handleIdentifier="=SimpleChecklistManager/SCM"/>
+        <file path="/SimpleChecklistManager/.gitignore"/>
+        <file path="/SimpleChecklistManager/.project"/>
+        <file path="/SimpleChecklistManager/SimpleChecklistManager.jardesc"/>
+        <file path="/SimpleChecklistManager/defaultTemplate.txt"/>
+        <file path="/SimpleChecklistManager/.classpath"/>
+    </selectedElements>
+</jardesc>

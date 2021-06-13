@@ -1,65 +1,11 @@
 .
-Appointmen
-[]
-Secret Stuff
-[x]
-Does
-[]
-Everyth
-[]
-Still Work?
+Appointments:
 
 .
-Tasks
+Tasks:
 
 *
 Dailies:
 
 *
 Weeklies:
-
-.
-What's Going On
-
-.
-Popopopopop
-
-*
-I don't
-
-*
-Know
-
-*
-I love
-[]
-Ther
-[]
-asdkf
-[]
-ls;adkfl
-[]
-a;sslelelfkjwslkjfae
-
-*
-But
-
-Ther
-[]
-asdkf
-[]
-ls;adkfl
-[]
-a;sslelelfkjwslkjfae
-
-.
-Poop:
-
-.
-lhjklh
-
-.
-Poopy Dooppy
-
-.
-hjkk

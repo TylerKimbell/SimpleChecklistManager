@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
  * 
  * Things to do:
  * Ability to change task type. 
+ * Grey Out Checked Items
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  * Last Thing To Do? Addons so users can create what they want such as stats options. 
  */
 
-public class HumanTaskManager{
+public class SimpleCheclistManager{
 	static Window mainWindow;
 	
 	public static void main(String[] args) throws IOException, ParseException {
