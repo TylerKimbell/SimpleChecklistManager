@@ -59,7 +59,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		style = mode;
 		path = todayPath;
 		UI = frame;
-		categories = cats;
+		categories = new ArrayList<JPanel>(cats);
 		
 		JMenu fileMenu = new JMenu("File");
 		JMenu editMenu = new JMenu("Edit");

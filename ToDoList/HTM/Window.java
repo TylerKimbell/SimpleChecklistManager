@@ -627,7 +627,6 @@ public class Window extends JFrame implements ItemListener{
 		boolean findFirstItem = false;
 		boolean fixedOrder = false;
 		for(JMenuItem item: menuIterator) {
-			menuBar.deleteTaskType(item.getText());
 			if(item.getText().equals(categories.get(counter).getName()) && findFirstItem == false) {
 				updatedMenuItems.add(item);
 			}
@@ -646,6 +645,7 @@ public class Window extends JFrame implements ItemListener{
 			else {
 				updatedMenuItems.add(item);
 			}
+			menuBar.deleteTaskType(item.getText());
 			counter++;
 		}
 
@@ -986,6 +986,8 @@ public class Window extends JFrame implements ItemListener{
 		updatedNames = new ArrayList<String>();
 		categoryTypes = new ArrayList<String>();
 		savedCategory= new ArrayList<String>();	
+		menuBar.taskTypes = new ArrayList<JMenuItem>();
+
 		this.getContentPane().removeAll();
 		
 		panelScroll.setLayout(new GridBagLayout());
@@ -1182,6 +1184,8 @@ public class Window extends JFrame implements ItemListener{
 		day = d;
 		path = newPath;	
 		this.setTitle("Human Task Manager " + month + "/" + day);
+		this.setSize(600, 900);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if(currentYear.mkdir()) {
 			//New Year
@@ -1189,12 +1193,6 @@ public class Window extends JFrame implements ItemListener{
 	}
 	Window() throws IOException{
 		updateDate();
-
-		this.setTitle("Human Task Manager " + month + "/" + day);
-		this.setSize(600, 900);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.getContentPane().setBackground(Color.white);	
-
 		create();
 	}
 
