@@ -6,9 +6,13 @@ import java.time.format.DateTimeFormatter;
 
 /* Human Task Manager 
  * 
+ * Bugs: 
+ * When editting the categories the size resets 
+ * 
  * Things to do:
  * Ability to change task type. 
  * Grey Out Checked Items
+ * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 

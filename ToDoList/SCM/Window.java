@@ -204,6 +204,8 @@ public class Window extends JFrame implements ItemListener{
 		FileWriter template = new FileWriter(tempPath);
 		String autoDelete = ".";
 		String manualDelete = "*";
+		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		this.setJMenuBar(menuBar);
 		List<JPanel> tempCategories = new ArrayList<JPanel>(categories);
 		for(JPanel category : tempCategories) {
 			currentCategory = category;
@@ -930,9 +932,8 @@ public class Window extends JFrame implements ItemListener{
 				if (del instanceof JCheckBox)
 					saved.add((JCheckBox) del);
 			}
-
 			JLabel textDisplay= new JLabel();
-			textDisplay.setText("<HTML><U>" + updatedText + "</U></HTML>");
+			textDisplay.setText("<HTML><U><span style='font-size:12px'>" + updatedText + "</span></U></HTML>");
 			if (darkMode == true)
 				textDisplay.setForeground(Color.white);
 			else
@@ -997,8 +998,6 @@ public class Window extends JFrame implements ItemListener{
 		cInitialize();	
 		this.setVisible(false);
 		this.add(scroller);
-		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
-		this.setJMenuBar(menuBar);
 
 		File template = new File("template.txt");
 
@@ -1078,6 +1077,8 @@ public class Window extends JFrame implements ItemListener{
 			File tempFile = new File (tempPath);
 			tempFile.delete();
 		}
+		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		this.setJMenuBar(menuBar);
 		styleInit();
 		this.revalidate();
 		this.repaint();
