@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
  * Bugs: 
  * 
  * Things to do:
+ * Whats going on?
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * 
