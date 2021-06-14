@@ -62,6 +62,22 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		if (source == edit) {
 			frame.createEdit();
 		}
+		else if (source == once) {
+			try {
+				frame.changeTypeOnce();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if (source == persistent) {
+			try {
+				frame.changeTypePersistent();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		else if(source == moveUp) {
 			try {
 				frame.moveUp();

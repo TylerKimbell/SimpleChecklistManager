@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -975,6 +976,74 @@ public class Window extends JFrame implements ItemListener{
 		currentCheckbox = null; 
 	}
 
+	public void changeTypeOnce() throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String savedType = "";
+		String once = ".";
+
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals(once) || line.equals("*")){
+				savedType = line;
+				if(reader.hasNext())
+					line = reader.nextLine();
+				if(line.equals(currentCategory.getName())) {
+					rewrite.write(once + "\n");
+					rewrite.write(line + "\n");
+				}
+				else {
+					rewrite.write(savedType + "\n");
+					rewrite.write(line + "\n");
+				}
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
+	}
+
+	public void changeTypePersistent() throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String savedType = "";
+		String persistent = "*";
+
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals(".") || line.equals("*")){
+				savedType = line;
+				if(reader.hasNext())
+					line = reader.nextLine();
+				if(line.equals(currentCategory.getName())) {
+					rewrite.write(persistent + "\n");
+					rewrite.write(line + "\n");
+				}
+				else {
+					rewrite.write(savedType + "\n");
+					rewrite.write(line + "\n");
+				}
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
+	}
+	
 	public void create() throws IOException {
 		panelScroll = new JPanel();
 		scroller = new JScrollPane(panelScroll);
@@ -1163,7 +1232,6 @@ public class Window extends JFrame implements ItemListener{
 		panelScroll.repaint();
 		this.revalidate();
 		this.repaint();
-
 	}
 
 	public void updateDate(){
@@ -1190,6 +1258,7 @@ public class Window extends JFrame implements ItemListener{
 			//New Year
 		}
 	}
+
 	Window() throws IOException{
 		updateDate();
 		create();
