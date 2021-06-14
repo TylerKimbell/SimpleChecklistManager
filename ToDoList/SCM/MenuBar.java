@@ -18,8 +18,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	JMenu taskMenu;
 	static String path = "";
 	static Window UI; 
-	static List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
 
+	static List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
 	static List<JPanel> categories;
 
 	static JMenuItem newTaskManager;

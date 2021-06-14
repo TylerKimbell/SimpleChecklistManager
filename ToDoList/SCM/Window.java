@@ -975,6 +975,34 @@ public class Window extends JFrame implements ItemListener{
 		currentCategory = null; 
 		currentCheckbox = null; 
 	}
+	
+	public void updateTypeList(int savedCounter, boolean once) {
+		int counter = 0;
+		List<String> updatedCategoryTypes = new ArrayList<String>();
+		List<String> categoryTypesIterator = new ArrayList<String>(categoryTypes);
+		String newType = "";
+		for(String types : categoryTypesIterator) {
+			if(counter == savedCounter) {
+				if(once == true) {
+					newType = ".";
+				}
+				else {
+					newType = "*";
+				}
+			}
+			else {
+				newType = types;
+			}
+			updatedCategoryTypes.add(newType);
+			counter++;
+		}
+		
+		categoryTypes.clear();
+
+		for(String strong : updatedCategoryTypes) {
+			categoryTypes.add(strong);
+		}
+	}
 
 	public void changeTypeOnce() throws IOException {
 		String tempPath = "template.txt";
@@ -984,6 +1012,8 @@ public class Window extends JFrame implements ItemListener{
 		String savedType = "";
 		String once = ".";
 
+		int savedCounter = 0; 
+		int counter = 0; 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(once) || line.equals("*")){
@@ -993,21 +1023,27 @@ public class Window extends JFrame implements ItemListener{
 				if(line.equals(currentCategory.getName())) {
 					rewrite.write(once + "\n");
 					rewrite.write(line + "\n");
+					savedCounter = counter;
 				}
 				else {
 					rewrite.write(savedType + "\n");
 					rewrite.write(line + "\n");
 				}
+				counter++;
 			}
 			else
 				rewrite.write(line + "\n");
 		}
+		
+		updateTypeList(savedCounter, true);
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
+		counter = 0;
+	
 	}
 
 	public void changeTypePersistent() throws IOException {
@@ -1017,7 +1053,9 @@ public class Window extends JFrame implements ItemListener{
 		String line;
 		String savedType = "";
 		String persistent = "*";
-
+		
+		int savedCounter = 0; 
+		int counter = 0; 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")){
@@ -1027,15 +1065,19 @@ public class Window extends JFrame implements ItemListener{
 				if(line.equals(currentCategory.getName())) {
 					rewrite.write(persistent + "\n");
 					rewrite.write(line + "\n");
+					savedCounter = counter;
 				}
 				else {
 					rewrite.write(savedType + "\n");
 					rewrite.write(line + "\n");
 				}
+				counter++;
 			}
 			else
 				rewrite.write(line + "\n");
 		}
+
+		updateTypeList(savedCounter, false);
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
