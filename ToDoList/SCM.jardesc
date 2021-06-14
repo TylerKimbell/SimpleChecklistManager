@@ -14,7 +14,6 @@
         <javaElement handleIdentifier="=SimpleChecklistManager/SCM"/>
         <file path="/SimpleChecklistManager/.gitignore"/>
         <file path="/SimpleChecklistManager/.project"/>
-        <file path="/SimpleChecklistManager/SimpleChecklistManager.jardesc"/>
         <file path="/SimpleChecklistManager/defaultTemplate.txt"/>
         <file path="/SimpleChecklistManager/.classpath"/>
     </selectedElements>

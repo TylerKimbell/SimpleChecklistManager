@@ -23,13 +23,15 @@ public class RightClickListener extends MouseAdapter {
 	}
 	
 	private void openMenu(MouseEvent e) {
-		PopUpMenu rightClick = new PopUpMenu(frame);
-		rightClick.show(e.getComponent(), e.getX(), e.getY());
 		if (e.getSource() instanceof JCheckBox) {
 			frame.currentCheckbox = (JCheckBox) e.getSource();
+			frame.currentCategory = null;
 		}
 		if (e.getSource() instanceof JPanel) {
 			frame.currentCategory = (JPanel) e.getSource();
+			frame.currentCheckbox = null;
 		}
+		PopUpMenu rightClick = new PopUpMenu(frame);
+		rightClick.show(e.getComponent(), e.getX(), e.getY());
 	}
 }

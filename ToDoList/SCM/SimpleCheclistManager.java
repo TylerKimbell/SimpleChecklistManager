@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Bugs: 
- * When editting the categories the size resets 
  * 
  * Things to do:
  * Ability to change task type. 

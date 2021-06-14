@@ -56,7 +56,6 @@ public class Window extends JFrame implements ItemListener{
 	JMenuItem dailies;
 	JMenuItem weeklies;
 
-	Edit changeText;	
 	AddTask newTask; 
 	
 	GridBagConstraints c = new GridBagConstraints();
@@ -971,7 +970,7 @@ public class Window extends JFrame implements ItemListener{
 	}
 
 	public void createEdit() {
-		changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
+		Edit changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
 		currentCategory = null; 
 		currentCheckbox = null; 
 	}

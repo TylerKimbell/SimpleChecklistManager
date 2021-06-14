@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -13,6 +14,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	Window frame;
 	
 	JMenuItem edit;
+	JMenu changeType;
+	JMenuItem once;
+	JMenuItem persistent;
 	JMenuItem moveUp;
 	JMenuItem moveDown;
 	JMenuItem delete;
@@ -23,9 +27,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	PopUpMenu(Window UI) {
 		frame = UI;
 		
-
 		edit = new JMenuItem("Edit");
 		edit.addActionListener(this);
+		changeType = new JMenu("Change Type");
+		changeType.addActionListener(this);
+		once = new JMenuItem("Once");
+		once.addActionListener(this);
+		persistent = new JMenuItem("Persistent");
+		persistent.addActionListener(this);
 		moveUp = new JMenuItem("Move Up");
 		moveUp.addActionListener(this);
 		moveDown = new JMenuItem("Move Down");
@@ -33,6 +42,11 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
 		add(edit);
+		if(UI.currentCategory != null) {
+			add(changeType);
+			changeType.add(once);
+			changeType.add(persistent);
+		}
 		addSeparator();
 		add(moveUp);
 		add(moveDown);
