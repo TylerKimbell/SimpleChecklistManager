@@ -1,6 +1,6 @@
-# HumanTaskManager
-Human Task Manager is a minimal, yet highly customizable, task manager. HTM is designed to be a tool that you can use for simple to do lists, habits, and/or long 
-term goals. The customizability means that if you think of a use for it outside of task management you can use it for that as well. 
+# Simple Checklist Manager
+Simple Checklist Manager is a minimal, yet highly customizable, checklist manager. SCM is designed to be a tool that you can use for simple to do lists, habits, long term goals, 
+or anything you might imagine using a checklist for. The customizability means that it should work with any type of checklist you could imagine. 
 
 ## Features
 - Create/Edit/Delete/Move Categories
