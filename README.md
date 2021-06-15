@@ -39,5 +39,5 @@ My main motivation for making this was to use it. I found a lot of to do list ty
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?business=52JZN5PK43T7E&item_name=Simple+Checklist+Manager+Development&currency_code=USD)
 
 ## Download
-The current version can be found here:
+Because the program uses and creates text files (to save the checklists) leaving it in the downloads folder or on the desktop is not recommended. You should create an empty folder to put the program in. The current version can be found here:
 https://github.com/TylerKimbell/SimpleChecklistManager/releases
