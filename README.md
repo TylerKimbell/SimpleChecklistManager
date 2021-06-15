@@ -40,4 +40,4 @@ My main motivation for making this was to use it. I found a lot of to do list ty
 
 ## Download
 The current version can be found here:
-https://github.com/TylerKimbell/HumanTaskManager/releases
+https://github.com/TylerKimbell/SimpleChecklistManager/releases
