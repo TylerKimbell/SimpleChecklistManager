@@ -1,6 +1,6 @@
 # Simple Checklist Manager
 Simple Checklist Manager is a minimal, yet highly customizable, checklist manager. SCM is designed to be a tool that you can use for simple to do lists, habits, long term goals, 
-or anything you might imagine using a checklist for. The customizability means that it should work with any type of checklist you could imagine. 
+or anything you might imagine using a checklist for.
 
 My personal checklist setup:
 ![Alt text](https://i.gyazo.com/fc18657f79f3dac237e2882bba84096c.png "My checklist")
