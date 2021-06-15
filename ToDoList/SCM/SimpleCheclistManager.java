@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * Bugs: 
  * 
  * Things to do:
- * Need to update tasktypes in menubar when changing category types
+ * Rename File Menu Item
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * 

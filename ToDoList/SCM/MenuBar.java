@@ -22,7 +22,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	static List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
 	static List<JPanel> categories;
 
-	static JMenuItem newTaskManager;
+	static JMenuItem newChecklistManager;
 	static JMenuItem refresh;
 	static JMenuItem exit;
 	
@@ -66,13 +66,13 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		JMenu toolsMenu = new JMenu("Tools");
 		JMenu categoryMenu = new JMenu("Add Category");
 
-		newTaskManager = new JMenuItem ("New Task Manager");
-		newTaskManager.addActionListener(this);
+		newChecklistManager = new JMenuItem ("New Checklist Manager");
+		newChecklistManager.addActionListener(this);
 		refresh = new JMenuItem ("Refresh");
 		refresh.addActionListener(this);
 		exit = new JMenuItem("Exit");
 		exit.addActionListener(this);
-		fileMenu.add(newTaskManager);
+		fileMenu.add(newChecklistManager);
 		fileMenu.add(refresh);
 		fileMenu.add(exit);
 
@@ -109,7 +109,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == newTaskManager) {
+		if(e.getSource() == newChecklistManager) {
 			areYouSureCheck sure = new areYouSureCheck(UI, style);
 		}
 		if(e.getSource() == refresh) {
