@@ -1,3 +1,4 @@
+[Dark Mode]
 *
 Dailies:
 []
@@ -24,6 +25,8 @@ OOP FTW
 
 .
 Nanai?
+[]
+Does this all still work?
 
 *
 Shuba
