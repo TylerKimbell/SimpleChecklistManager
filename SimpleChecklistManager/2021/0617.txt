@@ -1,37 +1,12 @@
 [Dark Mode]
-*
-Dailies:
-[]
-Things
-[]
-Slaldld
-
-*
+.
 Appointments:
-[x]
-Skadoop
-[]
-Um
 
 .
 Tasks:
-[]
-Stuff
-
-.
-Testing AddCategory:
-[]
-OOP FTW
-
-.
-Nanai?
-[]
-Does this all still work?
 
 *
-Shuba
+Dailies:
 
 *
 Weeklies:
-[]
-Poop

@@ -67,6 +67,12 @@ public class areYouSureCheck extends JFrame implements ActionListener{
 		if(e.getSource()== yes) {
 			try {
 				frame.writeTemplate();
+				frame.menuBar = new MenuBar(frame);
+				frame.setJMenuBar(frame.menuBar);
+				frame.styleInit();
+				frame.revalidate();
+				frame.repaint();
+				frame.setVisible(true);
 				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
