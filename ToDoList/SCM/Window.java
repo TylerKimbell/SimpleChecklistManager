@@ -29,7 +29,7 @@ import javax.swing.JScrollPane;
 
 public class Window extends JFrame implements ItemListener{
 	private static final long serialVersionUID = 1L;
-	static String path = ""; 
+	String path = ""; 
 	String month; 
 	String day;
 	JCheckBox currentCheckbox;
@@ -204,7 +204,7 @@ public class Window extends JFrame implements ItemListener{
 		FileWriter template = new FileWriter(tempPath);
 		String autoDelete = ".";
 		String manualDelete = "*";
-		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		menuBar = new MenuBar(this);
 		this.setJMenuBar(menuBar);
 		List<JPanel> tempCategories = new ArrayList<JPanel>(categories);
 		for(JPanel category : tempCategories) {
@@ -971,6 +971,7 @@ public class Window extends JFrame implements ItemListener{
 	}
 
 	public void createEdit() {
+		@SuppressWarnings("unused")
 		Edit changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
 		currentCategory = null; 
 		currentCheckbox = null; 
@@ -1187,7 +1188,7 @@ public class Window extends JFrame implements ItemListener{
 			File tempFile = new File (tempPath);
 			tempFile.delete();
 		}
-		menuBar = new MenuBar(path, this, categories, month, day, darkMode);
+		menuBar = new MenuBar(this);
 		this.setJMenuBar(menuBar);
 		styleInit();
 		this.revalidate();

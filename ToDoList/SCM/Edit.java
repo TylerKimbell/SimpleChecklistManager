@@ -49,9 +49,9 @@ public class Edit extends JFrame implements KeyListener{
 		inputField.addKeyListener(this);
 	}
 	
-	Edit(String todayPath, Window UI, JPanel category, JCheckBox checkbox, boolean mode){
+	Edit(String todayPath, Window mainFrame, JPanel category, JCheckBox checkbox, boolean mode){
 		path = todayPath;
-		frame = UI;
+		frame = mainFrame;
 		currentCategory = category; 
 		currentCheckbox = checkbox; 
 		style = mode;

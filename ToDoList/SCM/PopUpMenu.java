@@ -24,8 +24,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	JMenuItem up;
 	JMenuItem down;
 	
-	PopUpMenu(Window UI) {
-		frame = UI;
+	PopUpMenu(Window mainFrame) {
+		frame = mainFrame;
 		
 		edit = new JMenuItem("Edit");
 		edit.addActionListener(this);
@@ -42,7 +42,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
 		add(edit);
-		if(UI.currentCategory != null) {
+		if(frame.currentCategory != null) {
 			add(changeType);
 			changeType.add(once);
 			changeType.add(persistent);

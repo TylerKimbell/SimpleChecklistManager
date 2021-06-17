@@ -18,20 +18,18 @@ public class areYouSureCheck extends JFrame implements ActionListener{
 	JButton yes = new JButton();
 	JButton no = new JButton();
 	
-	Window UI;
-	boolean style = false;
+	Window frame;
 
-	areYouSureCheck(Window frame, boolean mode){
+	areYouSureCheck(Window mainFrame){
 		Color style1;
 		Color style2;
 
-		style = mode;
-		UI = frame;
+		frame = mainFrame;
 		this.setTitle("Are You Sure?");
 		this.setLayout(new FlowLayout());
 		this.setResizable(false);
 		this.setSize(350, 100);
-		if(style == true) {
+		if(frame.darkMode == true) {
 			style1 = Color.black;
 			style2 = Color.white;
 		}
@@ -68,7 +66,7 @@ public class areYouSureCheck extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource()== yes) {
 			try {
-				UI.writeTemplate();
+				frame.writeTemplate();
 				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

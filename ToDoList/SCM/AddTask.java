@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 public class AddTask extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 
-	static String path;
 	static String taskCategory;
 	JTextField task;
 	Window frame;
@@ -31,7 +30,6 @@ public class AddTask extends JFrame implements KeyListener{
 	ArrayList<String> multipleTasks = new ArrayList<String>();
 	
 	static boolean duplicate;
-	boolean style = false;
 
 	public String getInput(){
 		return input;
@@ -44,16 +42,14 @@ public class AddTask extends JFrame implements KeyListener{
 		task.addKeyListener(this);
 	}
 	
-	AddTask(String todayPath, Window UI, String category, boolean mode){
-		path = todayPath;
+	AddTask(Window mainFrame, String category){
 		taskCategory = category;
-		frame = UI;
-		style =  mode;
+		frame = mainFrame;
 
 		this.setTitle(category);
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		if(style == true)
+		if(frame.darkMode == true)
 			this.getContentPane().setBackground(Color.black);	
 		else
 			this.getContentPane().setBackground(Color.white);	
@@ -66,7 +62,7 @@ public class AddTask extends JFrame implements KeyListener{
 	
 	public void addTask(String task) throws IOException {
 		String tempPath = "template.txt";
-		Scanner reader = new Scanner(new File(path));
+		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
 		String category = "";
@@ -99,7 +95,7 @@ public class AddTask extends JFrame implements KeyListener{
 		}
 		rewrite.close();
 		reader.close();
-		Path save = Paths.get(path);
+		Path save = Paths.get(frame.path);
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	

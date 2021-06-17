@@ -1,12 +1,34 @@
-.
+*
+Dailies:
+[]
+Things
+[]
+Slaldld
+
+*
 Appointments:
+[x]
+Skadoop
+[]
+Um
 
 .
 Tasks:
+[]
+Stuff
+
+.
+Testing AddCategory:
+[]
+OOP FTW
+
+.
+Nanai?
 
 *
-Dailies:
+Shuba
 
 *
 Weeklies:
-
+[]
+Poop

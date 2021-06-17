@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 public class RightClickListener extends MouseAdapter {
 	static Window frame; 
 	
-	RightClickListener(Window UI){
-		frame = UI;
+	RightClickListener(Window mainFrame){
+		frame = mainFrame;
 	}
 
 	public void mousePressed(MouseEvent e) {

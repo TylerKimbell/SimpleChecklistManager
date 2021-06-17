@@ -1,10 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +13,9 @@ import javax.swing.JPanel;
 public class MenuBar extends JMenuBar implements ActionListener{ 
 	private static final long serialVersionUID = 1L;
 	JMenu taskMenu;
-	static String path = "";
-	static Window UI; 
+	static Window frame; 
 
 	static List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
-	static List<JPanel> categories;
 
 	static JMenuItem newChecklistManager;
 	static JMenuItem refresh;
@@ -33,12 +28,6 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	static AddTask newTask;
 	static AddCategory newCat;
-	
-	String month;
-	String day;
-	
-	//true = dark false = light 
-	boolean style = false;
 
 	public void deleteTaskType(String deletedCategory) {
 		JMenuItem delete = null;
@@ -53,13 +42,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		taskMenu.repaint();
 	}
 	
-	MenuBar(String todayPath, Window frame, List<JPanel> cats, String mon, String date, boolean mode){
-		month = mon;
-		day = date; 
-		style = mode;
-		path = todayPath;
-		UI = frame;
-		categories = new ArrayList<JPanel>(cats);
+	MenuBar(Window mainFrame){
+		frame = mainFrame;
 		
 		JMenu fileMenu = new JMenu("File");
 		JMenu editMenu = new JMenu("Edit");
@@ -98,7 +82,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.add(fileMenu);
 		this.add(editMenu);
 		this.add(toolsMenu);
-		for(JPanel cat : categories) {
+		for(JPanel cat : frame.categories) {
 			JMenuItem taskType = new JMenuItem(cat.getName());
 			taskType.addActionListener(this);
 			taskTypes.add(taskType);
@@ -110,36 +94,37 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == newChecklistManager) {
-			areYouSureCheck sure = new areYouSureCheck(UI, style);
+			areYouSureCheck sure = new areYouSureCheck(frame);
 		}
 		if(e.getSource() == refresh) {
 			try {
-				UI.updateDate();
-				UI.create();
+				frame.updateDate();
+				frame.create();
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		if(e.getSource() == exit) {
-			UI.dispatchEvent(new WindowEvent(UI, WindowEvent.WINDOW_CLOSING));
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 		if (e.getSource() == autoDelete) {
-			newCat = new AddCategory(path, UI, categories, true, this, style);
+			newCat = new AddCategory(frame, true);
 		}
 		if (e.getSource() == manualDelete) {
-			newCat = new AddCategory(path, UI, categories, false, this, style);
+			newCat = new AddCategory(frame, false);
 		}
 
 		for(JMenuItem taskType : taskTypes) 
 		{
 			if(e.getSource() == taskType) {
-				newTask = new AddTask(path, UI, taskType.getText(), style);
+				newTask = new AddTask(frame, taskType.getText());
 			}
 		}
 		if (e.getSource() == darkMode) {
 			try {
-				UI.styleToggle();
+				frame.styleToggle();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

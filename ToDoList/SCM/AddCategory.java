@@ -24,19 +24,15 @@ import javax.swing.JTextField;
 public class AddCategory extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 
-	static String path;
 	static String taskCategory;
 	JTextField cat;
 	Window frame;
 	JButton enter; 
 	String input; 
-	MenuBar menu; 
 	static boolean autoDelete = false; //AutoDelete 
 	
 	static boolean duplicate = false;
-	boolean style = false; 
 	
-	List<JPanel> categories = new ArrayList<JPanel>();
 	ArrayList<String> multipleCats = new ArrayList<String>();
 
 	public String getInput(){
@@ -50,18 +46,14 @@ public class AddCategory extends JFrame implements KeyListener{
 		cat.addKeyListener(this);
 	}
 	
-	AddCategory(String todayPath, Window UI, List<JPanel> cats, boolean autoDel, MenuBar men, boolean mode){
-		path = todayPath;
+	AddCategory(Window mainFrame, boolean autoDel){
 		autoDelete = autoDel;
-		menu = men;
-		frame = UI;
-		categories = cats;
-		style = mode;
+		frame = mainFrame;
 
 		this.setTitle("New Category");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		if(style == true)
+		if(frame.darkMode == true)
 			this.getContentPane().setBackground(Color.black);	
 		else
 			this.getContentPane().setBackground(Color.white);	
@@ -74,7 +66,7 @@ public class AddCategory extends JFrame implements KeyListener{
 	
 	public void addNewCat(String newCat, Boolean aD) throws IOException {
 		String tempPath = "template.txt";
-		Scanner reader = new Scanner(new File(path));
+		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
 //		duplicate = false;
@@ -92,7 +84,7 @@ public class AddCategory extends JFrame implements KeyListener{
 		rewrite.write(newCat + "\n");
 		rewrite.close();
 		reader.close();
-		Path save = Paths.get(path);
+		Path save = Paths.get(frame.path);
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
@@ -133,7 +125,7 @@ public class AddCategory extends JFrame implements KeyListener{
 			multipleCats.add(newCat);
 
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			for(JPanel category : categories) {
+			for(JPanel category : frame.categories) {
 				if(input.equals(category.getName())) {
 					duplicate = true; 
 				}
@@ -148,11 +140,11 @@ public class AddCategory extends JFrame implements KeyListener{
 				for(int i = 0; i < multipleCats.size(); i ++) {
 					frame.categoryPanel(multipleCats.get(i), autoDel);
 					JMenuItem taskType = new JMenuItem(multipleCats.get(i));
-					taskType.addActionListener(menu);
-					menu.taskTypes.add(taskType);
-					menu.taskMenu.add(taskType);
-					menu.taskMenu.revalidate();
-					menu.taskMenu.repaint();
+					taskType.addActionListener(frame.menuBar);
+					frame.menuBar.taskTypes.add(taskType);
+					frame.menuBar.taskMenu.add(taskType);
+					frame.menuBar.taskMenu.revalidate();
+					frame.menuBar.taskMenu.repaint();
 				}
 			}
 		}

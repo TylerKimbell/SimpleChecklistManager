@@ -7,8 +7,10 @@ import java.time.format.DateTimeFormatter;
 /* Human Task Manager 
  * 
  * Bugs: 
+ * Move down on tasks that are at the bottom already throws an error. 
  * 
  * Things to do:
+ * Add task and add category to rightclick menu
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * 
