@@ -2,9 +2,9 @@
 Simple Checklist Manager is a minimal, yet highly customizable, checklist manager. SCM is designed to be a tool that you can use for simple to do lists, habits, long term goals, 
 or anything you might imagine using a checklist for.
 
-![Alt text](https://i.gyazo.com/7cb7dea869102f002623a3ac10c22b92.png "My checklist")
+![Alt text](https://i.gyazo.com/e11fd1b24b93aec93a19e2ad6a4fdbd8.png "Exmample checklists")
 
-![Alt text](https://i.gyazo.com/61ce3bc002074f94be22c276f1519c2e.png "New Checklist")
+![Alt text](https://i.gyazo.com/61ce3bc002074f94be22c276f1519c2e.png "New Checklist Manager Template")
 
 ## Features
 - Create/Edit/Delete/Move Categories
@@ -39,5 +39,5 @@ My main motivation for making this was to use it. I found a lot of to do list ty
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?business=52JZN5PK43T7E&item_name=Simple+Checklist+Manager+Development&currency_code=USD)
 
 ## Download
-Because the program uses and creates text files (to save the checklists) leaving it in the downloads folder or on the desktop is not recommended. You should create an empty folder to put the program in. The current version can be found here:
+The current version can be found here:
 https://github.com/TylerKimbell/SimpleChecklistManager/releases
