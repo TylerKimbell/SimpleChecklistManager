@@ -60,7 +60,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		Object source = e.getSource();
 		
 		if (source == edit) {
-			frame.createEdit();
+			Edit edit = new Edit(frame);
 		}
 		else if (source == once) {
 			try {

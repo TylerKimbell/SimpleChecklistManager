@@ -915,67 +915,6 @@ public class Window extends JFrame implements ItemListener{
 			}
 		}
 	}
-
-	public void displayEdit(String updatedElement, String updatedText, JPanel category, JCheckBox checkbox) {
-		currentCategory = category;
-		currentCheckbox = checkbox;
-		if(currentCategory != null) {
-			Component[] iterator = currentCategory.getComponents(); 
-			List<JCheckBox> saved = new ArrayList<JCheckBox>();
-			updatedElement = currentCategory.getName();
-
-			currentCategory.setName(updatedText);
-
-			//Update Components
-			for(Component del : iterator) { 
-				currentCategory.remove(del);
-				if (del instanceof JCheckBox)
-					saved.add((JCheckBox) del);
-			}
-			JLabel textDisplay= new JLabel();
-			textDisplay.setText("<HTML><U><span style='font-size:12px'>" + updatedText + "</span></U></HTML>");
-			if (darkMode == true)
-				textDisplay.setForeground(Color.white);
-			else
-				textDisplay.setForeground(Color.black);
-			currentCategory.add(textDisplay);
-			for(JCheckBox readd : saved)
-				currentCategory.add(readd);
-
-			//Update Menu Items
-			List<JMenuItem> menuIterator = new ArrayList<JMenuItem>(MenuBar.taskTypes);
-			for(JMenuItem item: menuIterator) {
-				menuBar.deleteTaskType(item.getText());
-			}
-
-			for(JPanel cat : categories) {
-				JMenuItem taskType = new JMenuItem(cat.getName());
-				taskType.addActionListener(menuBar);
-				MenuBar.taskTypes.add(taskType);
-				menuBar.taskMenu.add(taskType);
-				menuBar.taskMenu.revalidate();
-				menuBar.taskMenu.repaint();
-			}
-			currentCategory = null; 
-		}
-		else{
-			updatedElement = currentCheckbox.getText();
-			currentCheckbox.setText(updatedText);
-			currentCheckbox = null; 
-		}
-
-		panelScroll.revalidate();
-		panelScroll.repaint();
-		this.revalidate();
-		this.repaint();
-	}
-
-	public void createEdit() {
-		@SuppressWarnings("unused")
-		Edit changeText = new Edit(this);
-		currentCategory = null; 
-		currentCheckbox = null; 
-	}
 	
 	public void updateTypeList(int savedCounter, boolean once) {
 		int counter = 0;

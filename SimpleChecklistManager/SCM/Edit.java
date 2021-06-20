@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
@@ -11,11 +12,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -32,21 +37,6 @@ public class Edit extends JFrame implements KeyListener{
 
 	static boolean duplicate;
 
-	public String getInput(){
-		return input;
-	}
-
-	public void editField(){
-		String currentText = "";
-		if(currentCheckbox != null)
-			currentText = currentCheckbox.getText();
-		if(currentCategory != null)
-			currentText = currentCategory.getName();
-		inputField = new JTextField(currentText);
-		inputField.setPreferredSize(new Dimension(250, 40));
-		inputField.addKeyListener(this);
-	}
-	
 	Edit(Window mainFrame){
 		frame = mainFrame;
 		currentCategory = frame.currentCategory;
@@ -66,6 +56,73 @@ public class Edit extends JFrame implements KeyListener{
 		this.setVisible(true);
 	}
 	
+	public String getInput(){
+		return input;
+	}
+
+	public void editField(){
+		String currentText = "";
+		if(currentCheckbox != null)
+			currentText = currentCheckbox.getText();
+		if(currentCategory != null)
+			currentText = currentCategory.getName();
+		inputField = new JTextField(currentText);
+		inputField.setPreferredSize(new Dimension(250, 40));
+		inputField.addKeyListener(this);
+	}
+	
+	public void displayEdit(String updatedElement, String updatedText) {
+		if(currentCategory != null) {
+			Component[] iterator = currentCategory.getComponents(); 
+			List<JCheckBox> saved = new ArrayList<JCheckBox>();
+			updatedElement = currentCategory.getName();
+
+			currentCategory.setName(updatedText);
+
+			//Update Components
+			for(Component del : iterator) { 
+				currentCategory.remove(del);
+				if (del instanceof JCheckBox)
+					saved.add((JCheckBox) del);
+			}
+			JLabel textDisplay= new JLabel();
+			textDisplay.setText("<HTML><U><span style='font-size:12px'>" + updatedText + "</span></U></HTML>");
+			if (frame.darkMode == true)
+				textDisplay.setForeground(Color.white);
+			else
+				textDisplay.setForeground(Color.black);
+			currentCategory.add(textDisplay);
+			for(JCheckBox readd : saved)
+				currentCategory.add(readd);
+
+			//Update Menu Items
+			List<JMenuItem> menuIterator = new ArrayList<JMenuItem>(MenuBar.taskTypes);
+			for(JMenuItem item: menuIterator) {
+				frame.menuBar.deleteTaskType(item.getText());
+			}
+
+			for(JPanel cat : frame.categories) {
+				JMenuItem taskType = new JMenuItem(cat.getName());
+				taskType.addActionListener(frame.menuBar);
+				MenuBar.taskTypes.add(taskType);
+				frame.menuBar.taskMenu.add(taskType);
+				frame.menuBar.taskMenu.revalidate();
+				frame.menuBar.taskMenu.repaint();
+			}
+			frame.currentCategory = null; 
+		}
+		else{
+			updatedElement = currentCheckbox.getText();
+			currentCheckbox.setText(updatedText);
+			frame.currentCheckbox = null; 
+		}
+
+		frame.panelScroll.revalidate();
+		frame.panelScroll.repaint();
+		frame.revalidate();
+		frame.repaint();
+	}
+
 	public void rewriteEdit(String element) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
@@ -122,7 +179,7 @@ public class Edit extends JFrame implements KeyListener{
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			try {
 				rewriteEdit(input);
-				frame.displayEdit(updatedText, input, currentCategory, currentCheckbox);
+				displayEdit(updatedText, input);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
