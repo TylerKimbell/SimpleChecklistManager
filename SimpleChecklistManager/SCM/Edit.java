@@ -22,17 +22,15 @@ import javax.swing.JTextField;
 public class Edit extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 
-	static String path;
-	JPanel currentCategory;
-	JCheckBox currentCheckbox;
 	JTextField inputField;
 	Window frame;
 	JButton enter; 
 	String input; 
 	String updatedText;
-	
+	JCheckBox currentCheckbox; 
+	JPanel currentCategory;
+
 	static boolean duplicate;
-	boolean style = false;
 
 	public String getInput(){
 		return input;
@@ -49,17 +47,15 @@ public class Edit extends JFrame implements KeyListener{
 		inputField.addKeyListener(this);
 	}
 	
-	Edit(String todayPath, Window mainFrame, JPanel category, JCheckBox checkbox, boolean mode){
-		path = todayPath;
+	Edit(Window mainFrame){
 		frame = mainFrame;
-		currentCategory = category; 
-		currentCheckbox = checkbox; 
-		style = mode;
+		currentCategory = frame.currentCategory;
+		currentCheckbox = frame.currentCheckbox;
 
 		this.setTitle("Edit");
 		this.setLayout(new FlowLayout());
 		this.setSize(270, 90);
-		if (style == true)
+		if (frame.darkMode == true)
 			this.getContentPane().setBackground(Color.black);	
 		else
 			this.getContentPane().setBackground(Color.white);	
@@ -72,14 +68,14 @@ public class Edit extends JFrame implements KeyListener{
 	
 	public void rewriteEdit(String element) throws IOException {
 		String tempPath = "template.txt";
-		Scanner reader = new Scanner(new File(path));
+		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
 		duplicate = false;
-		if(currentCheckbox != null)
-			updatedText = currentCheckbox.getText();
-		if(currentCategory != null)
-			updatedText = currentCategory.getName();
+		if(frame.currentCheckbox != null)
+			updatedText = frame.currentCheckbox.getText();
+		if(frame.currentCategory != null)
+			updatedText = frame.currentCategory.getName();
 
 		int counter = 0; 
 		while(reader.hasNext()) {
@@ -90,7 +86,7 @@ public class Edit extends JFrame implements KeyListener{
 				duplicate = true; 
 		}
 		reader.close();
-		reader = new Scanner(new File(path));
+		reader = new Scanner(new File(frame.path));
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(updatedText) && duplicate == false){
@@ -105,7 +101,7 @@ public class Edit extends JFrame implements KeyListener{
 		}
 		rewrite.close();
 		reader.close();
-		Path save = Paths.get(path);
+		Path save = Paths.get(frame.path);
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	

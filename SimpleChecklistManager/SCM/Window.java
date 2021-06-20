@@ -972,7 +972,7 @@ public class Window extends JFrame implements ItemListener{
 
 	public void createEdit() {
 		@SuppressWarnings("unused")
-		Edit changeText = new Edit(path, this, currentCategory, currentCheckbox, darkMode);
+		Edit changeText = new Edit(this);
 		currentCategory = null; 
 		currentCheckbox = null; 
 	}
