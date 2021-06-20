@@ -1,16 +1,11 @@
-[Dark Mode]
-.
-Appointments:
-
-.
-Tas
-
 *
+Weeklies:
+
+.
 Dailies:
 
-*
-Week
-[]
-SKJf
-[]
-askjhf
+.
+Tasks:
+
+.
+Appointments:

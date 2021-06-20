@@ -94,6 +94,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == newChecklistManager) {
+			@SuppressWarnings("unused")
 			areYouSureCheck sure = new areYouSureCheck(frame);
 		}
 		if(e.getSource() == refresh) {
