@@ -1,18 +1,54 @@
 [Dark Mode]
-*
+.
 Appointments:
 []
-Poop
+1/1 New Years
+[]
+1/2 Day After New Years
+
+.
+Once:
+[]
+Groceries
+[]
+Dishes
+[]
+Hi
+[]
+I like
+[]
+Pie
+[]
+Randomly fixed problemo
+[]
+Muchacho
+[]
+Nacho
+
+*
+Dailies:
+[]
+Workout
+[]
+Wake Up At 9am
+[]
+Pie
+[]
+I Like
+[]
+Hi
 
 *
 Weeklies:
 []
-Hm?> 
-
-.
-Tasks:
+Laundry
 []
-Hm? 
-
-.
-Stuff
+Clean
+[]
+The
+[]
+Final
+[]
+Countdown
+[]
+Dun dun dun

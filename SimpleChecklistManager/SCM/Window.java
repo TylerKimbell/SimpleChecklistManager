@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -489,6 +488,7 @@ public class Window extends JFrame implements ItemListener{
 		if(!template.exists()) {
 			writeTemplate();
 		}
+
 		else {
 			String tempPath = "temp.txt";
 			FileWriter tempWrite = new FileWriter(tempPath);

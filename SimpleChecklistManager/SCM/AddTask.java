@@ -124,9 +124,11 @@ public class AddTask extends JFrame implements KeyListener{
 					newTask += c; 
 				}
 				else {
-					multipleTasks.add(newTask);
-					newTask = "";
-					comma = true; 
+					if(!(i == input.length()-1 && c == ',')) {
+						multipleTasks.add(newTask);
+						newTask = "";
+						comma = true; 
+					}
 				}
 			}
 			multipleTasks.add(newTask);

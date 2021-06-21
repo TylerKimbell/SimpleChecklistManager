@@ -8,6 +8,7 @@ import java.text.ParseException;
  * Things to do:
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
+ * 			Blue? 
  * Create tab system to better organize categories. 
  * Some way to differentiate between once and persistent tasks. Different color or smth?
  * Option to Move to top or bottom.
