@@ -10,6 +10,8 @@ import java.text.ParseException;
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * Create tab system to better organize categories. 
+ * Some way to differentiate between once and persistent tasks. Different color or smth?
+ * Option to Move to top or bottom.
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 

@@ -66,6 +66,34 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		add(delete);
 	}
 
+	public void updateTypeList(int savedCounter, boolean once) {
+		int counter = 0;
+		List<String> updatedCategoryTypes = new ArrayList<String>();
+		List<String> categoryTypesIterator = new ArrayList<String>(frame.categoryTypes);
+		String newType = "";
+		for(String types : categoryTypesIterator) {
+			if(counter == savedCounter) {
+				if(once == true) {
+					newType = ".";
+				}
+				else {
+					newType = "*";
+				}
+			}
+			else {
+				newType = types;
+			}
+			updatedCategoryTypes.add(newType);
+			counter++;
+		}
+		
+		frame.categoryTypes.clear();
+
+		for(String strong : updatedCategoryTypes) {
+			frame.categoryTypes.add(strong);
+		}
+	}
+
 	public void changeTypeOnce() throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
@@ -97,7 +125,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				rewrite.write(line + "\n");
 		}
 		
-		frame.updateTypeList(savedCounter, true);
+		updateTypeList(savedCounter, true);
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(frame.path);
@@ -138,7 +166,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				rewrite.write(line + "\n");
 		}
 
-		frame.updateTypeList(savedCounter, false);
+		updateTypeList(savedCounter, false);
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(frame.path);
@@ -749,6 +777,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
+		//I have to keep these methods in main because methods in main use them. 
 		else if(source == delete) {
 			try {
 				if (frame.currentCheckbox != null)

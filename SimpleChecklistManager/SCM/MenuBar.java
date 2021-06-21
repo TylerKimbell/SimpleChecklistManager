@@ -90,6 +90,14 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}
 		this.setVisible(true);
 	}
+	
+	public void styleToggle() throws IOException {
+		if(frame.darkMode == true)
+			frame.darkMode = false;
+		else 
+			frame.darkMode = true;
+		frame.styleInit();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -125,7 +133,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}
 		if (e.getSource() == darkMode) {
 			try {
-				frame.styleToggle();
+				styleToggle();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

@@ -362,117 +362,105 @@ public class Window extends JFrame implements ItemListener{
 			panelScroll.repaint();
 		}
 	}
-	
-	public void updateTypeList(int savedCounter, boolean once) {
-		int counter = 0;
-		List<String> updatedCategoryTypes = new ArrayList<String>();
-		List<String> categoryTypesIterator = new ArrayList<String>(categoryTypes);
-		String newType = "";
-		for(String types : categoryTypesIterator) {
-			if(counter == savedCounter) {
-				if(once == true) {
-					newType = ".";
-				}
-				else {
-					newType = "*";
-				}
-			}
-			else {
-				newType = types;
-			}
-			updatedCategoryTypes.add(newType);
-			counter++;
-		}
-		
-		categoryTypes.clear();
 
-		for(String strong : updatedCategoryTypes) {
-			categoryTypes.add(strong);
-		}
-	}
-
-	public void changeTypeOnce() throws IOException {
+	public void styleInit() throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
 		String line;
-		String savedType = "";
-		String once = ".";
 
-		int savedCounter = 0; 
-		int counter = 0; 
-		while(reader.hasNext()) {
+
+		if(reader.hasNext() && darkMode == true) {
 			line = reader.nextLine();
-			if(line.equals(once) || line.equals("*")){
-				savedType = line;
-				if(reader.hasNext())
-					line = reader.nextLine();
-				if(line.equals(currentCategory.getName())) {
-					rewrite.write(once + "\n");
-					rewrite.write(line + "\n");
-					savedCounter = counter;
-				}
-				else {
-					rewrite.write(savedType + "\n");
-					rewrite.write(line + "\n");
-				}
-				counter++;
-			}
-			else
+			if(!line.equals("[Dark Mode]")) {
+				rewrite.write("[Dark Mode]\n");
 				rewrite.write(line + "\n");
-		}
-		
-		updateTypeList(savedCounter, true);
-		rewrite.close();
-		reader.close();
-		Path save = Paths.get(path);
-		Path temporary= Paths.get(tempPath);
-		
-		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
-		counter = 0;
-	
-	}
-
-	public void changeTypePersistent() throws IOException {
-		String tempPath = "template.txt";
-		Scanner reader = new Scanner(new File(path));
-		FileWriter rewrite = new FileWriter(tempPath);
-		String line;
-		String savedType = "";
-		String persistent = "*";
-		
-		int savedCounter = 0; 
-		int counter = 0; 
-		while(reader.hasNext()) {
-			line = reader.nextLine();
-			if(line.equals(".") || line.equals("*")){
-				savedType = line;
-				if(reader.hasNext())
-					line = reader.nextLine();
-				if(line.equals(currentCategory.getName())) {
-					rewrite.write(persistent + "\n");
-					rewrite.write(line + "\n");
-					savedCounter = counter;
-				}
-				else {
-					rewrite.write(savedType + "\n");
-					rewrite.write(line + "\n");
-				}
-				counter++;
 			}
 			else
 				rewrite.write(line + "\n");
 		}
 
-		updateTypeList(savedCounter, false);
+		else if(reader.hasNext()) {
+			line = reader.nextLine();
+			if(line.equals("[Dark Mode]")) {
+				if(reader.hasNext()) {
+					line = reader.nextLine();
+					rewrite.write(line + "\n");
+				}
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			rewrite.write(line + "\n");
+		}
+		
 		rewrite.close();
 		reader.close();
 		Path save = Paths.get(path);
 		Path temporary= Paths.get(tempPath);
 		
-		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
+		Color style; 
+		Color style2;
+		if(darkMode == true) {
+			style = Color.black;
+			style2 = Color.white;
+		}
+		else {
+			style = Color.white;
+			style2 = Color.black;
+		}
+		
+		panelScroll.setBackground(style);
+		this.getContentPane().setBackground(style);	
+		for(JPanel catPanel : categories) {
+			Component label = catPanel.getComponent(0);
+			catPanel.setBackground(style);
+			if (label instanceof JLabel)
+				label.setForeground(style2);
+		}
+		for(JCheckBox selected: selecteds) {
+			selected.setBackground(style);
+			selected.setForeground(style2);
+		}
+		for(JCheckBox unSelected: unSelecteds) {
+			unSelected.setBackground(style);
+			unSelected.setForeground(style2);
+		}
+		panelScroll.revalidate();
+		panelScroll.repaint();
+		this.revalidate();
+		this.repaint();
 	}
-	
+
+	public void updateDate(){
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd");
+		DateTimeFormatter monthFormat= DateTimeFormatter.ofPattern("MM");
+		DateTimeFormatter yearFormat = DateTimeFormatter.ofPattern("yyyy");
+		LocalDateTime now = LocalDateTime.now();  
+		String d = dateFormat.format(now);
+		String m = monthFormat.format(now);
+		String y = yearFormat.format(now);
+		int intM = Integer.parseInt(m); 
+		String sMonth = String.format("%02d", intM);
+		String newPath = y + "/" + sMonth + d + ".txt";
+		
+		File currentYear = new File(y);
+		month = sMonth;
+		day = d;
+		path = newPath;	
+		this.setTitle("Simple Checklist Manager " + month + "/" + day);
+		this.setSize(600, 900);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		if(currentYear.mkdir()) {
+			//New Year
+		}
+	}
+
 	public void create() throws IOException {
 		panelScroll = new JPanel();
 		scroller = new JScrollPane(panelScroll);
@@ -582,112 +570,6 @@ public class Window extends JFrame implements ItemListener{
 		this.setVisible(true);
 	}
 	
-	public void styleToggle() throws IOException {
-		if(darkMode == true)
-			darkMode = false;
-		else 
-			darkMode = true;
-		styleInit();
-	}
-	
-	public void styleInit() throws IOException {
-		String tempPath = "template.txt";
-		Scanner reader = new Scanner(new File(path));
-		FileWriter rewrite = new FileWriter(tempPath);
-		String line;
-
-
-		if(reader.hasNext() && darkMode == true) {
-			line = reader.nextLine();
-			if(!line.equals("[Dark Mode]")) {
-				rewrite.write("[Dark Mode]\n");
-				rewrite.write(line + "\n");
-			}
-			else
-				rewrite.write(line + "\n");
-		}
-
-		else if(reader.hasNext()) {
-			line = reader.nextLine();
-			if(line.equals("[Dark Mode]")) {
-				if(reader.hasNext()) {
-					line = reader.nextLine();
-					rewrite.write(line + "\n");
-				}
-			}
-			else
-				rewrite.write(line + "\n");
-		}
-
-		while(reader.hasNext()) {
-			line = reader.nextLine();
-			rewrite.write(line + "\n");
-		}
-		
-		rewrite.close();
-		reader.close();
-		Path save = Paths.get(path);
-		Path temporary= Paths.get(tempPath);
-		
-		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
-		Color style; 
-		Color style2;
-		if(darkMode == true) {
-			style = Color.black;
-			style2 = Color.white;
-		}
-		else {
-			style = Color.white;
-			style2 = Color.black;
-		}
-		
-		panelScroll.setBackground(style);
-		this.getContentPane().setBackground(style);	
-		for(JPanel catPanel : categories) {
-			Component label = catPanel.getComponent(0);
-			catPanel.setBackground(style);
-			if (label instanceof JLabel)
-				label.setForeground(style2);
-		}
-		for(JCheckBox selected: selecteds) {
-			selected.setBackground(style);
-			selected.setForeground(style2);
-		}
-		for(JCheckBox unSelected: unSelecteds) {
-			unSelected.setBackground(style);
-			unSelected.setForeground(style2);
-		}
-		panelScroll.revalidate();
-		panelScroll.repaint();
-		this.revalidate();
-		this.repaint();
-	}
-
-	public void updateDate(){
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd");
-		DateTimeFormatter monthFormat= DateTimeFormatter.ofPattern("MM");
-		DateTimeFormatter yearFormat = DateTimeFormatter.ofPattern("yyyy");
-		LocalDateTime now = LocalDateTime.now();  
-		String d = dateFormat.format(now);
-		String m = monthFormat.format(now);
-		String y = yearFormat.format(now);
-		int intM = Integer.parseInt(m); 
-		String sMonth = String.format("%02d", intM);
-		String newPath = y + "/" + sMonth + d + ".txt";
-		
-		File currentYear = new File(y);
-		month = sMonth;
-		day = d;
-		path = newPath;	
-		this.setTitle("Simple Checklist Manager " + month + "/" + day);
-		this.setSize(600, 900);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		if(currentYear.mkdir()) {
-			//New Year
-		}
-	}
-
 	Window() throws IOException{
 		updateDate();
 		create();

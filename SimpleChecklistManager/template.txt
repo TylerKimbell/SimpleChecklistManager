@@ -1,11 +1,9 @@
+[Dark Mode]
+*
+Appointments:
+
 *
 Weeklies:
 
 .
-Dailies:
-
-.
 Tasks:
-
-.
-Appointments:
