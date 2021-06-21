@@ -59,7 +59,10 @@ public class Window extends JFrame implements ItemListener{
 	AddTask newTask; 
 	
 	GridBagConstraints c = new GridBagConstraints();
-	
+
+	Color style; 
+	Color style2;	
+
 	int gridRow = 0; 
 	
 	boolean darkMode = false;
@@ -111,13 +114,12 @@ public class Window extends JFrame implements ItemListener{
 		selected = new JCheckBox();
 		selected.setText(text);
 		selected.setFocusable(false);
+		selected.setForeground(Color.gray);
 		if(darkMode == true) {
 			selected.setBackground(Color.black);
-			selected.setForeground(Color.white);
 		}
 		else {
 			selected.setBackground(Color.white);
-			selected.setForeground(Color.black);
 		}
 		selected.setSelected(true);
 		selected.addItemListener(this);
@@ -223,7 +225,7 @@ public class Window extends JFrame implements ItemListener{
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
 	}
 
-	public void saveCheck(String position) throws IOException {
+	public void saveCheck(String position, JCheckBox checkColor) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -236,6 +238,9 @@ public class Window extends JFrame implements ItemListener{
 			if(line.equals(check)) {
 				line = reader.nextLine();
 				if(line.equals(position)) {
+					checkColor.setForeground(style2);
+					panelScroll.revalidate();
+					panelScroll.repaint();
 					rewrite.write(unCheck + "\n");
 					rewrite.write(line + "\n");
 				}
@@ -247,6 +252,9 @@ public class Window extends JFrame implements ItemListener{
 			else if(line.equals(unCheck)) {
 				line = reader.nextLine();
 				if(line.equals(position)) {
+					checkColor.setForeground(Color.gray);
+					panelScroll.revalidate();
+					panelScroll.repaint();
 					rewrite.write(check + "\n");
 					rewrite.write(line + "\n");
 				}
@@ -402,8 +410,7 @@ public class Window extends JFrame implements ItemListener{
 		Path temporary= Paths.get(tempPath);
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);	
-		Color style; 
-		Color style2;
+		
 		if(darkMode == true) {
 			style = Color.black;
 			style2 = Color.white;
@@ -423,7 +430,7 @@ public class Window extends JFrame implements ItemListener{
 		}
 		for(JCheckBox selected: selecteds) {
 			selected.setBackground(style);
-			selected.setForeground(style2);
+			selected.setForeground(Color.gray);
 		}
 		for(JCheckBox unSelected: unSelecteds) {
 			unSelected.setBackground(style);
@@ -583,7 +590,7 @@ public class Window extends JFrame implements ItemListener{
 			if (source == check) {
 				position = ((JCheckBox) check).getText();
 				try {
-					saveCheck(position);
+					saveCheck(position, ((JCheckBox) check));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -594,7 +601,7 @@ public class Window extends JFrame implements ItemListener{
 			if (source == unCheck) {
 				position = ((JCheckBox) unCheck).getText();
 				try {
-					saveCheck(position);
+					saveCheck(position, ((JCheckBox) unCheck));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
