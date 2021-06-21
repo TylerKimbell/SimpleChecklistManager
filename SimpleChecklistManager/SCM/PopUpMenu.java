@@ -24,6 +24,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	Window frame;
+
+	JMenu taskMenu;
+	JMenu categoryMenu;
+
+	static JMenuItem autoDelete;
+	static JMenuItem manualDelete;
+
+	static List<JMenuItem> taskTypes = new ArrayList<JMenuItem>();
 	
 	JMenuItem edit;
 	JMenu changeType;
@@ -33,12 +41,28 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	JMenuItem moveDown;
 	JMenuItem delete;
 
+
+	static AddTask newTask;
+	static AddCategory newCat;
+
 	JMenuItem up;
 	JMenuItem down;
 	
 	PopUpMenu(Window mainFrame) {
 		frame = mainFrame;
-		
+
+		taskMenu = new JMenu("Add Task");
+		taskMenu.addActionListener(this);	
+		categoryMenu = new JMenu("Add Category");
+		categoryMenu.addActionListener(this);	
+
+		autoDelete = new JMenuItem ("Once");
+		manualDelete = new JMenuItem ("Persistent");
+		autoDelete.addActionListener(this);
+		manualDelete.addActionListener(this);
+		categoryMenu.add(autoDelete);
+		categoryMenu.add(manualDelete);
+
 		edit = new JMenuItem("Edit");
 		edit.addActionListener(this);
 		changeType = new JMenu("Change Type");
@@ -51,14 +75,29 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		moveUp.addActionListener(this);
 		moveDown = new JMenuItem("Move Down");
 		moveDown.addActionListener(this);
+
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
+		
+		taskMenu = new JMenu("Add Task");
+		taskMenu.addActionListener(this);	
+		for(JPanel cat : frame.categories) {
+			JMenuItem taskType = new JMenuItem(cat.getName());
+			taskType.addActionListener(this);
+			taskTypes.add(taskType);
+			taskMenu.add(taskType);
+		}
+		add(taskMenu);
+		add(categoryMenu);
+
+		addSeparator();
 		add(edit);
 		if(frame.currentCategory != null) {
 			add(changeType);
 			changeType.add(once);
 			changeType.add(persistent);
 		}
+
 		addSeparator();
 		add(moveUp);
 		add(moveDown);
@@ -740,12 +779,29 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source = e.getSource();
+
+		if (e.getSource() == autoDelete) {
+			newCat = new AddCategory(frame, true);
+		}
+
+		if (e.getSource() == manualDelete) {
+			newCat = new AddCategory(frame, false);
+		}
+
 		
+		for(JMenuItem taskType : taskTypes) 
+		{
+			if(e.getSource() == taskType) {
+				newTask = new AddTask(frame, taskType.getText());
+			}
+		}	
+
 		if (source == edit) {
 			@SuppressWarnings("unused")
 			Edit edit = new Edit(frame);
 		}
-		else if (source == once) {
+
+		if (source == once) {
 			try {
 				changeTypeOnce();
 			} catch (IOException e1) {
@@ -753,7 +809,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		else if (source == persistent) {
+
+		if (source == persistent) {
 			try {
 				changeTypePersistent();
 			} catch (IOException e1) {
@@ -761,7 +818,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		else if(source == moveUp) {
+		if(source == moveUp) {
 			try {
 				moveUp();
 			} catch (IOException e1) {
@@ -769,7 +826,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		else if(source == moveDown) {
+
+		if(source == moveDown) {
 			try {
 				moveDown();
 			} catch (IOException e1) {
@@ -777,8 +835,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
+
 		//I have to keep these methods in main because methods in main use them. 
-		else if(source == delete) {
+		if(source == delete) {
 			try {
 				if (frame.currentCheckbox != null)
 					frame.deleteCheckBox();

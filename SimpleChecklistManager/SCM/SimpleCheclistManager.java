@@ -6,7 +6,6 @@ import java.text.ParseException;
  * Bugs: 
  * 
  * Things to do:
- * Add task and add category to rightclick menu
  * Grey Out Checked Items
  * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
  * Create tab system to better organize categories. 
