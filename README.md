@@ -4,7 +4,7 @@ or anything you might imagine using a checklist for.
 
 ![Alt text](https://i.gyazo.com/4caecb0ba7eab392b6230353393ab2f4.png "Exmample checklists")
 
-![Alt text](i.gyazo.com/8d2896d384179f06153441377a2b165b.png "New Checklist Manager Template")
+![Alt text](https://i.gyazo.com/8d2896d384179f06153441377a2b165b.png "New Checklist Manager Template")
 
 ## Features
 - Create/Edit/Delete/Move Categories
@@ -18,6 +18,7 @@ or anything you might imagine using a checklist for.
   - As mentioned above tasks will behave relative to the category they are placed in. Once tasks will be deleted the next day automatically when checked. 
   - You can create multiple tasks within one category by separating tasks with commas.
 - Right Click Menu
+  - Create Tasks and Categories (Same as Edit Menu)
   - Change category type
   - Edit task or category
   - Move task or category
@@ -28,7 +29,7 @@ or anything you might imagine using a checklist for.
   - Refresh
     - Refreshes the date and updates tasks. There won't be a change in date or tasks unless it is a new day since the last time you refreshed or ran the program.
 - Edit Menu
-  - Create tasks or categories.
+  - Create tasks and categories.
 - Tools Menu
   - Dark Mode
     - Toggles dark mode on or off.
