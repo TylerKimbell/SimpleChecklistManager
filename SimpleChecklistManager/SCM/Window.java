@@ -111,16 +111,11 @@ public class Window extends JFrame implements ItemListener{
 	}
 
 	public void displaySelectedCheck(String text, String category){
+		String strikeoutText = "<HTML><s>" + text + "</s></HTML>";
 		selected = new JCheckBox();
-		selected.setText(text);
+		selected.setText(strikeoutText);
 		selected.setFocusable(false);
 		selected.setForeground(Color.gray);
-		if(darkMode == true) {
-			selected.setBackground(Color.black);
-		}
-		else {
-			selected.setBackground(Color.white);
-		}
 		selected.setSelected(true);
 		selected.addItemListener(this);
 		selected.addMouseListener(new RightClickListener(this));
@@ -141,14 +136,6 @@ public class Window extends JFrame implements ItemListener{
 		unSelected = new JCheckBox();
 		unSelected.setText(text);
 		unSelected.setFocusable(false);
-		if(darkMode == true) {
-			unSelected.setBackground(Color.black);
-			unSelected.setForeground(Color.white);
-		}
-		else {
-			unSelected.setBackground(Color.white);
-			unSelected.setForeground(Color.black);
-		}
 		unSelected.addItemListener(this);
 		unSelected.addMouseListener(new RightClickListener(this));
 		unSelecteds.add(unSelected);
@@ -232,13 +219,29 @@ public class Window extends JFrame implements ItemListener{
 		String line;
 		String check = "[x]";
 		String unCheck = "[]";
+		String checkBoxText = checkColor.getText(); 
+		String cleanText = "";
+		
+		boolean html = false;
+		for(int i = 0; i < checkBoxText.length(); i++) {
+			char c = checkBoxText.charAt(i);
+			if(c == '<')
+				html = true;
+			if (html == false)
+				cleanText+=c;
+			if (c == '>')
+				html = false;
+		}
+
+		String strikeoutText = "<HTML><s>" + cleanText + "</s></HTML>";
 
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(check)) {
 				line = reader.nextLine();
-				if(line.equals(position)) {
+				if(line.equals(cleanText)) {
 					checkColor.setForeground(style2);
+					checkColor.setText(cleanText);
 					panelScroll.revalidate();
 					panelScroll.repaint();
 					rewrite.write(unCheck + "\n");
@@ -251,8 +254,9 @@ public class Window extends JFrame implements ItemListener{
 			}
 			else if(line.equals(unCheck)) {
 				line = reader.nextLine();
-				if(line.equals(position)) {
+				if(line.equals(cleanText)) {
 					checkColor.setForeground(Color.gray);
+					checkColor.setText(strikeoutText);
 					panelScroll.revalidate();
 					panelScroll.repaint();
 					rewrite.write(check + "\n");

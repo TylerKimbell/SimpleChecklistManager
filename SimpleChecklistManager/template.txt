@@ -1,45 +1,31 @@
 .
 Appointments:
-[x]
-1/1 New Years
-[x]
-1/2 Day After New Years
 
 .
 Once:
 []
 Groceries
-[]
+[x]
 Dishes
-[]
-Hi
 [x]
-I like
-[x]
-Pie
-[x]
-Randomly fixed problemo
-[]
 Muchacho
-[x]
-Nacho
 
 *
 Dailies:
 [x]
 Workout
-[]
+[x]
 Wake Up At 9am
 [x]
 Pie
-[]
+[x]
 I Like
-[]
+[x]
 Hi
 
 *
 Weeklies:
-[]
+[x]
 Laundry
 [x]
 Clean
@@ -49,5 +35,5 @@ The
 Final
 [x]
 Countdown
-[]
+[x]
 Dun dun dun
