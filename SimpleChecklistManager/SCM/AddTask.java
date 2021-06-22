@@ -142,7 +142,12 @@ public class AddTask extends JFrame implements KeyListener{
 			}
 			if(duplicate == false) {
 				for(int i = 0; i < multipleTasks.size(); i++) {
-					frame.displayUnselectedCheck(multipleTasks.get(i), taskCategory);
+					try {
+						frame.displayUnselectedCheck(multipleTasks.get(i), taskCategory);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		}

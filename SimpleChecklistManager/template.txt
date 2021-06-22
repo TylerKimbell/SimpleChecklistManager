@@ -1,6 +1,18 @@
 [Dark Mode]
 .
 Appointments:
+[]
+Testing
+[]
+Testing 2
+[]
+Should be fine
+[]
+Is it fixed?
+[]
+Ummmm
+[]
+dsakjfdkl;sajdfksl;
 
 .
 Once:
@@ -10,6 +22,12 @@ Groceries
 Dishes
 [x]
 Muchacho
+[]
+Stuff and things
+[]
+Other Stuf
+[]
+Stjkfdls;jaf;
 
 *
 Dailies:
@@ -23,6 +41,8 @@ Pie
 I Like
 [x]
 Hi
+[]
+yoyoyoyoyo
 
 *
 Weeklies:

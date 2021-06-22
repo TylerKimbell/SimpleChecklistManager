@@ -128,7 +128,7 @@ public class Window extends JFrame implements ItemListener{
 		panelScroll.repaint();
 	}
 
-	public void displayUnselectedCheck(String text, String category){
+	public void displayUnselectedCheck(String text, String category) throws IOException{
 		if(text.equals("")) {
 			System.out.println("Blank space");
 		}
@@ -143,6 +143,7 @@ public class Window extends JFrame implements ItemListener{
 				cat.add(unSelected);
 			}
 		}
+		styleInit();
 		panelScroll.revalidate();
 		panelScroll.repaint();
 	}

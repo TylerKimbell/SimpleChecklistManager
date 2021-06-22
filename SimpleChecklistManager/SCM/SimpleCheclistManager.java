@@ -9,6 +9,7 @@ import java.text.ParseException;
  * Things to do:
  * Create tab system to better organize categories. 
  * Option to Move to top or bottom.
+ * color options for user? 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 
