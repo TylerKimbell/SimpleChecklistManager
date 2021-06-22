@@ -11,7 +11,7 @@ Once:
 Groceries
 []
 Dishes
-[]
+[x]
 Hi
 [x]
 I like
@@ -26,15 +26,15 @@ Nacho
 
 *
 Dailies:
-[x]
+[]
 Workout
 []
 Wake Up At 9am
 [x]
 Pie
-[]
+[x]
 I Like
-[]
+[x]
 Hi
 
 *
@@ -43,11 +43,11 @@ Weeklies:
 Laundry
 [x]
 Clean
-[x]
+[]
 The
 [x]
 Final
-[x]
+[]
 Countdown
 []
 Dun dun dun

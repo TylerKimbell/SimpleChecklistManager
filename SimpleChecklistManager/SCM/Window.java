@@ -62,6 +62,7 @@ public class Window extends JFrame implements ItemListener{
 
 	Color style; 
 	Color style2;	
+	Color style3;
 
 	int gridRow = 0; 
 	
@@ -79,14 +80,12 @@ public class Window extends JFrame implements ItemListener{
 		JPanel catPanel = new JPanel();
 		JPanel previous;
 		catPanel.setLayout(new GridLayout(0,1));
-		if(darkMode == true)
-			catPanel.setBackground(Color.black);
-		else
-			catPanel.setBackground(Color.white);
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
 		categoryTypes.add(autoDelete);
+		if(autoDelete.equals("*"))
+			catPanel.setForeground(Color.blue);
 		
 		c.gridy = gridRow;
 
@@ -151,8 +150,6 @@ public class Window extends JFrame implements ItemListener{
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
 		textDisplay.setText("<HTML><U><span style='font-size:12px'>" + text + "</span></U></HTML>");
-		if(darkMode == true)
-			textDisplay.setForeground(Color.white);
 		for (JPanel cat : categories) {
 			if(cat.getName().equals(category) && !text.equals("")) {
 				cat.add(textDisplay);
@@ -418,19 +415,26 @@ public class Window extends JFrame implements ItemListener{
 		if(darkMode == true) {
 			style = Color.black;
 			style2 = Color.white;
+			style3 = Color.red;
 		}
 		else {
 			style = Color.white;
 			style2 = Color.black;
+			style3 = Color.blue;
 		}
 		
 		panelScroll.setBackground(style);
 		this.getContentPane().setBackground(style);	
+		int counter = 0; 
 		for(JPanel catPanel : categories) {
+			String autoDel = categoryTypes.get(counter);
 			Component label = catPanel.getComponent(0);
 			catPanel.setBackground(style);
-			if (label instanceof JLabel)
+			if (label instanceof JLabel && autoDel.equals("."))
 				label.setForeground(style2);
+			else
+				label.setForeground(style3);
+			counter++;
 		}
 		for(JCheckBox selected: selecteds) {
 			selected.setBackground(style);

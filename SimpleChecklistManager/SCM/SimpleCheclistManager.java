@@ -7,11 +7,7 @@ import java.text.ParseException;
  * There may be an issue with checked items reversing color, but I can't replicate it. 
  * 
  * Things to do:
- * Add strikeout to grayed out checked items
- * 	Should there be a difference in persistent tasks or no? I think there should be but iunno. 
- * 			Blue? 
  * Create tab system to better organize categories. 
- * Some way to differentiate between once and persistent tasks. Different color or smth?
  * Option to Move to top or bottom.
  * 
  * Things to do in the far future: 
