@@ -80,6 +80,7 @@ public class Window extends JFrame implements ItemListener{
 		JPanel catPanel = new JPanel();
 		JPanel previous;
 		catPanel.setLayout(new GridLayout(0,1));
+		catPanel.setBackground(style);
 		catPanel.setName(category);
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
