@@ -2,17 +2,9 @@
 .
 Appointments:
 []
-Testing
+1/1 New Years
 []
-Testing 2
-[]
-Should be fine
-[]
-Is it fixed?
-[]
-Ummmm
-[]
-dsakjfdkl;sajdfksl;
+1/2 Day After New Years
 
 .
 Once:
@@ -20,29 +12,13 @@ Once:
 Groceries
 []
 Dishes
-[x]
-Muchacho
-[]
-Stuff and things
-[]
-Other Stuf
-[]
-Stjkfdls;jaf;
 
 *
 Dailies:
-[x]
+[]
 Workout
 []
 Wake Up At 9am
-[]
-Pie
-[]
-I Like
-[x]
-Hi
-[]
-yoyoyoyoyo
 
 *
 Weeklies:
@@ -50,11 +26,12 @@ Weeklies:
 Laundry
 []
 Clean
-[]
-The
-[x]
-Final
-[x]
-Countdown
-[x]
-Dun dun dun
+
+*
+Stuff
+
+*
+Blue
+
+*
+Actually Blue This Time

@@ -109,7 +109,6 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			try {
 				frame.updateDate();
 				frame.create();
-				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

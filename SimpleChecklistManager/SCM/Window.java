@@ -84,8 +84,6 @@ public class Window extends JFrame implements ItemListener{
 		catPanel.addMouseListener(new RightClickListener(this));
 		categories.add(catPanel);
 		categoryTypes.add(autoDelete);
-		if(autoDelete.equals("*"))
-			catPanel.setForeground(Color.blue);
 		
 		c.gridy = gridRow;
 
@@ -143,7 +141,8 @@ public class Window extends JFrame implements ItemListener{
 				cat.add(unSelected);
 			}
 		}
-		styleInit();
+		unSelected.setBackground(style);
+		unSelected.setForeground(style2);
 		panelScroll.revalidate();
 		panelScroll.repaint();
 	}
@@ -151,6 +150,7 @@ public class Window extends JFrame implements ItemListener{
 	public void displayText(String text, String category){
 		JLabel textDisplay= new JLabel();
 		textDisplay.setText("<HTML><U><span style='font-size:12px'>" + text + "</span></U></HTML>");
+		textDisplay.setForeground(style3);
 		for (JPanel cat : categories) {
 			if(cat.getName().equals(category) && !text.equals("")) {
 				cat.add(textDisplay);
