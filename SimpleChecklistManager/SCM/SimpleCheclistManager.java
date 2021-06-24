@@ -4,7 +4,7 @@ import java.text.ParseException;
 /* Human Task Manager 
  * 
  * Bugs: 
- * There may be an issue with checked items reversing color, but I can't replicate it. 
+ * Sometimes checked items write html to file. I think when you move them?
  * 
  * Things to do:
  * Option to Move to top or bottom.

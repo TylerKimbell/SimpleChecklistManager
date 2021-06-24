@@ -37,8 +37,10 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	JMenu changeType;
 	JMenuItem once;
 	JMenuItem persistent;
+	JMenuItem moveToTop;
 	JMenuItem moveUp;
 	JMenuItem moveDown;
+	JMenuItem moveToBottom;
 	JMenuItem delete;
 
 
@@ -71,10 +73,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		once.addActionListener(this);
 		persistent = new JMenuItem("Persistent");
 		persistent.addActionListener(this);
+		moveToTop = new JMenuItem("Move To Top");
+		moveToTop.addActionListener(this);
 		moveUp = new JMenuItem("Move Up");
 		moveUp.addActionListener(this);
 		moveDown = new JMenuItem("Move Down");
 		moveDown.addActionListener(this);
+		moveToBottom = new JMenuItem("Move To Bottom");
+		moveToBottom.addActionListener(this);
 
 		delete = new JMenuItem("Delete");
 		delete.addActionListener(this);
@@ -99,8 +105,10 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		}
 
 		addSeparator();
+		add(moveToTop);
 		add(moveUp);
 		add(moveDown);
+		add(moveToBottom);
 		addSeparator();
 		add(delete);
 	}
@@ -214,7 +222,21 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);		
 	}
 
-	public void saveMove(String categoryPanel) throws IOException {
+	public String cleanHTML(String text) {
+		boolean html = false;
+		String cleanText = "";
+		for(int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if(c == '<')
+				html = true;
+			if (html == false)
+				cleanText+=c;
+			if (c == '>')
+				html = false;
+		}
+		return cleanText;
+	}
+	public void saveMove(String itemText) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -223,14 +245,26 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		String unCheck = "[]";
 		String checkStatus = "";
 		String autoDelete = "";
-		
+		String cleanText = "";
+
+		boolean html = false;
+		for(int i = 0; i < itemText.length(); i++) {
+			char c = itemText.charAt(i);
+			if(c == '<')
+				html = true;
+			if (html == false)
+				cleanText+=c;
+			if (c == '>')
+				html = false;
+		}	
+
 		int counter = 0;
 		while(reader.hasNext()) {
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")) {
 				autoDelete = frame.categoryTypes.get(counter);
 				line = reader.nextLine();
-				if(line.equals(categoryPanel)) {
+				if(line.equals(cleanText)) {
 					rewrite.write(autoDelete + "\n");
 					rewrite.write(line + "\n");
 					line = reader.nextLine();
@@ -492,9 +526,116 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		}
 	}
 
+	public void moveTop() throws IOException{
+		int counter = 0; 
+		String clean = "";
+		
+		frame.updatedCheckboxes.clear();
+		frame.updatedNames.clear();
+		frame.updatedNames = new ArrayList<String>();
+		frame.updatedCheckboxes = new ArrayList<Component>();
+		List<JPanel> categoryIterator = new ArrayList<JPanel>(frame.categories);
+		for(JPanel category : categoryIterator) {
+			if(frame.currentCheckbox != null) {
+				if(frame.currentCheckbox.getParent() == category) {
+					Component[] checkboxes = category.getComponents();
+					for(Component checkbox : checkboxes) {
+						if(counter == 1 && checkbox != frame.currentCheckbox) {
+							frame.updatedCheckboxes.add(frame.currentCheckbox);
+							frame.updatedCheckboxes.add(checkbox);
+						}
+						else if(checkbox instanceof JCheckBox && checkbox == frame.currentCheckbox && counter != 1) {
+							//do nothing
+						}
+						else
+							frame.updatedCheckboxes.add(checkbox);
+						category.remove(checkbox);
+						counter++; 
+					}
+					counter = 0; 
+					for(Component updatedCB : frame.updatedCheckboxes) {
+						category.add(updatedCB);
+						if(updatedCB instanceof JCheckBox) {
+							if(((JCheckBox) updatedCB).isSelected())
+								frame.updatedNames.add("[x]");
+							else
+								frame.updatedNames.add("[]");
+							clean = cleanHTML(((JCheckBox)updatedCB).getText());
+							frame.updatedNames.add(clean);
+						}
+						counter++;
+					}
+					category.revalidate();
+					category.repaint();
+					saveMove(category.getName());
+					frame.currentCheckbox = null; 
+				}
+			}
+			else if (frame.currentCategory != null) {
+				String savedCatType = "."; 
+				Component[] categoryContents = frame.currentCategory.getComponents();
+				if(frame.currentCategory == category) {
+					List<JPanel> cats = new ArrayList<JPanel>(frame.categories);
+					List<JPanel> newCats = new ArrayList<JPanel>();
+					List<String> updatedCatTypes = new ArrayList<String>();
+					for(Component names : categoryContents) {
+						if (names instanceof JPanel) {
+							frame.updatedNames.add(((JPanel)names).getName());
+						}
+						else if (names instanceof JCheckBox) {
+							if(((JCheckBox)names).isSelected()) {
+								frame.updatedNames.add("[x]");
+							}
+							else{
+								frame.updatedNames.add("[]");
+							}
+							clean = cleanHTML(((JCheckBox)names).getText());
+							frame.updatedNames.add(clean);
+						}
+					}
+
+					for(JPanel cat : cats) {
+						if(cat == frame.currentCategory) {
+							//position = counter -1;
+							savedCatType = frame.categoryTypes.get(counter);
+						}
+						else {
+							newCats.add(cat);
+							updatedCatTypes.add(frame.categoryTypes.get(counter));
+						}
+						frame.categories.remove(cat);
+						frame.panelScroll.remove(cat);
+						counter++; 
+					}
+					frame.categoryTypes.clear();
+					counter = 0; 
+					frame.gridRow = 0; 
+				//	for(JPanel updatedCat : newCats) {
+					//	if(counter == position && !(position < 0)) {
+				//			categoryMove(frame.currentCategory, savedCatType);
+				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
+					//	}
+					//	else if (counter == 0 && position < 0) {
+				//			categoryMove(frame.currentCategory, savedCatType);
+					//		categoryMove(updatedCat, updatedCatTypes.get(counter));
+					//	}
+					//	else {
+				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
+				//		}
+						counter++;
+				//	}
+					saveMoveCategoryUp(frame.currentCategory.getName());
+					moveMenuItem();
+					frame.currentCategory = null; 
+				}
+			}
+		}
+	}
+	
 	public void moveUp() throws IOException{
 		int counter = 0; 
 		int position = 0;
+		String clean = "";
 		frame.updatedCheckboxes.clear();
 		frame.updatedNames.clear();
 		frame.updatedNames = new ArrayList<String>();
@@ -523,12 +664,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(frame.currentCheckbox.getText());
+								clean = cleanHTML(frame.currentCheckbox.getText());
+								frame.updatedNames.add(clean);
 								if(((JCheckBox) updatedCB).isSelected())
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(((JCheckBox)updatedCB).getText());
+								clean = cleanHTML(((JCheckBox)updatedCB).getText());
+								frame.updatedNames.add(clean);
 							}
 						}
 						else if (counter == 0 && counter == position) {
@@ -538,7 +681,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 								frame.updatedNames.add("[x]");
 							else
 								frame.updatedNames.add("[]");
-							frame.updatedNames.add(frame.currentCheckbox.getText());
+							clean = cleanHTML(frame.currentCheckbox.getText());
+							frame.updatedNames.add(clean);
 						}
 						else {
 							category.add(updatedCB);
@@ -547,7 +691,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(((JCheckBox)updatedCB).getText());
+								clean = cleanHTML(((JCheckBox)updatedCB).getText());
+								frame.updatedNames.add(clean);
 							}
 						}
 						counter++;
@@ -576,7 +721,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 							else{
 								frame.updatedNames.add("[]");
 							}
-							frame.updatedNames.add(((JCheckBox)names).getText());
+							clean = cleanHTML(((JCheckBox)names).getText());
+							frame.updatedNames.add(clean);
 						}
 					}
 
@@ -621,6 +767,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 	public void moveDown() throws IOException{
 		int counter = 0; 
 		int position = 0;
+		String clean = "";
+		
 		frame.updatedCheckboxes.clear();
 		frame.updatedNames.clear();
 		frame.updatedNames = new ArrayList<String>();
@@ -649,12 +797,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(((JCheckBox)updatedCB).getText());
+								clean = cleanHTML(((JCheckBox)updatedCB).getText());
+								frame.updatedNames.add(clean);
 								if(frame.currentCheckbox.isSelected())
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(frame.currentCheckbox.getText());
+								clean = cleanHTML(frame.currentCheckbox.getText());
+								frame.updatedNames.add(clean);
 							}
 						}
 						else if (counter == frame.updatedCheckboxes.size()-1 && position == frame.updatedCheckboxes.size()) {
@@ -664,12 +814,14 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 								frame.updatedNames.add("[x]");
 							else
 								frame.updatedNames.add("[]");
-							frame.updatedNames.add(((JCheckBox)updatedCB).getText());
+							clean = cleanHTML(((JCheckBox)updatedCB).getText());
+							frame.updatedNames.add(clean);
 							if(frame.currentCheckbox.isSelected())
 								frame.updatedNames.add("[x]");
 							else
 								frame.updatedNames.add("[]");
-							frame.updatedNames.add(frame.currentCheckbox.getText());
+							clean = cleanHTML(frame.currentCheckbox.getText());
+							frame.updatedNames.add(clean);
 						}
 						else {
 							category.add(updatedCB);
@@ -678,7 +830,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 									frame.updatedNames.add("[x]");
 								else
 									frame.updatedNames.add("[]");
-								frame.updatedNames.add(((JCheckBox)updatedCB).getText());
+								clean = cleanHTML(((JCheckBox)updatedCB).getText());
+								frame.updatedNames.add(clean);
 							}
 						}
 						counter++;
@@ -707,7 +860,8 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 							else{
 								frame.updatedNames.add("[]");
 							}
-							frame.updatedNames.add(((JCheckBox)names).getText());
+							clean = cleanHTML(((JCheckBox)names).getText());
+							frame.updatedNames.add(clean);
 						}
 					}
 					for(JPanel cat : cats) {
@@ -788,7 +942,6 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 			newCat = new AddCategory(frame, false);
 		}
 
-		
 		for(JMenuItem taskType : taskTypes) 
 		{
 			if(e.getSource() == taskType) {
@@ -818,6 +971,16 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
+
+		if(source == moveToTop) {
+			try {
+				moveTop();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
 		if(source == moveUp) {
 			try {
 				moveUp();
@@ -826,7 +989,6 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-
 		if(source == moveDown) {
 			try {
 				moveDown();
@@ -834,6 +996,10 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+
+		if(source == moveToBottom) {
+
 		}
 
 		//I have to keep these methods in main because methods in main use them. 
@@ -849,5 +1015,4 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 			}
 		}
 	}
-
 }
