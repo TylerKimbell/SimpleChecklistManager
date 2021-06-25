@@ -236,6 +236,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		}
 		return cleanText;
 	}
+
 	public void saveMove(String itemText) throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
@@ -418,7 +419,6 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 			line = reader.nextLine();
 			if(line.equals(".") || line.equals("*")){
 				String reorderedCats = frame.categories.get(counter).getName();
-				//System.out.println(reorderedCats);
 				autoDelete = frame.categoryTypes.get(counter);
 				line = reader.nextLine();
 				if(!(line.equals(reorderedCats)) && written == false){
@@ -902,6 +902,112 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		}
 	}
 
+	public void moveBottom() throws IOException{
+		int counter = 0; 
+		String clean = "";
+		
+		frame.updatedCheckboxes.clear();
+		frame.updatedNames.clear();
+		frame.updatedNames = new ArrayList<String>();
+		frame.updatedCheckboxes = new ArrayList<Component>();
+		List<JPanel> categoryIterator = new ArrayList<JPanel>(frame.categories);
+		for(JPanel category : categoryIterator) {
+			if(frame.currentCheckbox != null) {
+				if(frame.currentCheckbox.getParent() == category) {
+					Component[] checkboxes = category.getComponents();
+					for(Component checkbox : checkboxes) {
+						if(counter == checkboxes.length-1 && checkbox != frame.currentCheckbox) {
+							frame.updatedCheckboxes.add(checkbox);
+							frame.updatedCheckboxes.add(frame.currentCheckbox);
+						}
+						else if(checkbox instanceof JCheckBox && checkbox == frame.currentCheckbox && counter != checkboxes.length-1) {
+							//do nothing
+						}
+						else
+							frame.updatedCheckboxes.add(checkbox);
+						category.remove(checkbox);
+						counter++; 
+					}
+					counter = 0; 
+					for(Component updatedCB : frame.updatedCheckboxes) {
+						category.add(updatedCB);
+						if(updatedCB instanceof JCheckBox) {
+							if(((JCheckBox) updatedCB).isSelected())
+								frame.updatedNames.add("[x]");
+							else
+								frame.updatedNames.add("[]");
+							clean = cleanHTML(((JCheckBox)updatedCB).getText());
+							frame.updatedNames.add(clean);
+						}
+						counter++;
+					}
+					category.revalidate();
+					category.repaint();
+					saveMove(category.getName());
+					frame.currentCheckbox = null; 
+				}
+			}
+			else if (frame.currentCategory != null) {
+				String savedCatType = "."; 
+				Component[] categoryContents = frame.currentCategory.getComponents();
+				if(frame.currentCategory == category) {
+					List<JPanel> cats = new ArrayList<JPanel>(frame.categories);
+					List<JPanel> newCats = new ArrayList<JPanel>();
+					List<String> updatedCatTypes = new ArrayList<String>();
+					for(Component names : categoryContents) {
+						if (names instanceof JPanel) {
+							frame.updatedNames.add(((JPanel)names).getName());
+						}
+						else if (names instanceof JCheckBox) {
+							if(((JCheckBox)names).isSelected()) {
+								frame.updatedNames.add("[x]");
+							}
+							else{
+								frame.updatedNames.add("[]");
+							}
+							clean = cleanHTML(((JCheckBox)names).getText());
+							frame.updatedNames.add(clean);
+						}
+					}
+
+					for(JPanel cat : cats) {
+						if(cat == frame.currentCategory) {
+							//position = counter -1;
+							savedCatType = frame.categoryTypes.get(counter);
+						}
+						else {
+							newCats.add(cat);
+							updatedCatTypes.add(frame.categoryTypes.get(counter));
+						}
+						frame.categories.remove(cat);
+						frame.panelScroll.remove(cat);
+						counter++; 
+					}
+					frame.categoryTypes.clear();
+					counter = 0; 
+					frame.gridRow = 0; 
+				//	for(JPanel updatedCat : newCats) {
+					//	if(counter == position && !(position < 0)) {
+				//			categoryMove(frame.currentCategory, savedCatType);
+				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
+					//	}
+					//	else if (counter == 0 && position < 0) {
+				//			categoryMove(frame.currentCategory, savedCatType);
+					//		categoryMove(updatedCat, updatedCatTypes.get(counter));
+					//	}
+					//	else {
+				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
+				//		}
+						counter++;
+				//	}
+					saveMoveCategoryUp(frame.currentCategory.getName());
+					moveMenuItem();
+					frame.currentCategory = null; 
+				}
+			}
+		}
+	}
+
 	public void categoryMove(JPanel category, String autoDelete) {
 		JPanel previous;
 
@@ -999,7 +1105,12 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		}
 
 		if(source == moveToBottom) {
-
+			try {
+				moveBottom();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 		//I have to keep these methods in main because methods in main use them. 

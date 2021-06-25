@@ -7,39 +7,28 @@ Appointments:
 Once:
 []
 Groceries
-[x]
-three
-[]
-eight
-[x]
-one
-[]
-five
-[]
-six
-[]
-seve
-[x]
-two
-[]
-four
 
 *
 Dailies:
-[x]
-???
 []
-Clean
+Wake Up At 9am
 []
 Workout
 []
-Wake Up At 9am
-[x]
-I don't know man
-[]
 why does it not
 [x]
+work
+[x]
+???
+[x]
+I don't know man
+
+*
+Weeklies:
+[x]
 Laundry
+[]
+Clean
 
 *
 Stuff

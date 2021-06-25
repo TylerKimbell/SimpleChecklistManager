@@ -4,13 +4,12 @@ import java.text.ParseException;
 /* Human Task Manager 
  * 
  * Bugs: 
- * Sometimes checked items write html to file. I think when you move them?
  * 
  * Things to do:
  * Option to Move to top or bottom.
- * Create tab system to better organize categories. 
- * color options for user? 
  * f5 for refresh
+ * color options for user? 
+ * Create tab system to better organize categories. 
  * 
  * Things to do in the far future: 
  * Periodic checks for if the date has changed so it updates automatically rather than having to refresh. 

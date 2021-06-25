@@ -2,21 +2,21 @@
 Appointments:
 []
 1/1 New Years
-[]
+[x]
 1/2 Day After New Years
 
 .
 Once:
 []
 Groceries
-[]
+[x]
 Dishes
 
 *
 Dailies:
 []
 Workout
-[]
+[x]
 Wake Up At 9am
 
 *
