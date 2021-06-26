@@ -246,18 +246,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		String unCheck = "[]";
 		String checkStatus = "";
 		String autoDelete = "";
-		String cleanText = "";
-
-		boolean html = false;
-		for(int i = 0; i < itemText.length(); i++) {
-			char c = itemText.charAt(i);
-			if(c == '<')
-				html = true;
-			if (html == false)
-				cleanText+=c;
-			if (c == '>')
-				html = false;
-		}	
+		String cleanText = cleanHTML(itemText); 
 
 		int counter = 0;
 		while(reader.hasNext()) {
@@ -300,7 +289,88 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	public void saveMoveCategoryUp(String categoryPanel) throws IOException {
+	public void saveMoveCategoryTop(String categoryPanel) throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(frame.path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String check = "[x]";
+		String unCheck = "[]";
+		String checkStatus = "";
+		String autoDelete = "";
+		String reorderedCats = "";
+		boolean written = false; 
+		boolean secondCat = false;
+		
+		int counter = 0;
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			//jank implementation to correct skipping the second category
+			if(secondCat == true) {
+				reorderedCats = frame.categories.get(counter).getName();
+				autoDelete = frame.categoryTypes.get(counter);
+				rewrite.write(autoDelete + "\n");
+				rewrite.write(reorderedCats + "\n");
+				secondCat = false;
+				counter++;
+			}
+			if(line.equals(".") || line.equals("*")) {
+				//bottom edge case
+				if(counter != frame.categories.size()){
+					reorderedCats = frame.categories.get(counter).getName();
+					autoDelete = frame.categoryTypes.get(counter);
+				}
+				else {
+					reorderedCats = frame.categories.get(counter-1).getName();
+					autoDelete = frame.categoryTypes.get(counter-1);
+				}
+				line = reader.nextLine();
+				if(!(line.equals(reorderedCats)) && written == false) { //More or less finds the first slot and writes the category that is moving to top.
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(reorderedCats + "\n");
+					for(String updated : frame.updatedNames) {
+						rewrite.write(updated + "\n");
+					}
+					rewrite.write("\n");
+					written = true;
+					secondCat = true;
+					counter++;
+				}
+				else if(line.equals(categoryPanel)) { 					//Skip over moved category
+					for(String updated : frame.updatedNames) {
+						if(reader.hasNext())
+							line = reader.nextLine();
+					}
+					if(reader.hasNext())
+						line = reader.nextLine();
+				}
+				else {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(reorderedCats + "\n");
+					counter++;
+				}
+			}
+			else if(line.equals(check) || line.equals(unCheck)) {
+				checkStatus = line;
+				if(reader.hasNext())
+					line = reader.nextLine();
+				rewrite.write(checkStatus + "\n");
+				rewrite.write(line + "\n");
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+
+		frame.savedCategory.clear();
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(frame.path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	public void saveMoveCategoryUp() throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -402,7 +472,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	public void saveMoveCategoryDown(String categoryPanel) throws IOException {
+	public void saveMoveCategoryDown() throws IOException {
 		String tempPath = "template.txt";
 		Scanner reader = new Scanner(new File(frame.path));
 		FileWriter rewrite = new FileWriter(tempPath);
@@ -571,6 +641,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 					frame.currentCheckbox = null; 
 				}
 			}
+			//Moving Category rather than task. 
 			else if (frame.currentCategory != null) {
 				String savedCatType = "."; 
 				Component[] categoryContents = frame.currentCategory.getComponents();
@@ -578,6 +649,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 					List<JPanel> cats = new ArrayList<JPanel>(frame.categories);
 					List<JPanel> newCats = new ArrayList<JPanel>();
 					List<String> updatedCatTypes = new ArrayList<String>();
+					//Get the contents of the category (the checkboxes and their content)
 					for(Component names : categoryContents) {
 						if (names instanceof JPanel) {
 							frame.updatedNames.add(((JPanel)names).getName());
@@ -593,13 +665,21 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 							frame.updatedNames.add(clean);
 						}
 					}
-
+					//Iterating through current categories to update the category positions
 					for(JPanel cat : cats) {
-						if(cat == frame.currentCategory) {
-							//position = counter -1;
+						if(cat != frame.currentCategory && counter == 0) { 			
+							newCats.add(frame.currentCategory);
+							newCats.add(cat);
+							updatedCatTypes.add(frame.categoryTypes.get(counter));
+						}
+						else if(cat == frame.currentCategory && counter == 0) { 	
+							newCats.add(frame.currentCategory);
 							savedCatType = frame.categoryTypes.get(counter);
 						}
-						else {
+						else if(cat == frame.currentCategory) {
+							savedCatType = frame.categoryTypes.get(counter);
+						}
+						else { 														
 							newCats.add(cat);
 							updatedCatTypes.add(frame.categoryTypes.get(counter));
 						}
@@ -610,22 +690,18 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 					frame.categoryTypes.clear();
 					counter = 0; 
 					frame.gridRow = 0; 
-				//	for(JPanel updatedCat : newCats) {
-					//	if(counter == position && !(position < 0)) {
-				//			categoryMove(frame.currentCategory, savedCatType);
-				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
-					//	}
-					//	else if (counter == 0 && position < 0) {
-				//			categoryMove(frame.currentCategory, savedCatType);
-					//		categoryMove(updatedCat, updatedCatTypes.get(counter));
-					//	}
-					//	else {
-				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
-				//		}
+					//updating gui to rearranged categories (newCats)
+					for(JPanel updatedCat : newCats) {
+						if(counter == 0) {
+							categoryMove(frame.currentCategory, savedCatType);        //Current category goes to top. 
+						}
+						else {
+							categoryMove(updatedCat, updatedCatTypes.get(counter-1)); //Saved cat types would be the front, but since it isn't added to array
+						}															  //have to reduce count by one to access correct cat types.
 						counter++;
-				//	}
-					saveMoveCategoryUp(frame.currentCategory.getName());
-					moveMenuItem();
+					}
+					saveMoveCategoryTop(frame.currentCategory.getName());
+				//	moveMenuItem();
 					frame.currentCategory = null; 
 				}
 			}
@@ -756,7 +832,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 						}
 						counter++;
 					}
-					saveMoveCategoryUp(frame.currentCategory.getName());
+					saveMoveCategoryUp();
 					moveMenuItem();
 					frame.currentCategory = null; 
 				}
@@ -894,7 +970,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 						}
 						counter++;
 					}
-					saveMoveCategoryDown(frame.currentCategory.getName());
+					saveMoveCategoryDown();
 					moveMenuItem();
 					frame.currentCategory = null; 	
 				}
@@ -1000,7 +1076,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 				//		}
 						counter++;
 				//	}
-					saveMoveCategoryUp(frame.currentCategory.getName());
+				//	saveMoveCategoryBottom(frame.currentCategory.getName());
 					moveMenuItem();
 					frame.currentCategory = null; 
 				}

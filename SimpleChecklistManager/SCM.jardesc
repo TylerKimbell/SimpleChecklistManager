@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Tyler/Desktop/SimpleChecklistManager/SCM-1.2.jar"/>
+    <jar path="C:/Users/Tyler/Desktop/SimpleChecklistManager/SCM-1.2.1.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/SimpleChecklistManager/SCM.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="true" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
