@@ -554,6 +554,77 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 		
 		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
 	}
+
+	public void saveMoveCategoryBottom(String categoryPanel) throws IOException {
+		String tempPath = "template.txt";
+		Scanner reader = new Scanner(new File(frame.path));
+		FileWriter rewrite = new FileWriter(tempPath);
+		String line;
+		String check = "[x]";
+		String unCheck = "[]";
+		String checkStatus = "";
+		String autoDelete = "";
+		String reorderedCats = "";
+		boolean written = false; 
+		boolean secondCat = false;
+		
+		int counter = 0;
+		while(reader.hasNext()) {
+			line = reader.nextLine();
+			//jank implementation to correct skipping the second category
+			if(secondCat == true) {
+				reorderedCats = frame.categories.get(counter).getName();
+				autoDelete = frame.categoryTypes.get(counter);
+				rewrite.write(autoDelete + "\n");
+				rewrite.write(reorderedCats + "\n");
+				secondCat = false;
+				counter++;
+			}
+			if(line.equals(".") || line.equals("*")) {
+				line = reader.nextLine();
+				reorderedCats = frame.categories.get(counter).getName();
+				autoDelete = frame.categoryTypes.get(counter);
+				if(line.equals(categoryPanel)) { 					//Skip over moved category
+					for(String updated : frame.updatedNames) {
+						if(reader.hasNext())
+							line = reader.nextLine();
+					}
+					if(reader.hasNext())
+						line = reader.nextLine();
+				}
+				else {
+					rewrite.write(autoDelete + "\n");
+					rewrite.write(reorderedCats + "\n");
+					counter++;
+				}
+			}
+			else if(line.equals(check) || line.equals(unCheck)) {
+				checkStatus = line;
+				if(reader.hasNext())
+					line = reader.nextLine();
+				rewrite.write(checkStatus + "\n");
+				rewrite.write(line + "\n");
+			}
+			else
+				rewrite.write(line + "\n");
+		}
+		reorderedCats = frame.categories.get(counter).getName();
+		autoDelete = frame.categoryTypes.get(counter);
+		rewrite.write("\n");
+		rewrite.write(autoDelete + "\n");
+		rewrite.write(reorderedCats + "\n");
+		for(String updated : frame.updatedNames) {
+			rewrite.write(updated + "\n");
+		}
+		counter++;
+		frame.savedCategory.clear();
+		rewrite.close();
+		reader.close();
+		Path save = Paths.get(frame.path);
+		Path temporary= Paths.get(tempPath);
+		
+		Files.copy(temporary, save, StandardCopyOption.REPLACE_EXISTING);
+	}
 	
 	public void moveMenuItem() {
 		int counter = 0; 
@@ -701,7 +772,7 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 						counter++;
 					}
 					saveMoveCategoryTop(frame.currentCategory.getName());
-				//	moveMenuItem();
+					moveMenuItem();
 					frame.currentCategory = null; 
 				}
 			}
@@ -1048,7 +1119,6 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 
 					for(JPanel cat : cats) {
 						if(cat == frame.currentCategory) {
-							//position = counter -1;
 							savedCatType = frame.categoryTypes.get(counter);
 						}
 						else {
@@ -1062,21 +1132,12 @@ public class PopUpMenu extends JPopupMenu implements ActionListener{
 					frame.categoryTypes.clear();
 					counter = 0; 
 					frame.gridRow = 0; 
-				//	for(JPanel updatedCat : newCats) {
-					//	if(counter == position && !(position < 0)) {
-				//			categoryMove(frame.currentCategory, savedCatType);
-				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
-					//	}
-					//	else if (counter == 0 && position < 0) {
-				//			categoryMove(frame.currentCategory, savedCatType);
-					//		categoryMove(updatedCat, updatedCatTypes.get(counter));
-					//	}
-					//	else {
-				//			categoryMove(updatedCat, updatedCatTypes.get(counter));
-				//		}
+					for(JPanel updatedCat : newCats) {
+						categoryMove(updatedCat, updatedCatTypes.get(counter));
 						counter++;
-				//	}
-				//	saveMoveCategoryBottom(frame.currentCategory.getName());
+					}
+					categoryMove(frame.currentCategory, savedCatType);
+					saveMoveCategoryBottom(frame.currentCategory.getName());
 					moveMenuItem();
 					frame.currentCategory = null; 
 				}

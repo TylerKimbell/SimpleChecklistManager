@@ -6,7 +6,6 @@ import java.text.ParseException;
  * Bugs: 
  * 
  * Things to do:
- * Option to Move to top or bottom.
  * f5 for refresh
  * color options for user? 
  * Create tab system to better organize categories. 

@@ -1,25 +1,4 @@
 [Dark Mode]
-.
-Once:
-[]
-Groceries
-[x]
-three
-[]
-eight
-[x]
-one
-[]
-five
-[]
-six
-[]
-seve
-[x]
-two
-[]
-four
-
 *
 Blue
 [x]
@@ -51,3 +30,17 @@ why does it not
 []
 Wake Up At 9am
 
+.
+Once:
+[]
+Groceries
+[]
+eight
+[]
+five
+[]
+six
+[]
+seve
+[]
+four
