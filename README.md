@@ -42,3 +42,4 @@ My main motivation for making this was to use it. I found a lot of to do list ty
 ## Download
 The current version can be found here:
 https://github.com/TylerKimbell/SimpleChecklistManager/releases
+Also it is a jar file so you need the Java JDK to run it. https://www.oracle.com/java/technologies/javase-jdk16-downloads.html
