@@ -3,9 +3,9 @@ Simple Checklist Manager is a minimal checklist manager. SCM is designed to be a
 or anything you might imagine using a checklist for.
 
 Bare bones implementation.  
-![Alt text](https://i.gyazo.com/4caecb0ba7eab392b6230353393ab2f4.png "Exmample checklists")
+![Alt text](https://i.gyazo.com/4caecb0ba7eab392b6230353393ab2f4.png "Exmample checklists")  
 Example of a wide variety of lists.  
-![Alt text](https://user-images.githubusercontent.com/8732563/123871678-97ca3580-d8f9-11eb-8ec6-a46d577697e5.png "New Checklist Manager Template")
+![Alt text](https://user-images.githubusercontent.com/8732563/123871678-97ca3580-d8f9-11eb-8ec6-a46d577697e5.png "New Checklist Manager Template")  
 
 ## Features
 - Create/Edit/Delete/Move Categories
