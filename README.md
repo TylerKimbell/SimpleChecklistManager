@@ -36,8 +36,6 @@ Bare bones implementation using the default categories.
     - Toggles dark mode on or off.
 
 ## Support
-My main motivation for making this was to use it. I found a lot of to do list type apps way too overbearing or complicated. I just needed a simple way to keep track of what I need to do including things I wanted to do every day (habits). I also do not use my phone often so a desktop version made the most sense for me. However, I'd be willing to make a mobile version if enough people found this useful and want one. So if you do like this app and and would be interested in a mobile version you can email me at oddlysimple@gmail.com or directly support (help me pay my student loans) with this link. 
-
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?business=52JZN5PK43T7E&item_name=Simple+Checklist+Manager+Development&currency_code=USD)
 
 ## Download
