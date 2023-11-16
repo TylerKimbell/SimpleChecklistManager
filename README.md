@@ -35,9 +35,6 @@ Bare bones implementation using the default categories.
   - Dark Mode
     - Toggles dark mode on or off.
 
-## Support
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?business=52JZN5PK43T7E&item_name=Simple+Checklist+Manager+Development&currency_code=USD)
-
 ## Download
 The current version can be found here:
 https://github.com/TylerKimbell/SimpleChecklistManager/releases
